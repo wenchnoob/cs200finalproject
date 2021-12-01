@@ -1,4 +1,6 @@
-import gui.Window;
+package edu.cs200;
+
+import edu.cs200.gui.Window;
 
 import javax.swing.*;
 import java.awt.*;
