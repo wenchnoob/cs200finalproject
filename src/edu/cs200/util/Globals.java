@@ -1,7 +1,13 @@
 package edu.cs200.util;
 
+import java.util.Hashtable;
+
 public class Globals {
-    public static final String INVENTORY = "inventory";
-    public static final String MAP = "map";
-    public static final String Room = "room";
+    public static final String GAME_NAME = "Apple";
+    public static final String BAG = "Bag";
+    public static final String MAP = "Map";
+    public static final int WINDOW_WIDTH = 1280;
+    public static final int WINDOW_HEIGHT = 720;
+
+    public static final Hashtable<String, Object> DYNAS = new Hashtable<>();
 }

@@ -3,15 +3,20 @@ package edu.cs200.gui;
 import javax.swing.*;
 import java.awt.*;
 
+import static edu.cs200.util.Globals.*;
+
 public class Window {
 
-    private static final long serialVersionUID = 1L;
+    private static Window self;
     private final JFrame frame;
+    private final LayoutManager layoutManager;
 
-    private final JPanel panel1 = new JPanel();
-    private final JPanel panel2 = new JPanel();
+    public static Window getInstance() {
+        if (self == null) self = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_NAME);
+        return self;
+    }
 
-    public Window(int width, int height, String title) {
+    private Window(int width, int height, String title) {
         frame = new JFrame(title);
 
         frame.setPreferredSize(new Dimension(width, height));
@@ -19,34 +24,15 @@ public class Window {
         frame.setMinimumSize(new Dimension(width, height));
 
 
-        CardLayout layout = new CardLayout();
-        frame.setLayout(layout);
+        layoutManager = new CardLayout();
+        frame.setLayout(layoutManager);
 
-        frame.add(panel1, "p1");
-        panel1.add(new JButton("in P1 Go to P2") {
-            {
-                addActionListener(e -> {
-                    String act = e.getActionCommand();
-                    System.out.println(act);
-                    layout.show(frame.getContentPane(), "p2");
-                });
-            }
-        });
-        frame.add(panel2, "p2");
-        panel2.add(new JButton("in P2 Go to P1") {
-            {
-                addActionListener(e -> {
-                    String act = e.getActionCommand();
-                    System.out.println(act);
-                    CardLayout card = (CardLayout) this.getLayout();
-                    layout.show(frame.getContentPane(), "p1");
-                });
-            }
-        });
+        frame.add(Map.getInstance(), MAP);
+        frame.add(Bag.getInstance(), BAG);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //frame.setResizable(false);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
@@ -54,6 +40,14 @@ public class Window {
 
     public JFrame getFrame() {
         return this.frame;
+    }
+
+    public void addPage(Component page, String name) {
+        frame.add(page, name);
+    }
+
+    public LayoutManager getLayoutManager() {
+        return this.layoutManager;
     }
 
 }
