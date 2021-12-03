@@ -2,6 +2,8 @@ package edu.cs200.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import static edu.cs200.util.Globals.*;
 
@@ -32,8 +34,31 @@ public class Window {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_DOWN:
+                        Player.getInstance().moveDown();
+                        break;
+                    case KeyEvent.VK_UP:
+                        Player.getInstance().moveUp();
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        Player.getInstance().moveLeft();
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        Player.getInstance().moveRight();
+                }
+
+                Map.getInstance().redraw();
+                System.out.println(Player.getInstance());
+            }
+        });
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
+        frame.setFocusable(true);
         frame.setVisible(true);
 
     }

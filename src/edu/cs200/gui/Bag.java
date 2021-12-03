@@ -6,18 +6,18 @@ import static edu.cs200.util.Globals.*;
 import static edu.cs200.util.Helpers.*;
 
 import java.awt.*;
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map;
-import java.util.Set;
 
 public class Bag extends Card {
 
     private static Bag self;
-    private static int capacity = 251;
+    private static int capacity = 20;
     private JLabel heading;
     private JPanel visiualBag;
     private GridLayout gridLayout;
-    HashMap<Item, Integer> items;
+    Hashtable<Item, Integer> items;
+    private LinkedList<Slot> slots;
 
     public static Bag getInstance() {
         if (self == null) self = new Bag();
@@ -26,6 +26,8 @@ public class Bag extends Card {
 
     private Bag() {
         super(BAG);
+        slots = new LinkedList<>();
+        items = new Hashtable<>();
         mainContent.setLayout(new BorderLayout());
 
         JPanel headingPanel = new JPanel();
@@ -38,20 +40,25 @@ public class Bag extends Card {
 
         visiualBag = new JPanel();
         JScrollPane scrollPane = new JScrollPane(visiualBag, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //visiualBag.setPreferredSize(new Dimension(WINDOW_WIDTH/5 * 4 - 30, 1000));
         mainContent.add(scrollPane, BorderLayout.CENTER);
 
         gridLayout = new GridLayout(0, 5);
         gridLayout.setHgap(2);
         gridLayout.setVgap(2);
         visiualBag.setLayout(gridLayout);
-        for (int i = 0; i < capacity * 5; i++) {
-            visiualBag.add(new JButton() {
-                {
-                    //setMinimumSize(new Dimension(100, 100));
-                    setPreferredSize(new Dimension(100, 100));
-                }
-            });
+        for (int i = 0; i < capacity; i++) slots.add(new Slot());
+        drawSlots();
+    }
+
+    public void addSlots(int amount) {
+        visiualBag.removeAll();
+        for (int i = 0; i < amount; i++) slots.add(new Slot());
+        drawSlots();
+    }
+
+    private void drawSlots() {
+        for (Slot slot: slots) {
+            visiualBag.add(slot);
         }
     }
 
@@ -88,5 +95,13 @@ public class Bag extends Card {
         public Item item = null;
         public int capacity = 10;
         public int amout = 0;
+
+        public Slot() {
+            setPreferredSize(new Dimension(100, 200));
+            setMaximumSize(new Dimension(100, 200));
+            setMinimumSize(new Dimension(100, 200));
+            setSize(new Dimension(100, 200));
+
+        }
     }
 }

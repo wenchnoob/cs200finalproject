@@ -1,6 +1,7 @@
 package edu.cs200;
 
 import edu.cs200.gui.Card;
+import edu.cs200.gui.Player;
 import edu.cs200.gui.Window;
 import static edu.cs200.util.Globals.*;
 
@@ -14,12 +15,19 @@ public class Game {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+//        Player p = Player.getInstance();
+//        System.out.println(p);
+//        p.rotate(90);
+//        System.out.println(p);
+//        p.rotate(50);
+//        System.out.println(p);
+
         Setup.setup();
         new Card("temp");
         Window win = Window.getInstance();
-        Map.getInstance().getCanvasGraphics().drawRect(100, 100, 100, 100);
-        //win.getFrame().getGraphics().fillRect(400, 400, 100, 100);'
-        JFrame frame = win.getFrame();
+        //Thread.sleep(1);
+        //Player.getInstance().moveDown();
+        //Map.getInstance().redraw();
     }
 }
