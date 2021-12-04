@@ -51,9 +51,14 @@ public class Player extends OrientedObject {
 
     @Override
     public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
+        if (!isInBounds(0, 0, Map.CANVAS_WIDTH, Map.CANVAS_HEIGHT)) return;
+        System.out.println("in bounds");
         g.setColor(Color.WHITE);
-        g.fillRect(xPos, yPos, width, height);
-        //g.fillPolygon(new int[]{xPos, xPos + width, xPos}, new int[]{yPos, yPos + height/2, yPos + height}, 3);
+        //g.fillRect(xPos, yPos, width, height);
+        if (orientation == NORTH) g.fillPolygon(new int[]{xPos, xPos + width/2, xPos + width}, new int[]{yPos + height, yPos, yPos + height}, 3);
+        else if (orientation == EAST) g.fillPolygon(new int[]{xPos, xPos + width, xPos}, new int[]{yPos, yPos + height/2, yPos + height}, 3);
+        else if (orientation == SOUTH) g.fillPolygon(new int[]{xPos, xPos + width/2, xPos + width}, new int[]{yPos, yPos + height, yPos}, 3);
+        else g.fillPolygon(new int[]{xPos + width, xPos, xPos + width}, new int[]{yPos, yPos + height/2, yPos + height}, 3);
     }
 
     public int getXOffset() {

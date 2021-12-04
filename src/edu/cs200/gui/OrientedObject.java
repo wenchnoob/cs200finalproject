@@ -17,27 +17,25 @@ public abstract class OrientedObject extends DrawableObject {
 
     public boolean isInBounds(int x1, int y1, int x2, int y2) {
         // Checks if top left vertex of the boundary box is within the bounds specified.
-        boolean lrInView = xPos < x1 && xPos > x2;
-        boolean tbInView = yPos > y1 && yPos < x1;
-        boolean topLeftInBounds = lrInView && tbInView;
+        boolean lrInView = xPos > x1 && xPos < x2;
+        boolean tbInView = yPos < y1 && yPos > y2;
+        boolean topLeftInBounds = lrInView || tbInView;
 
         // Check if bottom right vertex of the boundary box is within the bounds specified.
-        boolean rlInView = xPos2 < x2 && xPos2 > x2;
-        boolean btInView = yPos2 > y2 && yPos2 < x2;
-        boolean bottomRightInBounds = btInView && rlInView;
+        boolean rlInView = xPos2 > x1 && xPos2 < x2;
+        boolean btInView = yPos2 < y1 && yPos2 > y2;
+        boolean bottomRightInBounds = btInView || rlInView;
 
         return topLeftInBounds && bottomRightInBounds;
     }
 
     public void changeOrientation(int newOrientation) {
-        while(orientation != newOrientation) rotateRight902();
-        System.out.println();
+        while(orientation != newOrientation) rotateRight90();
     }
 
-    private void rotateRight902() {
-        rotate(-90);
+    private void rotateRight90() {
+        rotate(Math.toRadians(-90));
         orientation = (orientation + 1) % 4;
-        System.out.println("Rotating Right to  " + orientation);
     }
 
     public void rotate(double angle) {
@@ -73,34 +71,4 @@ public abstract class OrientedObject extends DrawableObject {
         this.height = this.yPos2 - this.yPos;
     }
 
-    private void rotateRight90() {
-        int temp;
-        switch (orientation) {
-            case NORTH:
-                temp = this.width;
-                this.width = this.height;
-                this.height = temp;
-                orientation = EAST;
-                break;
-            case EAST:
-                temp = this.width;
-                this.width = this.height;
-                this.height = temp;
-                this.yPos += this.height;
-                orientation = SOUTH;
-                break;
-            case SOUTH:
-                temp = this.width;
-                this.width = this.height;
-                this.height = temp;
-                orientation = WEST;
-                break;
-            case WEST:
-                temp = this.width;
-                this.width = this.height;
-                this.height = temp;
-                this.yPos -= this.height;
-                orientation = NORTH;
-        }
-    }
 }

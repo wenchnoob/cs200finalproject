@@ -13,8 +13,4 @@ public class Wall extends OrientedObject {
         g.fillRect(xPos - xOffset, yPos - yOffset, width, height);
         g.drawString(String.valueOf(orientation), xPos, yPos);
     }
-
-    public boolean isInBounds(int x1, int y1, int x2, int y2) {
-        return super.isInBounds(x1, y1, x2, y2);
-    }
 }

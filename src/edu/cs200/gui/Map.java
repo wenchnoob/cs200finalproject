@@ -14,6 +14,7 @@ import static edu.cs200.util.Globals.*;
 
 public class Map extends Card {
 
+    public static final int CANVAS_WIDTH = 1000, CANVAS_HEIGHT = 600;
     private static Map self;
     private JPanel canvasPanel;
     List<DrawableObject> gameObjects = new LinkedList<>();
@@ -26,8 +27,8 @@ public class Map extends Card {
     private Map() {
         super(MAP);
         this.canvasPanel = new VisualMap();
-        this.canvasPanel.setSize(1200, 1200);
-        this.canvasPanel.setPreferredSize(new Dimension(1200, 1200));
+        this.canvasPanel.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
+        this.canvasPanel.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
 
         this.canvasPanel.setBackground(Color.BLACK);
         super.mainContent.add(this.canvasPanel, BorderLayout.CENTER);
