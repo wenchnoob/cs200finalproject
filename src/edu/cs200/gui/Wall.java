@@ -4,13 +4,14 @@ import java.awt.*;
 
 public class Wall extends OrientedObject {
 
+    private static final int WALL_HEIGHT = 5;
+
     public  Wall(int xPos, int yPos, int length, int orientation) {
-        super(xPos, yPos, length, 5, orientation);
+        super(xPos, yPos, length, WALL_HEIGHT, orientation);
     }
 
     public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
         g.setColor(Color.WHITE);
         g.fillRect(xPos - xOffset, yPos - yOffset, width, height);
-        g.drawString(String.valueOf(orientation), xPos, yPos);
     }
 }

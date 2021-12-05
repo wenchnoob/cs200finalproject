@@ -19,5 +19,17 @@ public abstract class DrawableObject extends GameObject{
 
     public abstract void paintWithOffset(Graphics g, int xOffset, int yOffset);
 
-    public abstract boolean isInBounds(int x1, int y1, int x2, int y2);
+    public boolean isInBounds(int x1, int y1, int x2, int y2) {
+        // Checks if top left vertex of the boundary box is within the bounds specified.
+        boolean lrInView = xPos > x1 && xPos < x2;
+        boolean tbInView = yPos > y1 && yPos < y2;
+        boolean topLeftInBounds = lrInView && tbInView;
+
+        // Check if bottom right vertex of the boundary box is within the bounds specified.
+        boolean rlInView = xPos2 > x1 && xPos2 < x2;
+        boolean btInView = yPos2 > y1 && yPos2 < y2;
+        boolean bottomRightInBounds = btInView && rlInView;
+
+        return topLeftInBounds || bottomRightInBounds;
+    }
 }

@@ -9,17 +9,15 @@ public class Player extends Entity {
 	private HashSet<Item> inventory = new HashSet<Item>();
 	private Weapon equippedWeapon;
 
-    private static int x = 150;
-    private static int y = 150;
+    private static int START = 400;
     private static Player self;
 
     public static Player getInstance() {
         if (self == null) self = new Player();
-        System.out.println(self);
         return self;
     }
     private Player() {
-        super(x, y, 50, 50, EAST);
+        super(START, START, 20, 20, EAST);
     }
 
     public void paint(Graphics g) {
@@ -67,11 +65,11 @@ public class Player extends Entity {
     }
 
     public int getXOffset() {
-        return x - 150;
+        return xPos - START;
     }
 
     public int getYOffset() {
-        return  y - 150;
+        return  yPos - START;
     }
     public void equip(Weapon equipWeapon){
     	if(this.equippedWeapon != null)
