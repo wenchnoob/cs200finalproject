@@ -1,9 +1,13 @@
 package gameobjects;
 import java.util.*;
+
+import edu.cs200.Entity;
+import edu.cs200.GameObject;
+import edu.cs200.gui.Item;
 public class LocationDescription {
-private HashSet<Entity> enemies;//keeps track of the enemies in the room
-private HashSet<GameObject> traps;
-private HashSet<Item> items;
+
+private HashSet<GameObject> objects;
+
 
 	public LocationDescription() {
 		// TODO Auto-generated constructor stub

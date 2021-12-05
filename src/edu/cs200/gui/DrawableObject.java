@@ -2,7 +2,9 @@ package edu.cs200.gui;
 
 import java.awt.*;
 
-public abstract class DrawableObject {
+import edu.cs200.GameObject;
+
+public abstract class DrawableObject extends GameObject{
 
     protected int xPos, yPos, xPos2, yPos2, width, height;
 

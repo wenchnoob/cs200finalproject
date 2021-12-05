@@ -1,6 +1,15 @@
 package gameobjects;
 import java.util.*;
+
+import edu.cs200.Entity;
+import edu.cs200.gui.Item;
+import edu.cs200.gui.Weapon;
 public class Player extends Entity{
+
+public Player(int xPos, int yPos, int width, int height, int orientation) {
+		super(xPos, yPos, width, height, orientation);
+		// TODO Auto-generated constructor stub
+	}
 
 private HashSet<Item> inventory = new HashSet<Item>();
 private Weapon equippedWeapon;
