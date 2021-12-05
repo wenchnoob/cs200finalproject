@@ -31,7 +31,7 @@ public class Bag extends Card {
         mainContent.setLayout(new BorderLayout());
 
         JPanel headingPanel = new JPanel();
-        heading = new JLabel("Your bag size %s/%s".formatted(10 , capacity));
+        heading = new JLabel("Your bag size %s/%s");
         heading.setFont(quatera(20));
         heading.setHorizontalTextPosition(SwingConstants.CENTER);
         heading.setLocation(WINDOW_WIDTH/2, 60);
