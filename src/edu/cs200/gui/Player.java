@@ -69,7 +69,5 @@ public class Player extends OrientedObject {
         return  y - 150;
     }
 
-    public String toString() {
-        return "x1: %s\t y1: %s\tx2: %s\t y2: %s\t width: %s\t height: %s".formatted(xPos, yPos, xPos2, yPos2, width, height);
-    }
+   
 }
