@@ -1,5 +1,7 @@
 package edu.cs200.gui;
 
+import edu.cs200.Game;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -24,6 +26,7 @@ public class Map extends Card {
 
         return self;
     }
+
     private Map() {
         super(MAP);
         this.canvasPanel = new VisualMap();
@@ -34,11 +37,19 @@ public class Map extends Card {
         super.mainContent.add(this.canvasPanel, BorderLayout.CENTER);
     }
 
+    public boolean isInBounds(DrawableObject obj) {
+        int xOff = Player.getInstance().getXOffset();
+        int yOff = Player.getInstance().getYOffset();
+        return obj.isInBounds(0 + xOff, 0 + yOff, CANVAS_WIDTH + xOff, CANVAS_HEIGHT + yOff);
+    }
+
     public void redraw() {
         this.canvasPanel.repaint();
     }
 
     private class VisualMap extends JPanel implements ActionListener {
+
+        private List<DrawableObject> components;
 
         public VisualMap () {
             setFocusable(true);
@@ -60,20 +71,22 @@ public class Map extends Card {
                             Player.getInstance().moveRight();
                     }
 
-                    System.out.println("a");
                     redraw();
                 }
             });
+            components = new LinkedList<>();
+            components.add(new Wall(100, 100, 100, OrientedObject.NORTH))
         }
 
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            Player n = Player.getInstance();
-            int xOffset = n.getXOffset();
-            int yOffset = n.getYOffset();
+            Player player = Player.getInstance();
+            int xOffset = player.getXOffset();
+            int yOffset = player.getYOffset();
+            for (DrawableObject obj: components) obj.paintWithOffset(g, xOffset, yOffset);
             for (DrawableObject obj: gameObjects) obj.paintWithOffset(g, xOffset, yOffset);
-            n.paint(g);
+            player.paint(g);
         }
 
         @Override

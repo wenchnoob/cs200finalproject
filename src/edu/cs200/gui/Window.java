@@ -53,7 +53,6 @@ public class Window {
                 }
 
                 Map.getInstance().redraw();
-                System.out.println(Player.getInstance());
             }
         });
         frame.setResizable(false);
