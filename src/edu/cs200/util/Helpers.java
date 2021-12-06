@@ -5,6 +5,7 @@ import edu.cs200.gui.Window;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class Helpers {
 
@@ -14,6 +15,20 @@ public class Helpers {
 
         CardLayout layout = (CardLayout) llayout;
         layout.show(frame.getContentPane(), pageName);
+    }
+
+    public static void save() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.showSaveDialog(Window.getInstance().getFrame());
+        File f = fileChooser.getSelectedFile();
+        System.out.println(f);
+    }
+
+    public static void load() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.showOpenDialog(Window.getInstance().getFrame());
+        File f = fileChooser.getSelectedFile();
+        System.out.println(f);
     }
 
     public static Object parseObj(String objDef) {
