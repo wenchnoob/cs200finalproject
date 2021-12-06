@@ -3,12 +3,13 @@ import java.awt.*;
 import java.util.*;
 
 import edu.cs200.Entity;
+import edu.cs200.GameObject;
 import edu.cs200.gui.Item;
 import edu.cs200.gui.Weapon;
 public class Player extends Entity{
 
 public Player(int xPos, int yPos, int width, int height, int orientation) {
-		super(xPos, yPos, width, height, orientation);
+		super(xPos, yPos, width, height, 100, 100, 100, orientation);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -73,7 +74,7 @@ public void levelup(int xp) {
 	}
 
 	@Override
-	public boolean handleCollision() {
+	public boolean handleCollision(GameObject targ) {
 		return false;
 	}
 }

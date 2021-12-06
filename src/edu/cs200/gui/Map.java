@@ -1,19 +1,9 @@
 package edu.cs200.gui;
 
-import edu.cs200.Game;
-import edu.cs200.LocationDescription;
-import gameobjects.Room;
-
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 
 import static edu.cs200.util.Globals.*;
 
@@ -23,8 +13,8 @@ public class Map extends Card {
     private static Map self;
     private String currentRoom = "room1";
     private JPanel canvasPanel;
+    private JPanel stats;
     Hashtable<String, Room> rooms;
-    List<DrawableObject> gameObjects = new LinkedList<>();
 
     public static Map getInstance() {
         if (self == null) self = new Map();
@@ -36,10 +26,15 @@ public class Map extends Card {
         this.label.setText("Map: " + currentRoom);
         this.rooms = new Hashtable<>();
         this.rooms.put("room1",  Room.of("assets/room1.csv"));
+
+
+        this.stats = new JPanel();
+        super.mainContent.add(this.stats, BorderLayout.PAGE_START);
+
+
         this.canvasPanel = new VisualMap();
         this.canvasPanel.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
         this.canvasPanel.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
-
         this.canvasPanel.setBackground(Color.BLACK);
         super.mainContent.add(this.canvasPanel, BorderLayout.CENTER);
     }
@@ -51,6 +46,7 @@ public class Map extends Card {
             rooms.put(roomName, room);
         }
         this.currentRoom = roomName;
+        Player.getInstance().reset();
         redraw();
     }
 

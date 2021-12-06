@@ -1,5 +1,7 @@
 package edu.cs200.gui;
 
+import edu.cs200.GameObject;
+
 import java.awt.*;
 
 public class Wall extends OrientedObject {
@@ -12,7 +14,6 @@ public class Wall extends OrientedObject {
 
     public Wall(String[] props) {
         super(props);
-
     }
 
     public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
@@ -21,7 +22,7 @@ public class Wall extends OrientedObject {
     }
 
     @Override
-    public boolean handleCollision() {
+    public boolean handleCollision(GameObject object) {
         return false;
     }
 }

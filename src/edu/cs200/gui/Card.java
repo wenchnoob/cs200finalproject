@@ -44,7 +44,7 @@ public class Card extends JPanel {
         add(top, BorderLayout.PAGE_START);
         add(leftPane, BorderLayout.LINE_START);
 
-        mainContent = new JPanel(new FlowLayout());
+        mainContent = new JPanel(new BorderLayout());
         add(mainContent, BorderLayout.CENTER);
     }
 

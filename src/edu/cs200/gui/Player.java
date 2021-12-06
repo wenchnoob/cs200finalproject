@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.HashSet;
 
 import edu.cs200.Entity;
+import edu.cs200.GameObject;
 
 public class Player extends Entity {
 	private HashSet<Item> inventory = new HashSet<>();
@@ -21,11 +22,29 @@ public class Player extends Entity {
         return self;
     }
     private Player() {
-        super(0, 0, DIM_X, DIM_Y, EAST);
+        super(0, 0, DIM_X, DIM_Y, 100, 5, 3, EAST);
     }
 
     public void paint(Graphics g) {
         paintWithOffset(g, 0, 0);
+    }
+
+    public void heal(int amount) {
+        setHealth(getHealth() + amount);
+    }
+
+    public void damage(int amount) {
+        int dmg = amount - getDefence();
+        if (dmg < 0) return;
+        setHealth(getHealth() - dmg);
+    }
+
+    public void attackUp(int amount) {
+        setAttackDmg(getAttackDmg() + amount);
+    }
+
+    public void defenceUp(int amount) {
+        setDefence(getDefence() + amount);
     }
 
     public boolean collides(DrawableObject o) {
@@ -36,11 +55,17 @@ public class Player extends Entity {
         return false;
     }
 
+    public void reset() {
+        this.xPos = 0;
+        this.yPos = 0;
+    }
+
     public boolean checkAllCollision() {
         HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getLocationDescription().getObjects();
         for (DrawableObject obj: others) {
+            if (!Map.getInstance().isInBounds(obj)) continue;
             if (collides(obj)) {
-                obj.handleCollision();
+                obj.handleCollision(this);
                 return true;
             }
         }
@@ -102,7 +127,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public boolean handleCollision() {
+    public boolean handleCollision(GameObject targ) {
         return false;
     }
 

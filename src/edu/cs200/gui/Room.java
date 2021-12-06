@@ -1,11 +1,7 @@
-package gameobjects;
+package edu.cs200.gui;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
-import edu.cs200.GameObject;
 import edu.cs200.LocationDescription;
-import edu.cs200.gui.DrawableObject;
 
 public class Room {
 

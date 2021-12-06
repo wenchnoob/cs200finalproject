@@ -7,16 +7,14 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import edu.cs200.gui.Map;
 import edu.cs200.gui.OrientedObject;
 import edu.cs200.gui.Wall;
 import static edu.cs200.util.Helpers.*;
+import edu.cs200.gui.Map;
 
 public class LocationDescription implements Serializable {
 
 	private HashSet<DrawableObject> objects;
-
-
 
 	public LocationDescription() {
 		this.objects = new HashSet<>();
@@ -27,7 +25,7 @@ public class LocationDescription implements Serializable {
 	}
 
 	public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
-		for (DrawableObject obj: objects) obj.paintWithOffset(g, xOffset, yOffset);
+		for (DrawableObject obj: objects) if (Map.getInstance().isInBounds(obj)) obj.paintWithOffset(g, xOffset, yOffset);
 	}
 
 	public void addObject(DrawableObject obj) {

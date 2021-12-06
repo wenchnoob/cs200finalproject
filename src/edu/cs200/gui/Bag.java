@@ -7,7 +7,7 @@ import static edu.cs200.util.Helpers.*;
 
 import java.awt.*;
 import java.util.*;
-import java.util.Map;
+import java.util.List;
 
 public class Bag extends Card {
 
@@ -16,7 +16,6 @@ public class Bag extends Card {
     private JLabel heading;
     private JPanel visiualBag;
     private GridLayout gridLayout;
-    Hashtable<Item, Integer> items;
     private LinkedList<Slot> slots;
 
     public static Bag getInstance() {
@@ -27,7 +26,6 @@ public class Bag extends Card {
     private Bag() {
         super(BAG);
         slots = new LinkedList<>();
-        items = new Hashtable<>();
         mainContent.setLayout(new BorderLayout());
 
         JPanel headingPanel = new JPanel();
@@ -67,41 +65,78 @@ public class Bag extends Card {
     }
 
     public boolean addItem(Item item, int amount) {
-        if (items.keySet().size() > capacity) return false;
-        items.put(item, items.get(item) + amount);
-        return true;
+        for (Slot slot: slots) {
+            if (slot.addItem(item, amount)) return true;
+        }
+        return false;
     }
 
     public boolean removeItem(Item item) {
-        if (!items.containsKey(item)) return false;
-        items.remove(item);
-        return true;
+        return removeItem(item, 1);
     }
 
     public boolean removeItem(Item item, int amount) {
-        if (!items.containsKey(item)) return false;
-        int curAmount = items.get(item);
-        if (amount > curAmount)
-            return removeItem(item);
-        items.put(item, curAmount - amount);
-        return true;
+        for (Slot slot: slots) {
+            if (slot.containsItem(item)) {
+                slot.removeItem(amount);
+            }
+        }
+        return false;
     }
 
-    public Set<Map.Entry<Item, Integer>> allItems() {
-        return items.entrySet();
+    public List<Item> allItems() {
+        List<Item> items = new LinkedList<>();
+
+        for (Slot slot: slots) items.add(slot.item);
+
+        return items;
     }
 
     private class Slot extends JButton {
         public Item item = null;
         public int capacity = 10;
-        public int amout = 0;
+        public int amount = 0;
 
         public Slot() {
             setPreferredSize(new Dimension(100, 200));
             setMaximumSize(new Dimension(100, 200));
             setMinimumSize(new Dimension(100, 200));
             setSize(new Dimension(100, 200));
+        }
 
+        public boolean containsItem(Item item) {
+            return this.item.equals(item);
+        }
+
+        public boolean addItem(Item item, int amount) {
+            if (this.item != null && this.item != item) return false;
+            if (this.amount == capacity) return false;
+            this.item = item;
+            this.amount+= amount;
+            if (this.amount > capacity) this.amount = capacity;
+            return true;
+        }
+
+        public boolean removeItem(int amount) {
+            if (amount == 0) return false;
+            this.amount-=amount;
+            if (amount <= 0) {
+                this.amount = 0;
+                this.item = null;
+            }
+            return true;
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (this.item == null) return;
+            if (item instanceof Weapon) g.drawString("Weapon", 50, 100);
+            if (item instanceof Potion) {
+                Potion pot = (Potion) item;
+                g.drawString(pot.getType(), 50, 100);
+                g.drawString(String.valueOf(amount), 70, 150);
+            }
         }
     }
 }

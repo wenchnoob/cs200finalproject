@@ -1,5 +1,7 @@
 package edu.cs200.gui;
 
+import edu.cs200.GameObject;
+
 import java.awt.*;
 
 public class Portal extends DrawableObject {
@@ -26,8 +28,8 @@ public class Portal extends DrawableObject {
     }
 
     @Override
-    public boolean handleCollision() {
-        Map.getInstance().goToRoom(to);
+    public boolean handleCollision(GameObject targ) {
+        if (targ instanceof Player) Map.getInstance().goToRoom(to);
         return true;
     }
 }

@@ -64,8 +64,8 @@ public abstract class OrientedObject extends DrawableObject {
                     yPos2 -= height;
                     break;
                 case WEST:
-                    xPos += height;
-                    xPos2 += height;
+                    xPos += height - width;
+                    xPos2 += height - width;
                     yPos += width;
                     yPos2 += width;
                     break;

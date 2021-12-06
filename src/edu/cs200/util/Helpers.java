@@ -1,7 +1,6 @@
 package edu.cs200.util;
 
-import edu.cs200.gui.Portal;
-import edu.cs200.gui.Wall;
+import edu.cs200.gui.*;
 import edu.cs200.gui.Window;
 
 import javax.swing.*;
@@ -24,8 +23,17 @@ public class Helpers {
                 return new Portal(props);
             case "WALL":
                 return new Wall(props);
+            case "ENEMY":
+                return new Enemy(props);
+            case "POTION":
+                return new Potion(props);
+            case "WEAPON":
+                return new Weapon(props);
         }
         return null;
+    }
+
+    public static void initFight(Enemy e) {
     }
 
     public static Font quatera() {
