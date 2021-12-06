@@ -1,4 +1,5 @@
 package gameobjects;
+import java.awt.*;
 import java.util.*;
 
 import edu.cs200.Entity;
@@ -65,4 +66,14 @@ public void useItem(Item used) {
 public void levelup(int xp) {
 	//potential method for realism do not make a priority rn
 }
+
+	@Override
+	public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
+
+	}
+
+	@Override
+	public boolean handleCollision() {
+		return false;
+	}
 }

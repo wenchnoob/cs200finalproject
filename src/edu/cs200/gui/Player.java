@@ -6,10 +6,14 @@ import java.util.HashSet;
 import edu.cs200.Entity;
 
 public class Player extends Entity {
-	private HashSet<Item> inventory = new HashSet<Item>();
+	private HashSet<Item> inventory = new HashSet<>();
 	private Weapon equippedWeapon;
 
-    private static int START = 400;
+    private static int START_X = 100;
+    private static int START_Y = 300;
+    private static int DIM_X = 20;
+    private static int DIM_Y = 20;
+
     private static Player self;
 
     public static Player getInstance() {
@@ -17,59 +21,97 @@ public class Player extends Entity {
         return self;
     }
     private Player() {
-        super(START, START, 20, 20, EAST);
+        super(0, 0, DIM_X, DIM_Y, EAST);
     }
 
     public void paint(Graphics g) {
         paintWithOffset(g, 0, 0);
     }
 
+    public boolean collides(DrawableObject o) {
+        if (START_X < o.xPos + xPos + o.width &&
+                START_X + width > o.xPos + xPos &&
+                START_Y < o.yPos + yPos + o.height &&
+                START_Y + height > o.yPos + yPos) return true;
+        return false;
+    }
+
+    public boolean checkAllCollision() {
+        HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getLocationDescription().getObjects();
+        for (DrawableObject obj: others) {
+            if (collides(obj)) {
+                obj.handleCollision();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean moveUp() {
-        this.yPos -= 5;
-        this.yPos2 -= 5;
-        changeOrientation(NORTH);
+        if (checkAllCollision()) return false;
+        if (orientation != NORTH) {
+            this.orientation = NORTH;
+            return true;
+        }
+        this.yPos += 5;
+        if (checkAllCollision()) this.yPos -= 5;
         return true;
     }
 
     public boolean moveRight() {
-        this.xPos += 5;
-        this.xPos2 += 5;
-        changeOrientation(EAST);
+        if (checkAllCollision()) return false;
+        if (orientation != EAST) {
+            this.orientation = EAST;
+            return true;
+        }
+        this.xPos -= 5;
+        if (checkAllCollision()) this.xPos += 5;
         return  true;
     }
 
     public boolean moveDown() {
-        this.yPos += 5;
-        this.yPos2 += 5;
-        changeOrientation(SOUTH);
+        if (checkAllCollision()) return false;
+        if (orientation != SOUTH) {
+            this.orientation = SOUTH;
+            return true;
+        }
+        this.yPos -= 5;
+        if (checkAllCollision()) this.yPos += 5;
         return  true;
     }
 
     public boolean moveLeft() {
-        this.xPos -= 5;
-        this.xPos2 -= 5;
-        changeOrientation(WEST);
+        if (checkAllCollision()) return false;
+        if (orientation != WEST) {
+           this.orientation = WEST;
+           return true;
+        }
+        this.xPos += 5;
+        if (checkAllCollision()) this.xPos -= 5;
         return true;
     }
 
     @Override
     public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
-        if (!isInBounds(0, 0, Map.CANVAS_WIDTH, Map.CANVAS_HEIGHT)) return;
-        System.out.println("in bounds");
         g.setColor(Color.WHITE);
-        //g.fillRect(xPos, yPos, width, height);
-        if (orientation == NORTH) g.fillPolygon(new int[]{xPos, xPos + width/2, xPos + width}, new int[]{yPos + height, yPos, yPos + height}, 3);
-        else if (orientation == EAST) g.fillPolygon(new int[]{xPos, xPos + width, xPos}, new int[]{yPos, yPos + height/2, yPos + height}, 3);
-        else if (orientation == SOUTH) g.fillPolygon(new int[]{xPos, xPos + width/2, xPos + width}, new int[]{yPos, yPos + height, yPos}, 3);
-        else g.fillPolygon(new int[]{xPos + width, xPos, xPos + width}, new int[]{yPos, yPos + height/2, yPos + height}, 3);
+        if (orientation == NORTH) g.fillPolygon(new int[]{START_X, START_X + DIM_X/2, START_X + DIM_X}, new int[]{START_Y + DIM_Y, START_Y, START_Y + DIM_Y}, 3);
+        else if (orientation == EAST) g.fillPolygon(new int[]{START_X, START_X + DIM_X, START_X}, new int[]{START_Y, START_Y + DIM_Y/2, START_Y + DIM_Y}, 3);
+        else if (orientation == SOUTH) g.fillPolygon(new int[]{START_X, START_X + DIM_X/2, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y, START_Y}, 3);
+        else g.fillPolygon(new int[]{START_X + DIM_X, START_X, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y/2, START_Y + DIM_Y}, 3);
+    }
+
+    @Override
+    public boolean handleCollision() {
+        return false;
     }
 
     public int getXOffset() {
-        return xPos - START;
+        return -xPos;
     }
 
     public int getYOffset() {
-        return  yPos - START;
+        return -yPos;
     }
     public void equip(Weapon equipWeapon){
     	if(this.equippedWeapon != null)

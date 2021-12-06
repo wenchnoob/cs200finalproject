@@ -6,6 +6,7 @@ import edu.cs200.GameObject;
 
 public abstract class DrawableObject extends GameObject{
 
+    private static String name = "DRAWABLE_OBJECT";
     protected int xPos, yPos, xPos2, yPos2, width, height;
 
     public DrawableObject(int xPos, int yPos, int width, int height) {
@@ -17,7 +18,17 @@ public abstract class DrawableObject extends GameObject{
         this.height = height;
     }
 
+    public DrawableObject(String[] props) {
+        this(parse(props[1]), parse(props[2]), parse(props[3]), parse(props[4]));
+    }
+
+    private static int parse(String val) {
+        return Integer.valueOf(val);
+    }
+
     public abstract void paintWithOffset(Graphics g, int xOffset, int yOffset);
+
+    public abstract boolean handleCollision();
 
     public boolean isInBounds(int x1, int y1, int x2, int y2) {
         // Checks if top left vertex of the boundary box is within the bounds specified.
@@ -31,5 +42,9 @@ public abstract class DrawableObject extends GameObject{
         boolean bottomRightInBounds = btInView && rlInView;
 
         return topLeftInBounds || bottomRightInBounds;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
