@@ -1,6 +1,9 @@
 
 
 import java.util.*;
+
+import gameobjects.LocationDescription;
+
 import java.io.*;
 
 
@@ -13,13 +16,7 @@ private HashMap<String, LocationDescription> descriptions;
 	}
 public void load(String saveFile) {
 	//TODO I do not know how we want to write the save files, need to finish locationDescription and Room stuff first
-	try{
-	    File newFile = new File(saveFile);
-	    Scanner saveScanner = new Scanner(newFile);
-       }
-	catch(FileNotFoundException ioe){
-	      System.out.print("File not found");
-	    }
+
 	
 }
 public void save() {
@@ -29,12 +26,12 @@ public void save() {
 
 public Iterator<String> allLocationIterator(){
 	//TODO finish this
-	return null;
+	return connections.keySet().iterator();
 }
 
-public Iterator<String> connectionIterator(){
+public Iterator<String> connectionIterator(String connection){
 	//TODO finish this
-	return null;
+	return connections.get(connection).iterator();
 }
 
 public void update() {

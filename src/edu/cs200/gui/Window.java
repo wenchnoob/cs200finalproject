@@ -31,6 +31,7 @@ public class Window {
 
         frame.add(Map.getInstance(), MAP);
         frame.add(Bag.getInstance(), BAG);
+        frame.add(Combat.getInstance(), "Combat");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
