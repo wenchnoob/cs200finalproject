@@ -61,7 +61,7 @@ public class Player extends Entity {
     }
 
     public boolean checkAllCollision() {
-        HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getLocationDescription().getObjects();
+        HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getObjects();
         for (DrawableObject obj: others) {
             if (!Map.getInstance().isInBounds(obj)) continue;
             if (collides(obj)) {

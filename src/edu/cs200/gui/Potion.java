@@ -93,7 +93,7 @@ return this.value;
 	public boolean handleCollision(GameObject targ) {
 		if (targ instanceof Player) {
 			Bag.getInstance().addItem(this);
-			Map.getInstance().getCurrentRoom().getLocationDescription().removeObject(this);
+			Map.getInstance().getCurrentRoom().removeObject(this);
 		}
 		return false;
 	}

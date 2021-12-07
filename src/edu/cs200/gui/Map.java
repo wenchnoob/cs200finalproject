@@ -1,5 +1,7 @@
 package edu.cs200.gui;
 
+import edu.cs200.LocationDescription;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -14,7 +16,7 @@ public class Map extends Card {
     private String currentRoom = "room1";
     private JPanel canvasPanel;
     private JPanel stats;
-    Hashtable<String, Room> rooms;
+    Hashtable<String, LocationDescription> rooms;
 
     public static Map getInstance() {
         if (self == null) self = new Map();
@@ -25,7 +27,7 @@ public class Map extends Card {
         super(MAP);
         this.label.setText("Map: " + currentRoom);
         this.rooms = new Hashtable<>();
-        this.rooms.put("room1",  Room.of("assets/room1.csv"));
+        this.rooms.put("room1",  LocationDescription.loadDescription("assets/room1.csv"));
 
 
         this.stats = new JPanel();
@@ -41,10 +43,11 @@ public class Map extends Card {
 
     public void goToRoom(String roomName) {
         if (!rooms.contains(roomName)) {
-            Room room = Room.of(String.format("assets/%s.csv", roomName));
+            LocationDescription room = LocationDescription.loadDescription(String.format("assets/%s.csv", roomName));
             if (room == null) return;
             rooms.put(roomName, room);
         }
+
         this.currentRoom = roomName;
         Player.getInstance().reset();
         redraw();
@@ -61,7 +64,7 @@ public class Map extends Card {
         this.canvasPanel.repaint();
     }
 
-    public Room getCurrentRoom() {
+    public LocationDescription getCurrentRoom() {
         return rooms.get(currentRoom);
     }
 

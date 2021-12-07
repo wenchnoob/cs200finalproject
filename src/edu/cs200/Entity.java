@@ -27,7 +27,7 @@ public Entity(int xPos, int yPos, int width, int height, int health, int attackD
 	}
 
 	public boolean checkAllCollision() {
-		HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getLocationDescription().getObjects();
+		HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getObjects();
 		for (DrawableObject obj: others) {
 			if (collides(obj)) {
 				obj.handleCollision(this);

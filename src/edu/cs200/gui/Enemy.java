@@ -34,7 +34,7 @@ public class Enemy extends Entity {
     }
 
     public boolean checkAllCollision() {
-        HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getLocationDescription().getObjects();
+        HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getObjects();
         for (DrawableObject obj: others) {
             if (!Map.getInstance().isInBounds(obj)) continue;
             if (!(obj instanceof Enemy) && collides(obj)) {

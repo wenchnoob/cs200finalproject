@@ -17,19 +17,7 @@ public class Helpers {
         layout.show(frame.getContentPane(), pageName);
     }
 
-    public static void save() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showSaveDialog(Window.getInstance().getFrame());
-        File f = fileChooser.getSelectedFile();
-        System.out.println(f);
-    }
 
-    public static void load() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showOpenDialog(Window.getInstance().getFrame());
-        File f = fileChooser.getSelectedFile();
-        System.out.println(f);
-    }
 
     public static Object parseObj(String objDef) {
         String[] props = objDef.split(",");
