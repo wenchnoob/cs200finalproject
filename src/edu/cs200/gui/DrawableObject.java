@@ -2,10 +2,12 @@ package edu.cs200.gui;
 
 import java.awt.*;
 
+import edu.cs200.Game;
 import edu.cs200.GameObject;
 
 public abstract class DrawableObject extends GameObject{
 
+    private static String name = "DRAWABLE_OBJECT";
     protected int xPos, yPos, xPos2, yPos2, width, height;
 
     public DrawableObject(int xPos, int yPos, int width, int height) {
@@ -17,7 +19,17 @@ public abstract class DrawableObject extends GameObject{
         this.height = height;
     }
 
+    public DrawableObject(String[] props) {
+        this(parse(props[1]), parse(props[2]), parse(props[3]), parse(props[4]));
+    }
+
+    private static int parse(String val) {
+        return Integer.valueOf(val);
+    }
+
     public abstract void paintWithOffset(Graphics g, int xOffset, int yOffset);
+
+    public abstract boolean handleCollision(GameObject targ);
 
     public boolean isInBounds(int x1, int y1, int x2, int y2) {
         // Checks if top left vertex of the boundary box is within the bounds specified.
@@ -31,5 +43,57 @@ public abstract class DrawableObject extends GameObject{
         boolean bottomRightInBounds = btInView && rlInView;
 
         return topLeftInBounds || bottomRightInBounds;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    public int getxPos2() {
+        return xPos2;
+    }
+
+    public void setxPos2(int xPos2) {
+        this.xPos2 = xPos2;
+    }
+
+    public int getyPos2() {
+        return yPos2;
+    }
+
+    public void setyPos2(int yPos2) {
+        this.yPos2 = yPos2;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

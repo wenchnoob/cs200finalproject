@@ -1,6 +1,6 @@
 package edu.cs200;
 public abstract class GameObject{
-private String name;
+private static String name = "Game Object";
 public GameObject() {
 	this("non");
 }

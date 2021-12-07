@@ -1,8 +1,10 @@
 
 
+import edu.cs200.LocationDescription;
+
 import java.util.*;
 
-import gameobjects.LocationDescription;
+import edu.cs200.LocationDescription;
 
 import java.io.*;
 

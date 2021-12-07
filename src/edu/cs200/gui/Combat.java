@@ -43,7 +43,7 @@ private static Combat self;
 			}
 		});
 		mainContent.add(riposteButton);
-		mainContent.add(slashButton, BorderLayout.PAGE_END);
+		mainContent.add(slashButton);
 		mainContent.add(thrustButton);
 		// TODO Auto-generated constructor stub
 	}

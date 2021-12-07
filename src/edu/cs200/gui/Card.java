@@ -8,6 +8,7 @@ import java.awt.*;
 public class Card extends JPanel {
 
     protected String name;
+    protected JLabel label;
     protected JPanel mainContent;
 
     public Card(String name) {
@@ -16,7 +17,7 @@ public class Card extends JPanel {
         setLayout(new BorderLayout());
 
         JPanel top = new JPanel(new FlowLayout());
-        JLabel label = new JLabel(this.name);
+        label = new JLabel(this.name);
 
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setFont(new Font("quatera", Font.BOLD, 30));
@@ -49,7 +50,7 @@ public class Card extends JPanel {
         add(top, BorderLayout.PAGE_START);
         add(leftPane, BorderLayout.LINE_START);
 
-        mainContent = new JPanel(new FlowLayout());
+        mainContent = new JPanel(new BorderLayout());
         add(mainContent, BorderLayout.CENTER);
     }
 
