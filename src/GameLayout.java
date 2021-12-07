@@ -25,12 +25,10 @@ public void save() {
 }
 
 public Iterator<String> allLocationIterator(){
-	//TODO finish this
 	return connections.keySet().iterator();
 }
 
 public Iterator<String> connectionIterator(String connection){
-	//TODO finish this
 	return connections.get(connection).iterator();
 }
 

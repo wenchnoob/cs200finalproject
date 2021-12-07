@@ -42,6 +42,9 @@ private static Combat self;
 				player.attack(2,enemy);
 			}
 		});
+		mainContent.add(riposteButton);
+		mainContent.add(slashButton, BorderLayout.PAGE_END);
+		mainContent.add(thrustButton);
 		// TODO Auto-generated constructor stub
 	}
 

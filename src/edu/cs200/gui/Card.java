@@ -44,7 +44,8 @@ public class Card extends JPanel {
 
         leftPane.add(mapButton);
         leftPane.add(bagButton);
-
+        leftPane.add(combatButton);
+        
         add(top, BorderLayout.PAGE_START);
         add(leftPane, BorderLayout.LINE_START);
 

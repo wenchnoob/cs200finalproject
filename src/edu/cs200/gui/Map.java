@@ -76,6 +76,7 @@ public class Map extends Card {
             });
             components = new LinkedList<>();
             components.add(new Wall(100, 100, 100, OrientedObject.NORTH));
+            components.add(new Potion(100, 100, 100, 100));
         }
 
         @Override
