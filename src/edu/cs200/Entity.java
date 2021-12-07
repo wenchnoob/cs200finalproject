@@ -1,14 +1,20 @@
 package edu.cs200;
-import java.util.*;
 
 import edu.cs200.gui.DrawableObject;
 import edu.cs200.gui.Enemy;
 import edu.cs200.gui.Map;
 import edu.cs200.gui.OrientedObject;
+import edu.cs200.util.Observable;
+import edu.cs200.util.Observer;
 
-import java.awt.Graphics;
-import java.io.*;
-public abstract class Entity extends OrientedObject {
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
+public abstract class Entity extends OrientedObject implements Observable {
+
+	private List<Observer> observers;
 	
 	
 public Entity(int xPos, int yPos, int width, int height, int health, int attackDmg, int defence, int orientation) {
@@ -16,7 +22,6 @@ public Entity(int xPos, int yPos, int width, int height, int health, int attackD
 		this.health = health;
 		this.attackDmg = attackDmg;
 		this.defence = defence;
-		// TODO Auto-generated constructor stub
 	}
 
 	public Entity(String[] props) {
@@ -50,8 +55,13 @@ public Entity(int xPos, int yPos, int width, int height, int health, int attackD
 private int health;
 private int attackDmg;
 private int defence;
+private int max_health = 100;
 
-/**
+	public int getMax_health() {
+		return max_health;
+	}
+
+	/**
  * This method determines damage based on the attack the other entity made.
  * the three attack types beat one lose to one and tie the same type.
  * Riposte beats slash
@@ -62,6 +72,8 @@ private int defence;
  * slash = 3
  * 
  */
+
+
 
 public int attack() {
 		Random attk = new Random();
@@ -90,6 +102,7 @@ public int getAttackDmg() {
  */
 public void setHealth(int health) {
 	this.health = health;
+	notifyObservers();
 }
 
 /**
@@ -97,10 +110,12 @@ public void setHealth(int health) {
  */
 public void setAttackDmg(int attackDmg) {
 	this.attackDmg = attackDmg;
+	notifyObservers();
 }
 
 public void setDefence(int defence) {
 	this.defence = defence;
+	notifyObservers();
 }
 
 public int getDefence() {
@@ -116,7 +131,15 @@ public void die(){
 //TODO finish this
 }
 
+	@Override
+	public void addObserver(Observer observer) {
+		if (observers == null) observers = new LinkedList<>();
+		observers.add(observer);
+	}
 
-
-
+	@Override
+	public void notifyObservers() {
+		if (observers != null)
+			for (Observer obs: observers) obs.getUpdate(this);
+	}
 }

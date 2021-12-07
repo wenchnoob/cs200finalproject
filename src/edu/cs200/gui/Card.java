@@ -1,5 +1,7 @@
 package edu.cs200.gui;
 
+import edu.cs200.util.Helpers;
+
 import static edu.cs200.util.Globals.*;
 import static edu.cs200.util.Helpers.*;
 import javax.swing.*;
@@ -16,7 +18,7 @@ public class Card extends JPanel {
 
         setLayout(new BorderLayout());
 
-        JPanel top = new JPanel(new FlowLayout());
+        JPanel top = new JPanel();
         label = new JLabel(this.name);
 
         label.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -24,9 +26,8 @@ public class Card extends JPanel {
         label.setLocation((WINDOW_WIDTH - label.getWidth())/2, 20);
         top.add(label);
 
-        JPanel leftPane = new JPanel();
+        JPanel leftPane = new JPanel(new GridLayout(5, 0));
         leftPane.setPreferredSize(new Dimension(WINDOW_WIDTH/5, WINDOW_HEIGHT - 20));
-        leftPane.setLayout(new GridLayout(2, 1));
 
 
         JButton mapButton = new JButton(MAP);
@@ -37,15 +38,22 @@ public class Card extends JPanel {
         bagButton.addActionListener(action -> goTo(BAG));
         bagButton.setFont(quatera());
 
-        JButton combatButton = new JButton("Combat");
-        combatButton.addActionListener(action -> goTo("Combat"));
-        combatButton.setFont(quatera());
+        JButton save = new JButton("Save");
+        save.addActionListener(action -> Helpers.save());
+
+        JButton load = new JButton("Load");
+        load.addActionListener(action -> Helpers.load());
+
+        JButton reset = new JButton("Reset");
+        reset.addActionListener(action -> {});
         
         
 
         leftPane.add(mapButton);
         leftPane.add(bagButton);
-        leftPane.add(combatButton);
+        leftPane.add(save);
+        leftPane.add(load);
+        leftPane.add(reset);
         
         add(top, BorderLayout.PAGE_START);
         add(leftPane, BorderLayout.LINE_START);

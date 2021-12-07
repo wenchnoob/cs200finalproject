@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.function.UnaryOperator;
 
-import static edu.cs200.util.Helpers.initFight;
+import static edu.cs200.util.Helpers.goTo;
 
 public class Enemy extends Entity {
 
@@ -30,7 +30,7 @@ public class Enemy extends Entity {
 
     public Enemy(String[] props) {
         super(props);
-        animate(0);
+        //animate(0);
     }
 
     public boolean checkAllCollision() {
@@ -58,7 +58,7 @@ public class Enemy extends Entity {
                 if (axis == 0) {
                     changeX.apply(rand.nextInt(11) - 5);
                 } else changeY.apply(rand.nextInt(11) - 5);
-                Map.getInstance().redraw();
+                Map.getInstance().redraw(xPos, yPos, width, height);
             }
         }).start();
     }
@@ -76,7 +76,10 @@ public class Enemy extends Entity {
 
     @Override
     public boolean handleCollision(GameObject targ) {
-        if (targ instanceof Player) initFight(this);
+        if (targ instanceof Player) {
+            Combat.getInstance().setCurrent_enemy(this);
+            goTo("Combat");
+        }
         return false;
     }
 }

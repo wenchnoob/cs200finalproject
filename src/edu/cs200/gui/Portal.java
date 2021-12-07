@@ -5,7 +5,6 @@ import edu.cs200.GameObject;
 import java.awt.*;
 
 public class Portal extends DrawableObject {
-
     private static String name = "PORTAL";
     private String from;
     private String to;
@@ -19,6 +18,21 @@ public class Portal extends DrawableObject {
         super(props);
         this.from = props[5];
         this.to = props[6];
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Portal)) return false;
+        Portal portal = (Portal) o;
+        return portal.getFrom().equals(this.from) && portal.getTo().equals(this.to);
     }
 
     @Override

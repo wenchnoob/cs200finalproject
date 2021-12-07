@@ -1,15 +1,15 @@
 package edu.cs200.gui;
 
+import edu.cs200.GameObject;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
-import edu.cs200.GameObject;
 
-import java.awt.*;
+public class Weapon extends Item {
 
-public class Weapon extends DrawableObject implements Item {
-private int damage;
-private String type = "Damage";
+	private int damage = 5;
+	private String type = "Damage";
 
 	public Weapon(int xPos, int yPos, int width, int height) {
 		super(xPos, yPos, width, height);
@@ -29,6 +29,12 @@ private String type = "Damage";
 return this.damage;
 }
 
+	@Override
+	public void use(GameObject obj) {
+		if (!(obj instanceof Player)) return;
+		Player.getInstance().equip(this);
+	}
+
 	public String getType() {
 	return this.type;
 }
@@ -37,12 +43,6 @@ return this.damage;
 	public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
 		g.setColor(Color.GRAY);
 		g.fillOval(xPos - xOffset, yPos - yOffset, 15, 15);
-	}
-
-	@Override
-	public boolean handleCollision(GameObject targ) {
-		if (targ instanceof Player) Bag.getInstance().addItem(this);
-		return true;
 	}
 
 }
