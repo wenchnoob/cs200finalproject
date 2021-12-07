@@ -1,5 +1,8 @@
 package edu.cs200.gui;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import edu.cs200.GameObject;
 
 import java.awt.*;
@@ -15,6 +18,7 @@ private String type = "Damage";
 	public Weapon(String[] props) {
 		super(props);
 	}
+
 
 
 	/**
@@ -40,6 +44,7 @@ return this.damage;
 		if (targ instanceof Player) Bag.getInstance().addItem(this);
 		return true;
 	}
+
 }
 
 

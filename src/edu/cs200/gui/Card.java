@@ -37,10 +37,16 @@ public class Card extends JPanel {
         bagButton.addActionListener(action -> goTo(BAG));
         bagButton.setFont(quatera());
 
+        JButton combatButton = new JButton("Combat");
+        combatButton.addActionListener(action -> goTo("Combat"));
+        combatButton.setFont(quatera());
+        
+        
 
         leftPane.add(mapButton);
         leftPane.add(bagButton);
-
+        leftPane.add(combatButton);
+        
         add(top, BorderLayout.PAGE_START);
         add(leftPane, BorderLayout.LINE_START);
 

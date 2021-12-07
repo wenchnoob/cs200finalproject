@@ -3,6 +3,9 @@ import edu.cs200.gui.Window;
 
 import javax.swing.*;
 import java.util.*;
+
+import edu.cs200.LocationDescription;
+
 import java.io.*;
 
 public class GameLayout {
@@ -29,13 +32,11 @@ public class GameLayout {
 	}
 	
 public Iterator<String> allLocationIterator(){
-	//TODO finish this
-	return null;
+	return connections.keySet().iterator();
 }
 
-public Iterator<String> connectionIterator(){
-	//TODO finish this
-	return null;
+public Iterator<String> connectionIterator(String connection){
+	return connections.get(connection).iterator();
 }
 
 public void update() {
