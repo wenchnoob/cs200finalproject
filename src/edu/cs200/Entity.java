@@ -51,23 +51,8 @@ private int health;
 private int attackDmg;
 private int defence;
 
-/**
- * This method determines damage based on the attack the other entity made.
- * the three attack types beat one lose to one and tie the same type.
- * Riposte beats slash
- * Slash beats thrust
- * thrust beats riposte
- * thrust = 1
- * riposte = 2
- * slash = 3
- * 
- */
+public abstract int attack();
 
-public int attack() {
-		Random attk = new Random();
-		int chooseAttack = attk.nextInt(3);
-	return chooseAttack;
-	}
 
 
 
