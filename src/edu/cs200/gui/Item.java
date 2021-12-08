@@ -1,7 +1,8 @@
 package edu.cs200.gui;
 
-import edu.cs200.Game;
 import edu.cs200.GameObject;
+
+import java.io.PrintWriter;
 
 public abstract class Item extends DrawableObject {
 
@@ -29,4 +30,9 @@ public abstract class Item extends DrawableObject {
         }
         return false;
     }
+
+    public void save(PrintWriter out) {
+        out.write(String.format("Item,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s.", getName(), xPos, yPos, xPos2, yPos2, width, height, getType(), getValue(), getDesc()));
+    }
+
 } 

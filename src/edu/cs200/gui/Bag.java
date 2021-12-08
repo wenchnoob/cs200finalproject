@@ -10,6 +10,7 @@ import static edu.cs200.util.Helpers.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
 
@@ -103,6 +104,16 @@ public class Bag extends Card {
         for (Slot slot: slots) items.add(slot.item);
 
         return items;
+    }
+
+    public void save(PrintWriter out) {
+        out.write("Bag,");
+        for (Slot slot: slots) {
+
+        }
+    }
+
+    public void load(String in) {
     }
 
     private class Slot extends JButton {

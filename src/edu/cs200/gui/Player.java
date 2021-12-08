@@ -1,13 +1,13 @@
 package edu.cs200.gui;
 
 import java.awt.*;
+import java.io.PrintWriter;
 import java.util.HashSet;
 
 import edu.cs200.Entity;
 import edu.cs200.GameObject;
 
 public class Player extends Entity {
-	private HashSet<Item> inventory = new HashSet<>();
 	private Weapon equippedWeapon;
 
     private static int START_X = 100;
@@ -183,14 +183,22 @@ public class Player extends Entity {
     	//potential method for realism do not make a priority rn
     }
 
-    public void save() {
-
+    public void save(PrintWriter out) {
+        out.write(String.format("Player,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s;", xPos, yPos, xPos2, yPos2, width, height, getHealth(), max_health, getAttackDmg(), getDefence()));
     }
 
-    public void load() {
-
+    public void load(String in) {
+        String[] props = in.split(",");
+        xPos = Integer.valueOf(props[1]);
+        yPos = Integer.valueOf(props[2]);
+        xPos2 = Integer.valueOf(props[3]);
+        yPos2 = Integer.valueOf(props[4]);
+        width = Integer.valueOf(props[5]);
+        height = Integer.valueOf(props[6]);
+        setHealth(Integer.valueOf(props[7]));
+        max_health = Integer.valueOf(props[8]);
+        setAttackDmg(Integer.valueOf(props[9]));
+        setDefence(Integer.valueOf(props[10]));
     }
 
-
-   
 }

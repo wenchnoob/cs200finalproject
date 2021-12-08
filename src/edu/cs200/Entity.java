@@ -1,7 +1,6 @@
 package edu.cs200;
 
 import edu.cs200.gui.DrawableObject;
-import edu.cs200.gui.Enemy;
 import edu.cs200.gui.Map;
 import edu.cs200.gui.OrientedObject;
 import edu.cs200.util.Observable;
@@ -127,9 +126,7 @@ public boolean isAlive() {
 }
 
 
-public void die(){
-//TODO finish this
-}
+	public void die(){}
 
 	@Override
 	public void addObserver(Observer observer) {
