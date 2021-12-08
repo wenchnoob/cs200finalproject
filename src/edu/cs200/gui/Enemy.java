@@ -25,8 +25,8 @@ private int attackTypeModifier;
         return yPos;
     };
 
-    public Enemy(int xPos, int yPos, int width, int height, int health, int attackDamage, int defence, int orientation) {
-        super(xPos, yPos, width, height, health, attackDamage, defence, orientation);
+    public Enemy(int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
+        super(xPos, yPos, width, height, health, maxHealth ,attackDamage, defence, orientation);
     }
 
     public Enemy(String[] props) {

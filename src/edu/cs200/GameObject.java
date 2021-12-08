@@ -1,5 +1,7 @@
 package edu.cs200;
 
+import edu.cs200.gui.Player;
+import edu.cs200.gui.Combat;
 public abstract class GameObject {
 
     private static String name = "Game Object";
@@ -26,4 +28,6 @@ public abstract class GameObject {
         GameObject gobj = (GameObject) obj;
         return this.getName().equals(gobj.getName());
     }
+
+    
 }

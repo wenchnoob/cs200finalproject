@@ -4,6 +4,8 @@ import java.awt.*;
 import java.io.PrintWriter;
 import java.util.HashSet;
 
+import javax.swing.JOptionPane;
+
 import edu.cs200.Entity;
 import edu.cs200.GameObject;
 
@@ -14,7 +16,6 @@ public class Player extends Entity {
     private static int START_Y = 300;
     private static int DIM_X = 20;
     private static int DIM_Y = 20;
-    private static int max_health = 100;
 
     private static Player self;
 
@@ -23,7 +24,7 @@ public class Player extends Entity {
         return self;
     }
     private Player() {
-        super(0, 0, DIM_X, DIM_Y, 90, 5, 3, EAST);
+        super(0, 0, DIM_X, DIM_Y, 90, 5, 3, EAST, DIM_X);
     }
 
     public void paint(Graphics g) {
@@ -32,7 +33,7 @@ public class Player extends Entity {
 
     public void heal(int amount) {
         setHealth(getHealth() + amount);
-        if (getHealth() > max_health) setHealth(max_health);
+        if (getHealth() > this.getMax_health()) setHealth(getMax_health());
     }
 
     public void trueDamage(int amount) {
@@ -158,25 +159,63 @@ public class Player extends Entity {
     }
     /**
      * This method is the player Version of the attack method in the Entity class
+     * thrust 1
+     * slash 2
+     * dodge 3
+     * parry 4
      * @param attackType gets the type of attack the player chose
      * @param enemy the enemy that is being attacked
      */
 
 
-    public void attack(int attackType, Entity enemy) {
+    public int attack(int playerAttack, Entity enemy) {
     	int enemyAttack = enemy.attack();//gets the type of attack the enemy will use
-    	if(enemyAttack == attackType) {//if the attacks are the same nothing happens
+    	int enemyDamage = enemy.getAttackDmg();
+    	int enemyDefence = enemy.getDefence();
+    	int enemyHealth = enemy.getHealth();
+    	String enemyAttackType = enemy.getAttackType(enemyAttack);
+    	int playerDamage = this.getAttackDmg();
+    	int playerDefence = this.getDefence();
+    	int playerHealth = this.getHealth();
+    	String playerAttackType = this.getAttackType(playerAttack);
+    	String result = "";
+    	String message = "";
+    	if(enemy.isDidDodge()) {
+    		enemyDamage = enemyDamage *2;
+    		enemy.setDidDodge(false);
     	}
-    	else if((enemyAttack == 1 && attackType == 2) || (enemyAttack == 2 && attackType == 3)||(enemyAttack == 3 && attackType == 1)) {//if the enemy's attack trumps the players
-    		this.setHealth(this.getHealth() - enemy.getAttackDmg());//player takes damage
-    		if (this.getHealth()<= 0)//the player dies if its health is less than or equal to 0
-    			this.die();
+    	if(this.isDidDodge()) {
+    		playerDamage = playerDamage * 2;
+    		this.setDidDodge(false);
     	}
-    	else if((enemyAttack == 2 && attackType == 1)||(enemyAttack==3&&attackType==2)||(enemyAttack == 1 && attackType == 3)) {// if the players attack trumps the enemy
-    		enemy.setHealth(enemy.getHealth()-this.getAttackDmg());//enemy takes damage
-    		if(enemy.getHealth()<=0)//if the enemies health is less than or equal to 0 it dies
-    			enemy.die();
-    	}
+    	
+        if ((enemyAttack == 1 || enemyAttack == 2) && (playerAttack== 1 || playerAttack == 2)) {//if both are attacks both take damage
+        	enemy.setHealth(enemyHealth -(playerDamage - enemyDefence));
+        	this.setHealth(playerHealth - (enemyDamage- playerDefence));
+        	result = "you both took damage!";
+        }
+        else if((enemyAttack == 1 && playerAttack == 4)||(enemyAttack == 2 && playerAttack == 3)) {//Player misses defensive skill
+        	this.setHealth(playerHealth - (enemyDamage- playerDefence));
+        	result = "you took damage!";
+        }
+        else if((playerAttack == 1 && enemyAttack == 4)||(playerAttack == 2 && enemyAttack == 3)) {//enemy misses defensive skill
+        	enemy.setHealth(enemyHealth - (playerDamage - enemyDefence));
+        	result = "the enemy took damage!";
+        }
+        else if((enemyAttack == 1 && playerAttack == 3)|| (enemyAttack == 2 && playerAttack ==4)) {//player dodged enemy attack
+        	this.setDidDodge(true);
+        	result = "you countered the enemy attack! Your next attack will do double damage!!";
+        }
+        else if((playerAttack == 1 && enemyAttack == 3)||(playerAttack == 2 && enemyAttack == 4)) {//enemy dodged player attack
+        	enemy.setDidDodge(true);
+        	result = "the enemy countered your attack! Their next attack will do double damage!!";
+        }
+        else {
+        	result = "Both you and your enemy countered.  Nothing happens";
+        }
+        message = "You used a " + playerAttackType + " and your enemy used a "+ enemyAttackType + " meaning " + result;
+        JOptionPane.showMessageDialog(Window.getInstance().getFrame() ,message);
+        return 0;
     }
 
     public void levelup(int xp) {
@@ -196,7 +235,7 @@ public class Player extends Entity {
         width = Integer.valueOf(props[5]);
         height = Integer.valueOf(props[6]);
         setHealth(Integer.valueOf(props[7]));
-        max_health = Integer.valueOf(props[8]);
+        setMax_health(Integer.valueOf(props[8]));
         setAttackDmg(Integer.valueOf(props[9]));
         setDefence(Integer.valueOf(props[10]));
     }

@@ -6,7 +6,8 @@ import edu.cs200.gui.Enemy;
 
 public class Goblin extends Enemy {
 
-	public Goblin() {
+	public Goblin(int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
+		super(xPos, yPos,  width,height, health, 30, 7, 3,orientation);
 		this.setAggressionModifier(50);
 		this.setAttackTypeModifier(50);
 		// TODO Auto-generated constructor stub
