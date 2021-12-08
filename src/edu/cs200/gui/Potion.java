@@ -6,7 +6,7 @@ import edu.cs200.GameObject;
 import java.awt.*;
 import java.util.function.Consumer;
 
-public class Potion extends DrawableObject implements Item {
+public class Potion extends Item {
 
 	private String type;
 	private int value;
@@ -58,6 +58,11 @@ public class Potion extends DrawableObject implements Item {
 return this.value;
 }
 
+	@Override
+	public void use(GameObject obj) {
+		effect.accept(obj);
+	}
+
 
 	public void useEffect(GameObject object) {
 		effect.accept(object);
@@ -87,15 +92,6 @@ return this.value;
 		}
 
 		g.drawString(label, xPos - xOffset, yPos - yOffset);
-	}
-
-	@Override
-	public boolean handleCollision(GameObject targ) {
-		if (targ instanceof Player) {
-			Bag.getInstance().addItem(this);
-			Map.getInstance().getCurrentRoom().removeObject(this);
-		}
-		return false;
 	}
 
 	@Override

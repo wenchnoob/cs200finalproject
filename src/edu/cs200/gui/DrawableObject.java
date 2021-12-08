@@ -5,7 +5,7 @@ import java.awt.*;
 import edu.cs200.Game;
 import edu.cs200.GameObject;
 
-public abstract class DrawableObject extends GameObject{
+public abstract class DrawableObject extends GameObject {
 
     private static String name = "DRAWABLE_OBJECT";
     protected int xPos, yPos, xPos2, yPos2, width, height;
