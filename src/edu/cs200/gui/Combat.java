@@ -48,10 +48,24 @@ public class Combat extends JPanel {
         JPanel bottom = new JPanel();
 
         JButton thrustButton = new JButton("Thrust");
+        thrustButton.addActionListener(action ->{
+        	attack(1);
+        });
 
         JButton slashButton = new JButton("Slash");
+        slashButton.addActionListener(action ->{
+        	attack(2);
+        });
 
-        JButton riposteButton = new JButton("Riposte");
+        JButton dodgeButton = new JButton("Dodge");
+        dodgeButton.addActionListener(action ->{
+        	attack(3);
+        });
+        
+        JButton parryButton = new JButton("Parry");
+        parryButton.addActionListener(action ->{
+        	attack(4);
+        });
 
         JButton flee = new JButton("Flee");
         flee.addActionListener(action -> {
@@ -64,11 +78,19 @@ public class Combat extends JPanel {
 
         bottom.add(thrustButton);
         bottom.add(slashButton);
-        bottom.add(riposteButton);
+        bottom.add(dodgeButton);
+        bottom.add(parryButton);
         bottom.add(flee);
         add(bottom, BorderLayout.PAGE_END);
     }
-
+    public Entity getCurrentEnemy() {
+    	return current_enemy;
+    }
+    public void attack(int playerAttack) {
+    	while((current_enemy.getHealth()>0)||(Player.getInstance().getHealth()>0)) {
+    		Player.getInstance().attack(playerAttack,current_enemy);
+    	}
+    }
     private class CombatWindow extends JPanel {
         public CombatWindow() {
             setBackground(Color.GRAY);

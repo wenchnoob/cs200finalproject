@@ -17,11 +17,12 @@ public abstract class Entity extends OrientedObject implements Observable {
 	private List<Observer> observers;
 	
 	
-public Entity(int xPos, int yPos, int width, int height, int health, int attackDmg, int defence, int orientation) {
+public Entity(int xPos, int yPos, int width, int height, int health,int maxHealth, int attackDmg, int defence, int orientation) {
 		super(xPos, yPos, width, height,orientation);
 		this.health = health;
 		this.attackDmg = attackDmg;
 		this.defence = defence;
+		this.max_health = maxHealth;
 	}
 
 	public Entity(String[] props) {
@@ -55,32 +56,19 @@ public Entity(int xPos, int yPos, int width, int height, int health, int attackD
 private int health;
 private int attackDmg;
 private int defence;
-private int max_health = 100;
+private int max_health;
+private boolean didDodge = false;
+
+public abstract int attack();
+
 
 	public int getMax_health() {
 		return max_health;
 	}
 
-	/**
- * This method determines damage based on the attack the other entity made.
- * the three attack types beat one lose to one and tie the same type.
- * Riposte beats slash
- * Slash beats thrust
- * thrust beats riposte
- * thrust = 1
- * riposte = 2
- * slash = 3
- * 
- */
-
-
-
-public int attack() {
-		Random attk = new Random();
-		int chooseAttack = attk.nextInt(3);
-	return chooseAttack;
-	}
-
+public void setMax_health(int maxHealth) {
+	this.max_health = maxHealth;
+}
 
 
 /**
@@ -122,12 +110,35 @@ public int getDefence() {
 	return this.defence;
 }
 
+public String getAttackType(int attack) {
+	if(attack == 1) {
+		return "Thrust";
+	}
+	else if(attack == 2) {
+		return "Slash";
+	}
+	else if(attack == 3) {
+		return "Dodge";
+	}
+	else{
+		return "Parry";
+	}
+}
+
 public boolean isAlive() {
 	return this.health > 0;
 }
 
 
 	public void die(){}
+
+	public boolean isDidDodge() {
+		return didDodge;
+	}
+
+	public void setDidDodge(boolean didDodge) {
+		this.didDodge = didDodge;
+	}
 
 	@Override
 	public void addObserver(Observer observer) {

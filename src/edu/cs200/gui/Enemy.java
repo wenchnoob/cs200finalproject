@@ -14,8 +14,12 @@ import java.util.function.UnaryOperator;
 import static edu.cs200.util.Helpers.goTo;
 
 public class Enemy extends Entity {
+    private int aggressionModifier;
+    private int attackTypeModifier;
 
     private Consumer<Integer> changeX = (Consumer<Integer> & Serializable) (amount -> {
+
+
         xPos += amount;
         if (this.checkAllCollision()) xPos -= amount;
     });
@@ -25,8 +29,8 @@ public class Enemy extends Entity {
         if (this.checkAllCollision()) yPos -= amount;
     });
 
-    public Enemy(int xPos, int yPos, int width, int height, int health, int attackDamage, int defence, int orientation) {
-        super(xPos, yPos, width, height, health, attackDamage, defence, orientation);
+    public Enemy(int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
+        super(xPos, yPos, width, height, health, maxHealth ,attackDamage, defence, orientation);
     }
 
     public Enemy(String[] props) {
@@ -88,4 +92,52 @@ public class Enemy extends Entity {
     public void save(PrintWriter out) {
         super.save(out);
     }
+	public int getAggressionModifier() {
+		return aggressionModifier;
+	}
+
+	public void setAggressionModifier(int aggressionModifier) {
+		this.aggressionModifier = aggressionModifier;
+	}
+
+	@Override
+	/**
+	 * defence is higher value than aggression modifier
+	 * thrust and dodge are lower than modifier
+	 * thrust is 1
+	 * slash is 2
+	 * dodge is 3
+	 * parry is 4
+	 */
+	public int attack() {
+		Random randAttack = new Random();
+		int attackType = randAttack.nextInt(100);
+	    int attackOrDefend = this.getAggressionModifier();
+	    int thrustOrSlash = this.getAttackTypeModifier();
+	    if(attackOrDefend < attackType) {
+	    	if(thrustOrSlash < attackType) {
+	    		return 1;
+	    	}
+	    	else {
+	    		return 2;
+	    	}
+	    }
+	    else {
+	    	if(attackType > 50) {
+	    		return 3;
+	    	}
+	    	else {
+	    		return 4;
+	    	}
+	    }
+
+	}
+
+	public int getAttackTypeModifier() {
+		return attackTypeModifier;
+	}
+
+	public void setAttackTypeModifier(int attackTypeModifier) {
+		this.attackTypeModifier = attackTypeModifier;
+	}
 }

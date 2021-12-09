@@ -28,5 +28,4 @@ public abstract class GameObject implements Serializable {
         GameObject gobj = (GameObject) obj;
         return this.getName().equals(gobj.getName());
     }
-
 }
