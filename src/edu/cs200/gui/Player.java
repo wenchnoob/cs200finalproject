@@ -24,7 +24,7 @@ public class Player extends Entity {
         return self;
     }
     private Player() {
-        super(0, 0, DIM_X, DIM_Y, 90, 5, 3, EAST, DIM_X);
+        super(0, 0, DIM_X, DIM_Y, 90, 100, 5, 3, EAST);
     }
 
     public void paint(Graphics g) {
@@ -169,7 +169,7 @@ public class Player extends Entity {
 
 
     public int attack(int playerAttack, Entity enemy) {
-    	int enemyAttack = enemy.attack();//gets the type of attack the enemy will use
+    	int enemyAttack = enemy.attack(0,enemy);//gets the type of attack the enemy will use
     	int enemyDamage = enemy.getAttackDmg();
     	int enemyDefence = enemy.getDefence();
     	int enemyHealth = enemy.getHealth();
@@ -223,7 +223,7 @@ public class Player extends Entity {
     }
 
     public void save(PrintWriter out) {
-        out.write(String.format("Player,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s;", xPos, yPos, xPos2, yPos2, width, height, getHealth(), max_health, getAttackDmg(), getDefence()));
+        out.write(String.format("Player,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s;", xPos, yPos, xPos2, yPos2, width, height, getHealth(), getMax_health(), getAttackDmg(), getDefence()));
     }
 
     public void load(String in) {

@@ -22,6 +22,9 @@ public Entity(int xPos, int yPos, int width, int height, int health,int maxHealt
 		this.attackDmg = attackDmg;
 		this.defence = defence;
 		this.max_health = maxHealth;
+		if(this.max_health == 0) {
+			this.max_health = 100;
+		}
 	}
 
 	public Entity(String[] props) {
@@ -58,7 +61,7 @@ private int defence;
 private int max_health;
 private boolean didDodge = false;
 
-public abstract int attack();
+public abstract int attack(int a, Entity enemy);
 
 
 	public int getMax_health() {

@@ -1,5 +1,5 @@
 package edu.cs200.gui;
-
+import edu.cs200.util.*;
 import javax.swing.*;
 
 import edu.cs200.Entity;
@@ -87,8 +87,9 @@ public class Combat extends JPanel {
     	return current_enemy;
     }
     public void attack(int playerAttack) {
-    	while((current_enemy.getHealth()>0)||(Player.getInstance().getHealth()>0)) {
     		Player.getInstance().attack(playerAttack,current_enemy);
+    	if((current_enemy.getHealth()>0)||(Player.getInstance().getHealth()>0)){
+    		goTo("Map");
     	}
     }
     private class CombatWindow extends JPanel {

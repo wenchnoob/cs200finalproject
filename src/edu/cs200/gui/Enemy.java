@@ -27,6 +27,9 @@ private int attackTypeModifier;
 
     public Enemy(int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
         super(xPos, yPos, width, height, health, maxHealth ,attackDamage, defence, orientation);
+        if(this.getMax_health()==0) {
+        	this.setMax_health(100);
+        }
     }
 
     public Enemy(String[] props) {
@@ -101,7 +104,7 @@ private int attackTypeModifier;
 	 * dodge is 3
 	 * parry is 4
 	 */
-	public int attack() {
+	public int attack(int a, Entity enemy) {
 		Random randAttack = new Random();
 		int attackType = randAttack.nextInt(100);
 	    int attackOrDefend = this.getAggressionModifier();
