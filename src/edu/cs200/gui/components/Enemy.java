@@ -1,29 +1,34 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 import edu.cs200.Entity;
 import edu.cs200.GameObject;
+import edu.cs200.gui.pages.Combat;
+import edu.cs200.gui.pages.Map;
 
 import java.awt.*;
+import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
-import java.util.function.UnaryOperator;
+import java.util.function.Consumer;
 
 import static edu.cs200.util.Helpers.goTo;
 
 public class Enemy extends Entity {
-private int aggressionModifier;
-private int attackTypeModifier;
-    private UnaryOperator<Integer> changeX = amount -> {
+    private double aggressionModifier;
+    private int attackTypeModifier;
+
+    private Consumer<Integer> changeX = (Consumer<Integer> & Serializable) (amount -> {
+
+
         xPos += amount;
         if (this.checkAllCollision()) xPos -= amount;
-        return xPos;
-    };
+    });
 
-    private UnaryOperator<Integer> changeY = amount -> {
+    private Consumer<Integer> changeY = (Consumer<Integer> & Serializable) (amount -> {
         yPos += amount;
         if (this.checkAllCollision()) yPos -= amount;
-        return yPos;
-    };
+    });
 
     public Enemy(int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
         super(xPos, yPos, width, height, health, maxHealth ,attackDamage, defence, orientation);
@@ -60,8 +65,8 @@ private int attackTypeModifier;
                 Random rand = new Random();
                 int axis = rand.nextInt() % 2;
                 if (axis == 0) {
-                    changeX.apply(rand.nextInt(11) - 5);
-                } else changeY.apply(rand.nextInt(11) - 5);
+                    changeX.accept(rand.nextInt(11) - 5);
+                } else changeY.accept(rand.nextInt(11) - 5);
                 Map.getInstance().redraw(xPos, yPos, width, height);
             }
         }).start();
@@ -87,11 +92,15 @@ private int attackTypeModifier;
         return false;
     }
 
-	public int getAggressionModifier() {
+    @Override
+    public void save(PrintWriter out) {
+        super.save(out);
+    }
+	public double getAggressionModifier() {
 		return aggressionModifier;
 	}
 
-	public void setAggressionModifier(int aggressionModifier) {
+	public void setAggressionModifier(double aggressionModifier) {
 		this.aggressionModifier = aggressionModifier;
 	}
 
@@ -107,7 +116,7 @@ private int attackTypeModifier;
 	public int attack(int a, Entity enemy) {
 		Random randAttack = new Random();
 		int attackType = randAttack.nextInt(100);
-	    int attackOrDefend = this.getAggressionModifier();
+	    double attackOrDefend = this.getAggressionModifier();
 	    int thrustOrSlash = this.getAttackTypeModifier();
 	    if(attackOrDefend < attackType) {
 	    	if(thrustOrSlash < attackType) {
@@ -135,5 +144,4 @@ private int attackTypeModifier;
 	public void setAttackTypeModifier(int attackTypeModifier) {
 		this.attackTypeModifier = attackTypeModifier;
 	}
-	
 }

@@ -1,6 +1,9 @@
 package edu.cs200;
-import edu.cs200.gui.*;
-import edu.cs200.gui.Map;
+import edu.cs200.gui.components.DrawableObject;
+import edu.cs200.gui.components.OrientedObject;
+import edu.cs200.gui.components.Portal;
+import edu.cs200.gui.components.Wall;
+import edu.cs200.gui.pages.Map;
 
 import java.awt.*;
 import java.io.*;
@@ -10,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static edu.cs200.util.Helpers.*;
 
-public class LocationDescription extends GameObject implements Serializable {
+public class LocationDescription extends GameObject {
 
 	private HashSet<DrawableObject> objects;
 

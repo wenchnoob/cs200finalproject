@@ -1,6 +1,8 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.util.HashSet;
 
@@ -8,23 +10,33 @@ import javax.swing.JOptionPane;
 
 import edu.cs200.Entity;
 import edu.cs200.GameObject;
+import edu.cs200.Persisted;
+import edu.cs200.gui.pages.Bag;
+import edu.cs200.gui.pages.Map;
 
-public class Player extends Entity {
-	private Weapon equippedWeapon;
+public class Player extends Entity implements Persisted {
+
+    private static final Long serialVersionUID = 1L;
+
+    private Weapon equippedWeapon;
 
     private static int START_X = 100;
     private static int START_Y = 300;
     private static int DIM_X = 20;
     private static int DIM_Y = 20;
 
-    private static Player self;
+    private transient static Player self;
 
     public static Player getInstance() {
         if (self == null) self = new Player();
         return self;
     }
     private Player() {
+<<<<<<< HEAD:src/edu/cs200/gui/Player.java
         super(0, 0, DIM_X, DIM_Y, 90, 100, 5, 3, EAST);
+=======
+        super(0, 0, DIM_X, DIM_Y, 90, 100, 3, 5, EAST);
+>>>>>>> ae84bc8df8b9d3eb3727a4b1fb1f00e1df9cc67c:src/edu/cs200/gui/components/Player.java
     }
 
     public void paint(Graphics g) {
@@ -62,6 +74,11 @@ public class Player extends Entity {
                 START_Y < o.yPos + yPos + o.height &&
                 START_Y + height > o.yPos + yPos) return true;
         return false;
+    }
+
+    @Override
+    public int attack() {
+        return 0;
     }
 
     public void reset() {
@@ -163,7 +180,7 @@ public class Player extends Entity {
      * slash 2
      * dodge 3
      * parry 4
-     * @param attackType gets the type of attack the player chose
+     * @param playerAttack gets the type of attack the player chose
      * @param enemy the enemy that is being attacked
      */
 
@@ -222,6 +239,23 @@ public class Player extends Entity {
     	//potential method for realism do not make a priority rn
     }
 
+
+    @Override
+    public boolean load(ObjectInputStream in) {
+        try {
+            System.out.println(self);
+            self = (Player) in.readObject();
+            System.out.println(self);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void save(PrintWriter out) {
         out.write(String.format("Player,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s;", xPos, yPos, xPos2, yPos2, width, height, getHealth(), getMax_health(), getAttackDmg(), getDefence()));
     }
@@ -238,6 +272,10 @@ public class Player extends Entity {
         setMax_health(Integer.valueOf(props[8]));
         setAttackDmg(Integer.valueOf(props[9]));
         setDefence(Integer.valueOf(props[10]));
+    }
+
+    public void resetPlayer() {
+        self = new Player();
     }
 
 }

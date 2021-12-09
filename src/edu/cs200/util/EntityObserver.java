@@ -24,15 +24,19 @@ public class EntityObserver extends JPanel implements Observer {
 
             @Override
             protected void paintComponent(Graphics g) {
+
+                int maxHealth = entity.getMax_health();
+                maxHealth = maxHealth == 0 ? 1 : maxHealth;
+
                 super.paintComponent(g);
                 g.setColor(Color.RED);
                 g.fillRect(0, 5, 500, 15);
                 g.setColor(Color.GREEN);
-                if (orientation == H) g.fillRect(0, 5, 500 * entity.getHealth() / entity.getMax_health(), 15);
+                if (orientation == H) g.fillRect(0, 5, 500 * entity.getHealth() / maxHealth, 15);
                 else
-                    g.fillRect((int) (0 + 500 * (1 - entity.getHealth() / (double) entity.getMax_health())), 5, 500 * entity.getHealth() / entity.getMax_health(), 15);
+                    g.fillRect((int) (0 + 500 * (1 - entity.getHealth() / (double) maxHealth)), 5, 500 * entity.getHealth() / maxHealth, 15);
                 g.setColor(Color.BLACK);
-                g.drawString(String.format("%d /%d", entity.getHealth(), entity.getMax_health()), 230, 18);
+                g.drawString(String.format("%d /%d", entity.getHealth(), maxHealth), 230, 18);
             }
         };
     }

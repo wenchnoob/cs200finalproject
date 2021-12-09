@@ -1,25 +1,32 @@
-package edu.cs200.gui;
+package edu.cs200.gui.pages;
 
-
+import edu.cs200.Persisted;
+import edu.cs200.gui.components.Item;
+import edu.cs200.gui.components.Player;
+import edu.cs200.gui.components.Window;
+import edu.cs200.util.SerializeableMouseAdapter;
 
 import javax.swing.*;
-
-import static edu.cs200.util.Globals.*;
-import static edu.cs200.util.Helpers.*;
-
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.PrintWriter;
-import java.util.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
-public class Bag extends Card {
+import static edu.cs200.util.Globals.BAG;
+import static edu.cs200.util.Globals.WINDOW_WIDTH;
+import static edu.cs200.util.Helpers.quatera;
+
+public class Bag extends Card implements Persisted {
+
+    private static final Long serialVersionUID = 1L;
 
     private static Bag self;
     private static int capacity = 20;
     private JLabel heading;
-    private JPanel visiualBag;
+    private JPanel visualBag;
     private GridLayout gridLayout;
     private LinkedList<Slot> slots;
 
@@ -33,6 +40,7 @@ public class Bag extends Card {
         slots = new LinkedList<>();
         mainContent.setLayout(new BorderLayout());
 
+
         JPanel headingPanel = new JPanel();
         heading = new JLabel(String.format("Your bag size %s/%s", getItemCount(), capacity));
         heading.setFont(quatera(20));
@@ -41,27 +49,29 @@ public class Bag extends Card {
         headingPanel.add(heading);
         mainContent.add(headingPanel, BorderLayout.PAGE_START);
 
-        visiualBag = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(visiualBag, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        visualBag = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(visualBag, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         mainContent.add(scrollPane, BorderLayout.CENTER);
 
         gridLayout = new GridLayout(0, 5);
         gridLayout.setHgap(2);
         gridLayout.setVgap(2);
-        visiualBag.setLayout(gridLayout);
+        visualBag.setLayout(gridLayout);
         for (int i = 0; i < capacity; i++) slots.add(new Slot());
-        drawSlots();
+        for (Slot slot: slots) visualBag.add(slot);
     }
 
     public void addSlots(int amount) {
-        visiualBag.removeAll();
-        for (int i = 0; i < amount; i++) slots.add(new Slot());
+        for (int i = 0; i < amount; i++) {
+            slots.add(new Slot());
+        }
         drawSlots();
     }
 
     private void drawSlots() {
-        for (Slot slot: slots) {
-            visiualBag.add(slot);
+        visualBag.removeAll();
+        for(Slot slot: slots) {
+            visualBag.add(slot);
         }
     }
 
@@ -82,6 +92,7 @@ public class Bag extends Card {
         for (Slot slot: slots) {
             if (slot.addItem(item, amount)) return true;
         }
+        label.setText(String.format("Your bag size %s/%s", getItemCount(), capacity));
         return false;
     }
 
@@ -100,23 +111,40 @@ public class Bag extends Card {
 
     public List<Item> allItems() {
         List<Item> items = new LinkedList<>();
-
         for (Slot slot: slots) items.add(slot.item);
-
         return items;
     }
 
-    public void save(PrintWriter out) {
-        out.write("Bag,");
-        for (Slot slot: slots) {
-
+    @Override
+    public boolean load(ObjectInputStream in) {
+        try {
+            self = (Bag) in.readObject();
+            this.heading = self.heading;
+            this.visualBag = self.visualBag;
+            this.gridLayout = self.gridLayout;
+            this.slots = self.slots;
+            this.label = self.label;
+            this.name = self.name;
+            this.mainContent = self.mainContent;
+            drawSlots();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
-    public void load(String in) {
+    public void resetBag() {
+        self = new Bag();
     }
 
-    private class Slot extends JButton {
+    private class Slot extends JButton implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
         public Item item = null;
         public int capacity = 10;
         public int amount = 0;
@@ -127,10 +155,11 @@ public class Bag extends Card {
             setMinimumSize(new Dimension(100, 200));
             setSize(new Dimension(100, 200));
             addMouseListener(
-                    new MouseAdapter() {
+                    new SerializeableMouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             super.mouseClicked(e);
+                            System.out.println(item);
                             if (item == null) return;
 
                             if (e.getButton() == MouseEvent.BUTTON1) {
@@ -157,7 +186,7 @@ public class Bag extends Card {
             if (this.item != null && this.item != item) return false;
             if (this.amount == capacity) return false;
             this.item = item;
-            this.amount+= amount;
+            this.amount += amount;
             if (this.amount > capacity) this.amount = capacity;
             setToolTipText(item.getDesc());
             return true;
@@ -188,5 +217,11 @@ public class Bag extends Card {
             g.drawString(item.getName(), 50, 100);
             g.drawString(String.valueOf(amount), 70, 150);
         }
+
+        public String toString() {
+            if (item != null) return item.getName();
+            return "";
+        }
     }
+
 }

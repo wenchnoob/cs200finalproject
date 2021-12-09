@@ -1,15 +1,15 @@
 package edu.cs200;
 
-import edu.cs200.gui.DrawableObject;
-import edu.cs200.gui.Map;
-import edu.cs200.gui.OrientedObject;
+import edu.cs200.gui.components.DrawableObject;
+import edu.cs200.gui.pages.Map;
+import edu.cs200.gui.components.OrientedObject;
 import edu.cs200.util.Observable;
 import edu.cs200.util.Observer;
 
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public abstract class Entity extends OrientedObject implements Observable {
 
@@ -17,7 +17,7 @@ public abstract class Entity extends OrientedObject implements Observable {
 	
 	
 public Entity(int xPos, int yPos, int width, int height, int health,int maxHealth, int attackDmg, int defence, int orientation) {
-		super(xPos, yPos, width, height,orientation);
+		super(xPos, yPos, width, height, orientation);
 		this.health = health;
 		this.attackDmg = attackDmg;
 		this.defence = defence;
@@ -152,5 +152,10 @@ public boolean isAlive() {
 	public void notifyObservers() {
 		if (observers != null)
 			for (Observer obs: observers) obs.getUpdate(this);
+	}
+
+	public void save(PrintWriter out) {
+		super.save(out);
+		out.write(String.format("%s,%s,%s,%s,", getHealth(), max_health, getAttackDmg(), getDefence()));
 	}
 }

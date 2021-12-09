@@ -1,5 +1,7 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
+
+import java.io.PrintWriter;
 
 public abstract class OrientedObject extends DrawableObject {
 
@@ -116,6 +118,10 @@ public abstract class OrientedObject extends DrawableObject {
         double xCenter = (xPos2 + xPos)/2.0;
         double yCenter = (yPos2 + yPos)/2.0;
         rotate(angle, xCenter, yCenter);
+    }
+
+    public void save(PrintWriter out) {
+        super.save(out);
     }
 
 }

@@ -1,9 +1,10 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 
 import edu.cs200.GameObject;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.function.Consumer;
 
 public class Potion extends Item {
@@ -33,25 +34,25 @@ public class Potion extends Item {
 	private Consumer<GameObject> parseEffect(String effect) {
 		switch (effect) {
 			case "HEAL":
-				return obj -> {
+				return (Consumer<GameObject> & Serializable)  obj -> {
 					if (obj instanceof Player) {
 						Player.getInstance().heal(value);
 					}
 				};
 			case "ATTACK_UP":
-				return obj -> {
+				return (Consumer<GameObject> & Serializable) obj -> {
 					if (obj instanceof Player) {
 						Player.getInstance().attackUp(value);
 					}
 				};
 			case "DEFENCE_UP":
-				return obj -> {
+				return (Consumer<GameObject> & Serializable) obj -> {
 					if (obj instanceof Player) {
 						Player.getInstance().defenceUp(value);
 					}
 				};
 		}
-		return obj -> {};
+		return (Consumer<GameObject> & Serializable) obj -> {};
 	}
 
 	public int getValue() {

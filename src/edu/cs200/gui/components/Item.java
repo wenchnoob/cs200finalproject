@@ -1,17 +1,21 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 import edu.cs200.GameObject;
-
-import java.io.PrintWriter;
+import edu.cs200.gui.pages.Bag;
+import edu.cs200.gui.pages.Map;
 
 public abstract class Item extends DrawableObject {
 
-    public Item(int xPos, int yPos, int width, int height) {
-        super(xPos, yPos, width, height);
+    protected String desc;
+
+    public Item(String name, int xPos, int yPos, int width, int height, String desc) {
+        super(name, xPos, yPos, width, height);
+        this.desc = desc;
     }
 
     public Item(String[] props) {
         super(props);
+        this.desc = props[props.length - 1];
     }
 
     public abstract String getType();
@@ -20,7 +24,7 @@ public abstract class Item extends DrawableObject {
     public abstract void use(GameObject obj);
 
     public  String getDesc() {
-        return "Just an Item bud";
+        return desc;
     }
 
     @Override
@@ -31,8 +35,7 @@ public abstract class Item extends DrawableObject {
         return false;
     }
 
-    public void save(PrintWriter out) {
-        out.write(String.format("Item,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s.", getName(), xPos, yPos, xPos2, yPos2, width, height, getType(), getValue(), getDesc()));
+    public String toString() {
+        return getName();
     }
-
 } 
