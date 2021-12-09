@@ -3,21 +3,20 @@ package edu.cs200;
 import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.pages.Map;
 import edu.cs200.gui.components.OrientedObject;
-import edu.cs200.util.Observable;
-import edu.cs200.util.Observer;
+import edu.cs200.gui.components.entities.Enemy;
 
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-
+import edu.cs200.gui.components.utils.*;
 public abstract class Entity extends OrientedObject implements Observable {
 
 	private List<Observer> observers;
 	
 	
-public Entity(int xPos, int yPos, int width, int height, int health,int maxHealth, int attackDmg, int defence, int orientation) {
-		super(xPos, yPos, width, height, orientation);
+public Entity(String name, int xPos, int yPos, int width, int height, int health,int maxHealth, int attackDmg, int defence, int orientation) {
+		super(name, xPos, yPos, width, height, orientation);
 		this.health = health;
 		this.attackDmg = attackDmg;
 		this.defence = defence;
@@ -61,7 +60,7 @@ private int defence;
 private int max_health;
 private boolean didDodge = false;
 
-public abstract int attack(int a, Entity enemy);
+public abstract int attack(int a, Enemy enemy);
 
 
 	public int getMax_health() {

@@ -1,18 +1,17 @@
 package edu.cs200.gui.components;
 
 import edu.cs200.GameObject;
+import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.pages.Map;
 
 import java.awt.*;
 
 public class Portal extends DrawableObject {
-    private static String name = "PORTAL";
     private String from;
     private String to;
 
     public Portal(int xPos, int yPos, int width, int height) {
-        super(xPos, yPos, width, height);
-        this.name = "PORTAL";
+        super("Portal", xPos, yPos, width, height);
     }
 
     public Portal(String[] props) {

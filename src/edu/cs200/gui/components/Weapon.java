@@ -1,6 +1,7 @@
 package edu.cs200.gui.components;
 
 import edu.cs200.GameObject;
+import edu.cs200.gui.components.entities.Player;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,15 +9,17 @@ import java.awt.Graphics;
 
 public class Weapon extends Item {
 
-	private int damage = 5;
+	protected int damage;
 	private String type = "Damage";
 
-	public Weapon(int xPos, int yPos, int width, int height) {
-		super(xPos, yPos, width, height);
+	public Weapon(String name, int xPos, int yPos, int width, int height, int damage, String desc) {
+		super(name, xPos, yPos, width, height, desc);
+		this.damage = damage;
 	}
 
 	public Weapon(String[] props) {
 		super(props);
+		this.damage = Integer.parseInt(props[6]);
 	}
 
 

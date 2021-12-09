@@ -9,7 +9,7 @@ public class Wall extends OrientedObject {
     private static final int WALL_HEIGHT = 5;
 
     public  Wall(int xPos, int yPos, int length, int orientation) {
-        super(xPos, yPos, length, WALL_HEIGHT, orientation);
+        super("Wall", xPos, yPos, length, WALL_HEIGHT, orientation);
     }
 
     public Wall(String[] props) {
@@ -25,4 +25,6 @@ public class Wall extends OrientedObject {
     public boolean handleCollision(GameObject object) {
         return false;
     }
+
+
 }

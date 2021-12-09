@@ -15,6 +15,10 @@ public abstract class GameObject implements Serializable {
         this.name = name;
     }
 
+    public GameObject(String[] props) {
+        this.name = props[1];
+    }
+
     public String getName() {
         return this.name;
     }
