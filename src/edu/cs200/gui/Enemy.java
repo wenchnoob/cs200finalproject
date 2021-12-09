@@ -14,7 +14,7 @@ import java.util.function.UnaryOperator;
 import static edu.cs200.util.Helpers.goTo;
 
 public class Enemy extends Entity {
-    private int aggressionModifier;
+    private double aggressionModifier;
     private int attackTypeModifier;
 
     private Consumer<Integer> changeX = (Consumer<Integer> & Serializable) (amount -> {
@@ -92,11 +92,11 @@ public class Enemy extends Entity {
     public void save(PrintWriter out) {
         super.save(out);
     }
-	public int getAggressionModifier() {
+	public double getAggressionModifier() {
 		return aggressionModifier;
 	}
 
-	public void setAggressionModifier(int aggressionModifier) {
+	public void setAggressionModifier(double aggressionModifier) {
 		this.aggressionModifier = aggressionModifier;
 	}
 
@@ -112,7 +112,7 @@ public class Enemy extends Entity {
 	public int attack() {
 		Random randAttack = new Random();
 		int attackType = randAttack.nextInt(100);
-	    int attackOrDefend = this.getAggressionModifier();
+	    double attackOrDefend = this.getAggressionModifier();
 	    int thrustOrSlash = this.getAttackTypeModifier();
 	    if(attackOrDefend < attackType) {
 	    	if(thrustOrSlash < attackType) {

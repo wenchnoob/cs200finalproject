@@ -18,7 +18,7 @@ public abstract class Entity extends OrientedObject implements Observable {
 	
 	
 public Entity(int xPos, int yPos, int width, int height, int health,int maxHealth, int attackDmg, int defence, int orientation) {
-		super(xPos, yPos, width, height,orientation);
+		super(xPos, yPos, width, height, orientation);
 		this.health = health;
 		this.attackDmg = attackDmg;
 		this.defence = defence;

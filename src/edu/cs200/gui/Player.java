@@ -30,7 +30,7 @@ public class Player extends Entity implements Persisted {
         return self;
     }
     private Player() {
-        super(0, 0, DIM_X, DIM_Y, 90, 5, 3, EAST, DIM_X);
+        super(0, 0, DIM_X, DIM_Y, 90, 5, 3, 5, EAST);
     }
 
     public void paint(Graphics g) {

@@ -6,7 +6,8 @@ import edu.cs200.gui.Enemy;
 
 public class Skeleton extends Enemy {
 
-	public Skeleton() {
+	public Skeleton(int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
+		super(xPos, yPos, width, height, health, maxHealth, attackDamage, defence, orientation);
 		this.setAggressionModifier(0.5);
 		// TODO Auto-generated constructor stub
 	}
