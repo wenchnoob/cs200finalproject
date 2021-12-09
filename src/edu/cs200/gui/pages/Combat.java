@@ -93,15 +93,10 @@ public class Combat extends JPanel {
     }
 
     public void attack(int playerAttack) {
-<<<<<<< HEAD:src/edu/cs200/gui/Combat.java
-    		Player.getInstance().attack(playerAttack,current_enemy);
-    	if((current_enemy.getHealth()>0)||(Player.getInstance().getHealth()>0)){
-    		goTo("Map");
-    	}
-=======
+
         Player.getInstance().attack(playerAttack,currentEnemy);
         if (Player.getInstance().getHealth() <= 0 || currentEnemy.getHealth() <= 0) endCombat();
->>>>>>> ae84bc8df8b9d3eb3727a4b1fb1f00e1df9cc67c:src/edu/cs200/gui/pages/Combat.java
+
     }
 
     public void endCombat() {
