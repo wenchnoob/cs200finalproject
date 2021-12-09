@@ -1,6 +1,7 @@
 package edu.cs200.gui.components;
 
 import edu.cs200.GameObject;
+import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.pages.Bag;
 import edu.cs200.gui.pages.Map;
 
@@ -35,7 +36,4 @@ public abstract class Item extends DrawableObject {
         return false;
     }
 
-    public String toString() {
-        return getName();
-    }
 } 

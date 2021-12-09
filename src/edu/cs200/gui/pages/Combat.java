@@ -2,13 +2,13 @@ package edu.cs200.gui.pages;
 
 import javax.swing.*;
 
-import edu.cs200.Entity;
-import edu.cs200.gui.components.Enemy;
-import edu.cs200.gui.components.Player;
-import edu.cs200.util.EntityObserver;
+import edu.cs200.gui.components.entities.Entity;
+import edu.cs200.gui.components.entities.Enemy;
+import edu.cs200.gui.components.entities.Player;
+import edu.cs200.gui.components.utils.EntityObserver;
 
-import static edu.cs200.util.Globals.*;
-import static edu.cs200.util.Helpers.*;
+import static edu.cs200.utils.Globals.*;
+import static edu.cs200.utils.Helpers.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -93,7 +93,16 @@ public class Combat extends JPanel {
     }
 
     public void endCombat() {
+        if (!currentEnemy.isAlive()) {
+            currentEnemy.die();
+        }
+
+        if (!Player.getInstance().isAlive()){
+            Player.getInstance().die();
+            // end the game
+        }
         goTo(MAP);
+        currentEnemy = null;
     }
 
     private class CombatWindow extends JPanel {

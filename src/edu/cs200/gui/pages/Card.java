@@ -1,10 +1,10 @@
 package edu.cs200.gui.pages;
 
 import edu.cs200.gui.components.Window;
-import edu.cs200.util.Helpers;
+import edu.cs200.utils.Helpers;
 
-import static edu.cs200.util.Globals.*;
-import static edu.cs200.util.Helpers.*;
+import static edu.cs200.utils.Globals.*;
+import static edu.cs200.utils.Helpers.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

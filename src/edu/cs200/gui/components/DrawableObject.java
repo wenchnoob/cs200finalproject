@@ -1,7 +1,7 @@
 package edu.cs200.gui.components;
 
 import java.awt.*;
-import java.io.PrintWriter;
+import java.util.Objects;
 
 import edu.cs200.GameObject;
 
@@ -13,18 +13,24 @@ public abstract class DrawableObject extends GameObject {
         super(name);
         this.xPos = xPos;
         this.yPos = yPos;
-        this.xPos2 = xPos + width;
-        this.yPos2 = yPos + height;
         this.width = width;
         this.height = height;
+        this.xPos2 = xPos + width;
+        this.yPos2 = yPos + height;
     }
 
     public DrawableObject(String[] props) {
-        this(props[1], parse(props[2]), parse(props[3]), parse(props[4]), parse(props[5]));
+        super(props);
+        this.xPos = parse(props[2]);
+        this.yPos = parse(props[3]);
+        this.width = parse(props[4]);
+        this.height = parse(props[5]);
+        this.xPos2 = this.xPos + width;
+        this.yPos2 = this.yPos + height;
     }
 
     protected static int parse(String val) {
-        return Integer.valueOf(val);
+        return Integer.parseInt(val);
     }
 
     public abstract void paintWithOffset(Graphics g, int xOffset, int yOffset);
@@ -43,10 +49,6 @@ public abstract class DrawableObject extends GameObject {
         boolean bottomRightInBounds = btInView && rlInView;
 
         return topLeftInBounds || bottomRightInBounds;
-    }
-
-    public void save(PrintWriter out) {
-        out.write(String.format("%s,%s,%s,%s,%s,%s;", xPos, yPos, xPos2, yPos2, width, height));
     }
 
     public int getxPos() {
@@ -95,5 +97,23 @@ public abstract class DrawableObject extends GameObject {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, xPos, yPos, xPos2, yPos2, width, height);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DrawableObject)) return false;
+        DrawableObject dobj = (DrawableObject) obj;
+        return this.getName().equals(dobj.getName()) &&
+                getxPos() == dobj.getxPos() &&
+                getyPos() == dobj.getyPos() &&
+                getxPos2() == dobj.getxPos2() &&
+                getyPos2() == dobj.getyPos2() &&
+                getWidth() == getHeight() &&
+                getWidth() == getHeight();
     }
 }

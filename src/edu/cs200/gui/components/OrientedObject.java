@@ -1,8 +1,5 @@
 package edu.cs200.gui.components;
 
-
-import java.io.PrintWriter;
-
 public abstract class OrientedObject extends DrawableObject {
 
     protected int orientation;
@@ -12,12 +9,12 @@ public abstract class OrientedObject extends DrawableObject {
     public static final String CENTER = "CENTER", TOP_LEFT = "TOP_LEFT";
 
 
-    public OrientedObject(int xPos, int yPos, int width, int height, int orientation) {
-        this(xPos, yPos, width, height, orientation, TOP_LEFT);
+    public OrientedObject(String name, int xPos, int yPos, int width, int height, int orientation) {
+        this(name, xPos, yPos, width, height, orientation, TOP_LEFT);
     }
 
-    public OrientedObject(int xPos, int yPos, int width, int height, int orientation, String rotation_type) {
-        super(xPos, yPos, width, height);
+    public OrientedObject(String name, int xPos, int yPos, int width, int height, int orientation, String rotation_type) {
+        super(name, xPos, yPos, width, height);
         this.rotation_type = rotation_type;
         orient(orientation);
     }
@@ -32,7 +29,7 @@ public abstract class OrientedObject extends DrawableObject {
     public OrientedObject(String[] props) {
         super(props);
         this.rotation_type = TOP_LEFT;
-        orient(parseOrientation(props[5]));
+        orient(parseOrientation(props[6]));
     }
 
 
@@ -119,9 +116,4 @@ public abstract class OrientedObject extends DrawableObject {
         double yCenter = (yPos2 + yPos)/2.0;
         rotate(angle, xCenter, yCenter);
     }
-
-    public void save(PrintWriter out) {
-        super.save(out);
-    }
-
 }

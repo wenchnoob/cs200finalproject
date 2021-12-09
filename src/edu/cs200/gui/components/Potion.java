@@ -2,6 +2,7 @@ package edu.cs200.gui.components;
 
 
 import edu.cs200.GameObject;
+import edu.cs200.gui.components.entities.Player;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -13,22 +14,22 @@ public class Potion extends Item {
 	private int value;
 	private Consumer<GameObject> effect;
 
-	public Potion(int xPos, int yPos, int width, int height, int value) {
-		super(xPos, yPos, width, height);
+	public Potion(String name, int xPos, int yPos, int width, int height, int value, String desc) {
+		super(name, xPos, yPos, width, height, desc);
 		this.value = value;
 	}
 
-	public Potion(int xPos, int yPos, int width, int height, int value, String type) {
-		this(xPos, yPos, width, height, value);
+	public Potion(String name, int xPos, int yPos, int width, int height, int value, String type, String desc) {
+		this(name, xPos, yPos, width, height, value, desc);
 		this.type = type;
 		this.effect = parseEffect(type);
 	}
 
 	public Potion(String[] props) {
 		super(props);
-		this.value = Integer.parseInt(props[5]);
-		this.type = props[6];
-		this.effect = parseEffect(props[6]);
+		this.value = Integer.parseInt(props[6]);
+		this.type = props[7];
+		this.effect = parseEffect(props[7]);
 	}
 
 	private Consumer<GameObject> parseEffect(String effect) {

@@ -1,10 +1,10 @@
 package edu.cs200.gui.pages;
 
-import edu.cs200.Persisted;
+import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.components.Item;
-import edu.cs200.gui.components.Player;
+import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.Window;
-import edu.cs200.util.SerializeableMouseAdapter;
+import edu.cs200.gui.utils.SerializeableMouseAdapter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +15,9 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import static edu.cs200.util.Globals.BAG;
-import static edu.cs200.util.Globals.WINDOW_WIDTH;
-import static edu.cs200.util.Helpers.quatera;
+import static edu.cs200.utils.Globals.BAG;
+import static edu.cs200.utils.Globals.WINDOW_WIDTH;
+import static edu.cs200.utils.Helpers.quatera;
 
 public class Bag extends Card implements Persisted {
 

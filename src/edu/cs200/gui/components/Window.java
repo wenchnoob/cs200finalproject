@@ -4,12 +4,12 @@ import edu.cs200.gui.pages.Bag;
 import edu.cs200.gui.pages.Combat;
 import edu.cs200.gui.pages.Home;
 import edu.cs200.gui.pages.Map;
-import edu.cs200.util.Helpers;
+import edu.cs200.utils.Helpers;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static edu.cs200.util.Globals.*;
+import static edu.cs200.utils.Globals.*;
 
 public class Window {
 

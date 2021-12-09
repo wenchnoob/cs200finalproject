@@ -1,16 +1,16 @@
 package edu.cs200.gui.pages;
 
 import edu.cs200.Game;
-import edu.cs200.gui.components.Player;
+import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.Window;
-import edu.cs200.util.Helpers;
+import edu.cs200.utils.Helpers;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 
-import static edu.cs200.util.Globals.MAP;
+import static edu.cs200.utils.Globals.MAP;
 
 public class Home extends JPanel {
 

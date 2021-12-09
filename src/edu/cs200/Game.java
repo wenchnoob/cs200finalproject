@@ -1,8 +1,8 @@
 package edu.cs200;
 
 import edu.cs200.gui.components.Window;
-import edu.cs200.util.Helpers;
-import edu.cs200.util.Setup;
+import edu.cs200.utils.Helpers;
+import edu.cs200.gui.utils.Setup;
 
 import javax.swing.*;
 
