@@ -1,12 +1,12 @@
-package edu.cs200.gui;
+package edu.cs200.gui.pages;
 
+import edu.cs200.gui.components.Window;
 import edu.cs200.util.Helpers;
 
 import static edu.cs200.util.Globals.*;
 import static edu.cs200.util.Helpers.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 
@@ -47,9 +47,9 @@ public class Card extends JPanel {
         save.addActionListener((ActionListener & Serializable) action -> {
             boolean saved = Helpers.save();
             if (!saved) {
-                JOptionPane.showConfirmDialog(edu.cs200.gui.Window.getInstance().getFrame(), "Saving has failed!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Saving has failed!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showConfirmDialog(edu.cs200.gui.Window.getInstance().getFrame(), "Saved!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Saved!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -57,14 +57,14 @@ public class Card extends JPanel {
         load.addActionListener((ActionListener & Serializable) action -> {
             boolean loaded = Helpers.load();
             if (!loaded) {
-                JOptionPane.showConfirmDialog(edu.cs200.gui.Window.getInstance().getFrame(), "Loading has failed!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Loading has failed!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showConfirmDialog(edu.cs200.gui.Window.getInstance().getFrame(), "Loaded!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Loaded!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
-        JButton reset = new JButton("Reset");
-        reset.addActionListener((ActionListener & Serializable) action -> {});
+        JButton home = new JButton("Home");
+        home.addActionListener((ActionListener & Serializable) action -> goTo("Home"));
         
         
 
@@ -72,7 +72,7 @@ public class Card extends JPanel {
         leftPane.add(bagButton);
         leftPane.add(save);
         leftPane.add(load);
-        leftPane.add(reset);
+        leftPane.add(home);
         
         add(top, BorderLayout.PAGE_START);
         add(leftPane, BorderLayout.LINE_START);

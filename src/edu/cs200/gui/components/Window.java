@@ -1,5 +1,9 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
+import edu.cs200.gui.pages.Bag;
+import edu.cs200.gui.pages.Combat;
+import edu.cs200.gui.pages.Home;
+import edu.cs200.gui.pages.Map;
 import edu.cs200.util.Helpers;
 
 import javax.swing.*;

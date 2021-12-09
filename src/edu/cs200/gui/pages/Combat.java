@@ -1,24 +1,23 @@
-package edu.cs200.gui;
+package edu.cs200.gui.pages;
 
 import javax.swing.*;
 
 import edu.cs200.Entity;
-import edu.cs200.GameObject;
+import edu.cs200.gui.components.Enemy;
+import edu.cs200.gui.components.Player;
 import edu.cs200.util.EntityObserver;
-import edu.cs200.util.Observer;
 
 import static edu.cs200.util.Globals.*;
 import static edu.cs200.util.Helpers.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.*;
-import java.util.Map;
 
 public class Combat extends JPanel {
 
-    private Entity current_enemy;
+    private Entity currentEnemy;
 
     private static Combat self;
 
@@ -29,16 +28,16 @@ public class Combat extends JPanel {
         return self;
     }
 
-    public void setCurrent_enemy(Enemy current_enemy) {
-        this.current_enemy = current_enemy;
+    public void setCurrentEnemy(Enemy currentEnemy) {
+        this.currentEnemy = currentEnemy;
 
         JPanel top = new JPanel();
         top.add(new EntityObserver(Player.getInstance()));
-        top.add(new EntityObserver(current_enemy, EntityObserver.HEALTH, EntityObserver.V));
+        top.add(new EntityObserver(currentEnemy, EntityObserver.HEALTH, EntityObserver.V));
         add(top, BorderLayout.PAGE_START);
 
         add(new EntityObserver(Player.getInstance(), EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_START);
-        add(new EntityObserver(current_enemy, EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_END);
+        add(new EntityObserver(currentEnemy, EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_END);
     }
 
     private Combat() {
@@ -48,27 +47,27 @@ public class Combat extends JPanel {
         JPanel bottom = new JPanel();
 
         JButton thrustButton = new JButton("Thrust");
-        thrustButton.addActionListener(action ->{
+        thrustButton.addActionListener((ActionListener & Serializable) action ->{
         	attack(1);
         });
 
         JButton slashButton = new JButton("Slash");
-        slashButton.addActionListener(action ->{
+        slashButton.addActionListener((ActionListener & Serializable) action ->{
         	attack(2);
         });
 
         JButton dodgeButton = new JButton("Dodge");
-        dodgeButton.addActionListener(action ->{
+        dodgeButton.addActionListener((ActionListener & Serializable) action ->{
         	attack(3);
         });
         
         JButton parryButton = new JButton("Parry");
-        parryButton.addActionListener(action ->{
+        parryButton.addActionListener((ActionListener & Serializable) action ->{
         	attack(4);
         });
 
         JButton flee = new JButton("Flee");
-        flee.addActionListener(action -> {
+        flee.addActionListener((ActionListener & Serializable) action -> {
         	if (new Random().nextInt(100) % 2 == 0) {
         		goTo(MAP);
 			} else {
@@ -83,14 +82,20 @@ public class Combat extends JPanel {
         bottom.add(flee);
         add(bottom, BorderLayout.PAGE_END);
     }
+
     public Entity getCurrentEnemy() {
-    	return current_enemy;
+    	return currentEnemy;
     }
+
     public void attack(int playerAttack) {
-    	while((current_enemy.getHealth()>0)||(Player.getInstance().getHealth()>0)) {
-    		Player.getInstance().attack(playerAttack,current_enemy);
-    	}
+        Player.getInstance().attack(playerAttack,currentEnemy);
+        if (Player.getInstance().getHealth() <= 0 || currentEnemy.getHealth() <= 0) endCombat();
     }
+
+    public void endCombat() {
+        goTo(MAP);
+    }
+
     private class CombatWindow extends JPanel {
         public CombatWindow() {
             setBackground(Color.GRAY);
@@ -100,7 +105,7 @@ public class Combat extends JPanel {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Player.getInstance().paint(g);
-            current_enemy.paintWithOffset(g, -800, 10);
+            currentEnemy.paintWithOffset(g, -800, 10);
         }
     }
 

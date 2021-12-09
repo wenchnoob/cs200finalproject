@@ -1,8 +1,10 @@
-package edu.cs200.gui;
+package edu.cs200.gui.pages;
 
 import edu.cs200.GameObject;
 import edu.cs200.LocationDescription;
 import edu.cs200.Persisted;
+import edu.cs200.gui.components.DrawableObject;
+import edu.cs200.gui.components.Player;
 import edu.cs200.util.EntityObserver;
 import edu.cs200.util.SerializeableKeyAdapter;
 import edu.cs200.util.SerializeableMouseAdapter;
@@ -10,9 +12,7 @@ import edu.cs200.util.SerializeableMouseAdapter;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -116,6 +116,10 @@ public class Map extends Card implements Persisted {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void resetMap() {
+        self = new Map();
     }
 
     private class VisualMap extends JPanel {

@@ -1,8 +1,8 @@
 package edu.cs200;
 
-import edu.cs200.gui.DrawableObject;
-import edu.cs200.gui.Map;
-import edu.cs200.gui.OrientedObject;
+import edu.cs200.gui.components.DrawableObject;
+import edu.cs200.gui.pages.Map;
+import edu.cs200.gui.components.OrientedObject;
 import edu.cs200.util.Observable;
 import edu.cs200.util.Observer;
 
@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public abstract class Entity extends OrientedObject implements Observable {
 

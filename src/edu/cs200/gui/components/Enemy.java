@@ -1,7 +1,9 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 import edu.cs200.Entity;
 import edu.cs200.GameObject;
+import edu.cs200.gui.pages.Combat;
+import edu.cs200.gui.pages.Map;
 
 import java.awt.*;
 import java.io.PrintWriter;
@@ -9,7 +11,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
 
 import static edu.cs200.util.Helpers.goTo;
 

@@ -1,4 +1,4 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 import java.awt.*;
 import java.io.PrintWriter;
@@ -7,10 +7,10 @@ import edu.cs200.GameObject;
 
 public abstract class DrawableObject extends GameObject {
 
-    private static String name = "DRAWABLE_OBJECT";
     protected int xPos, yPos, xPos2, yPos2, width, height;
 
-    public DrawableObject(int xPos, int yPos, int width, int height) {
+    public DrawableObject(String name, int xPos, int yPos, int width, int height) {
+        super(name);
         this.xPos = xPos;
         this.yPos = yPos;
         this.xPos2 = xPos + width;
@@ -20,10 +20,10 @@ public abstract class DrawableObject extends GameObject {
     }
 
     public DrawableObject(String[] props) {
-        this(parse(props[1]), parse(props[2]), parse(props[3]), parse(props[4]));
+        this(props[1], parse(props[2]), parse(props[3]), parse(props[4]), parse(props[5]));
     }
 
-    private static int parse(String val) {
+    protected static int parse(String val) {
         return Integer.valueOf(val);
     }
 
@@ -47,10 +47,6 @@ public abstract class DrawableObject extends GameObject {
 
     public void save(PrintWriter out) {
         out.write(String.format("%s,%s,%s,%s,%s,%s;", xPos, yPos, xPos2, yPos2, width, height));
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public int getxPos() {

@@ -1,7 +1,9 @@
 package edu.cs200.util;
 
-import edu.cs200.gui.*;
-import edu.cs200.gui.Window;
+import edu.cs200.gui.components.*;
+import edu.cs200.gui.components.Window;
+import edu.cs200.gui.pages.Bag;
+import edu.cs200.gui.pages.Map;
 
 import javax.swing.*;
 import java.awt.*;

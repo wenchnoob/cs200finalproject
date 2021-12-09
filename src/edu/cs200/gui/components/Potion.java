@@ -1,11 +1,10 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 
 import edu.cs200.GameObject;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.SplittableRandom;
 import java.util.function.Consumer;
 
 public class Potion extends Item {

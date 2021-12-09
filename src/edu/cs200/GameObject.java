@@ -1,26 +1,28 @@
 package edu.cs200;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public abstract class GameObject implements Serializable {
 
-    private static String name = "Game Object";
+    protected final String name;
 
     public GameObject() {
-	this("non");
-}
+        this("GameObject");
+    }
 
     public GameObject(String name) {
-	this.name = name;
-}
+        this.name = name;
+    }
 
     public String getName() {
-    return this.name;
-}
+        return this.name;
+    }
 
-    public void setName(String name) {
-   this.name = name;
-}
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 
     @Override
     public boolean equals(Object obj) {

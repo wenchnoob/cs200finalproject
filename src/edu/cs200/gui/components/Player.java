@@ -1,4 +1,4 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 import java.awt.*;
 import java.io.IOException;
@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import edu.cs200.Entity;
 import edu.cs200.GameObject;
 import edu.cs200.Persisted;
+import edu.cs200.gui.pages.Bag;
+import edu.cs200.gui.pages.Map;
 
 public class Player extends Entity implements Persisted {
 
@@ -30,7 +32,7 @@ public class Player extends Entity implements Persisted {
         return self;
     }
     private Player() {
-        super(0, 0, DIM_X, DIM_Y, 90, 5, 3, 5, EAST);
+        super(0, 0, DIM_X, DIM_Y, 90, 100, 3, 5, EAST);
     }
 
     public void paint(Graphics g) {
@@ -266,6 +268,10 @@ public class Player extends Entity implements Persisted {
         setMax_health(Integer.valueOf(props[8]));
         setAttackDmg(Integer.valueOf(props[9]));
         setDefence(Integer.valueOf(props[10]));
+    }
+
+    public void resetPlayer() {
+        self = new Player();
     }
 
 }

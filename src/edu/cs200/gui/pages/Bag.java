@@ -1,11 +1,13 @@
-package edu.cs200.gui;
+package edu.cs200.gui.pages;
 
 import edu.cs200.Persisted;
+import edu.cs200.gui.components.Item;
+import edu.cs200.gui.components.Player;
+import edu.cs200.gui.components.Window;
 import edu.cs200.util.SerializeableMouseAdapter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -24,7 +26,7 @@ public class Bag extends Card implements Persisted {
     private static Bag self;
     private static int capacity = 20;
     private JLabel heading;
-    private JPanel visiualBag;
+    private JPanel visualBag;
     private GridLayout gridLayout;
     private LinkedList<Slot> slots;
 
@@ -47,17 +49,16 @@ public class Bag extends Card implements Persisted {
         headingPanel.add(heading);
         mainContent.add(headingPanel, BorderLayout.PAGE_START);
 
-        visiualBag = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(visiualBag, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        visualBag = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(visualBag, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         mainContent.add(scrollPane, BorderLayout.CENTER);
 
         gridLayout = new GridLayout(0, 5);
         gridLayout.setHgap(2);
         gridLayout.setVgap(2);
-        visiualBag.setLayout(gridLayout);
+        visualBag.setLayout(gridLayout);
         for (int i = 0; i < capacity; i++) slots.add(new Slot());
-        for (Slot slot: slots) visiualBag.add(slot);
-        //drawSlots();
+        for (Slot slot: slots) visualBag.add(slot);
     }
 
     public void addSlots(int amount) {
@@ -68,9 +69,9 @@ public class Bag extends Card implements Persisted {
     }
 
     private void drawSlots() {
-        visiualBag.removeAll();
+        visualBag.removeAll();
         for(Slot slot: slots) {
-            visiualBag.add(slot);
+            visualBag.add(slot);
         }
     }
 
@@ -91,6 +92,7 @@ public class Bag extends Card implements Persisted {
         for (Slot slot: slots) {
             if (slot.addItem(item, amount)) return true;
         }
+        label.setText(String.format("Your bag size %s/%s", getItemCount(), capacity));
         return false;
     }
 
@@ -118,7 +120,7 @@ public class Bag extends Card implements Persisted {
         try {
             self = (Bag) in.readObject();
             this.heading = self.heading;
-            this.visiualBag = self.visiualBag;
+            this.visualBag = self.visualBag;
             this.gridLayout = self.gridLayout;
             this.slots = self.slots;
             this.label = self.label;
@@ -135,6 +137,10 @@ public class Bag extends Card implements Persisted {
         }
     }
 
+    public void resetBag() {
+        self = new Bag();
+    }
+
     private class Slot extends JButton implements Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -142,11 +148,6 @@ public class Bag extends Card implements Persisted {
         public Item item = null;
         public int capacity = 10;
         public int amount = 0;
-
-        private class SlotListener extends MouseAdapter implements Serializable {
-            private static final long serialVersionUID = 1L;
-
-        }
 
         public Slot() {
             setPreferredSize(new Dimension(100, 200));

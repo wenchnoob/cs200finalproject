@@ -1,4 +1,4 @@
-package edu.cs200.gui;
+package edu.cs200.gui.components;
 
 
 import java.io.PrintWriter;

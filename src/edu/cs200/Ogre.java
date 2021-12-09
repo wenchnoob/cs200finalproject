@@ -2,7 +2,7 @@ package edu.cs200;
 
 import java.awt.Graphics;
 
-import edu.cs200.gui.Enemy;
+import edu.cs200.gui.components.Enemy;
 
 public class Ogre extends Enemy{
 
