@@ -1,5 +1,7 @@
 package edu.cs200.gui;
 
+import edu.cs200.util.Helpers;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -25,11 +27,7 @@ public class Window {
 
 
         layoutManager = new CardLayout();
-        frame.setLayout(layoutManager);
-
-        frame.add(Map.getInstance(), MAP);
-        frame.add(Bag.getInstance(), BAG);
-        frame.add(Combat.getInstance(), "Combat");
+        init();
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -37,6 +35,24 @@ public class Window {
         frame.setLocationRelativeTo(null);
         frame.setFocusable(true);
         frame.setVisible(true);
+    }
+
+    private void init() {
+        frame.setLayout(layoutManager);
+
+        frame.add(Map.getInstance(), MAP);
+        frame.add(Bag.getInstance(), BAG);
+        frame.add(Combat.getInstance(), "Combat");
+        frame.add(Home.getInstance(), "Home");
+    }
+
+    public void reset() {
+        frame.remove(Map.getInstance());
+        frame.remove(Bag.getInstance());
+        frame.remove(Combat.getInstance());
+        frame.remove(Home.getInstance());
+        init();
+        Helpers.goTo("Home");
     }
 
     public JFrame getFrame() {

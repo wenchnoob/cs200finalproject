@@ -4,25 +4,26 @@ import edu.cs200.Entity;
 import edu.cs200.GameObject;
 
 import java.awt.*;
+import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 import static edu.cs200.util.Helpers.goTo;
 
 public class Enemy extends Entity {
 
-    private UnaryOperator<Integer> changeX = amount -> {
+    private Consumer<Integer> changeX = (Consumer<Integer> & Serializable) (amount -> {
         xPos += amount;
         if (this.checkAllCollision()) xPos -= amount;
-        return xPos;
-    };
+    });
 
-    private UnaryOperator<Integer> changeY = amount -> {
+    private Consumer<Integer> changeY = (Consumer<Integer> & Serializable) (amount -> {
         yPos += amount;
         if (this.checkAllCollision()) yPos -= amount;
-        return yPos;
-    };
+    });
 
     public Enemy(int xPos, int yPos, int width, int height, int health, int attackDamage, int defence, int orientation) {
         super(xPos, yPos, width, height, health, attackDamage, defence, orientation);
@@ -56,8 +57,8 @@ public class Enemy extends Entity {
                 Random rand = new Random();
                 int axis = rand.nextInt() % 2;
                 if (axis == 0) {
-                    changeX.apply(rand.nextInt(11) - 5);
-                } else changeY.apply(rand.nextInt(11) - 5);
+                    changeX.accept(rand.nextInt(11) - 5);
+                } else changeY.accept(rand.nextInt(11) - 5);
                 Map.getInstance().redraw(xPos, yPos, width, height);
             }
         }).start();
@@ -81,5 +82,10 @@ public class Enemy extends Entity {
             goTo("Combat");
         }
         return false;
+    }
+
+    @Override
+    public void save(PrintWriter out) {
+        super.save(out);
     }
 }

@@ -35,4 +35,8 @@ public abstract class Item extends DrawableObject {
         out.write(String.format("Item,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s.", getName(), xPos, yPos, xPos2, yPos2, width, height, getType(), getValue(), getDesc()));
     }
 
+    public String toString() {
+        return getName();
+    }
+
 } 

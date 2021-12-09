@@ -1,20 +1,25 @@
 package edu.cs200.gui;
 
-import jdk.nashorn.internal.scripts.JO;
+import edu.cs200.Persisted;
+import edu.cs200.util.SerializeableMouseAdapter;
 
 import javax.swing.*;
-
-import static edu.cs200.util.Globals.*;
-import static edu.cs200.util.Helpers.*;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.PrintWriter;
-import java.util.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
-public class Bag extends Card {
+import static edu.cs200.util.Globals.BAG;
+import static edu.cs200.util.Globals.WINDOW_WIDTH;
+import static edu.cs200.util.Helpers.quatera;
+
+public class Bag extends Card implements Persisted {
+
+    private static final Long serialVersionUID = 1L;
 
     private static Bag self;
     private static int capacity = 20;
@@ -33,6 +38,7 @@ public class Bag extends Card {
         slots = new LinkedList<>();
         mainContent.setLayout(new BorderLayout());
 
+
         JPanel headingPanel = new JPanel();
         heading = new JLabel(String.format("Your bag size %s/%s", getItemCount(), capacity));
         heading.setFont(quatera(20));
@@ -50,17 +56,20 @@ public class Bag extends Card {
         gridLayout.setVgap(2);
         visiualBag.setLayout(gridLayout);
         for (int i = 0; i < capacity; i++) slots.add(new Slot());
-        drawSlots();
+        for (Slot slot: slots) visiualBag.add(slot);
+        //drawSlots();
     }
 
     public void addSlots(int amount) {
-        visiualBag.removeAll();
-        for (int i = 0; i < amount; i++) slots.add(new Slot());
+        for (int i = 0; i < amount; i++) {
+            slots.add(new Slot());
+        }
         drawSlots();
     }
 
     private void drawSlots() {
-        for (Slot slot: slots) {
+        visiualBag.removeAll();
+        for(Slot slot: slots) {
             visiualBag.add(slot);
         }
     }
@@ -100,26 +109,44 @@ public class Bag extends Card {
 
     public List<Item> allItems() {
         List<Item> items = new LinkedList<>();
-
         for (Slot slot: slots) items.add(slot.item);
-
         return items;
     }
 
-    public void save(PrintWriter out) {
-        out.write("Bag,");
-        for (Slot slot: slots) {
-
+    @Override
+    public boolean load(ObjectInputStream in) {
+        try {
+            self = (Bag) in.readObject();
+            this.heading = self.heading;
+            this.visiualBag = self.visiualBag;
+            this.gridLayout = self.gridLayout;
+            this.slots = self.slots;
+            this.label = self.label;
+            this.name = self.name;
+            this.mainContent = self.mainContent;
+            drawSlots();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
-    public void load(String in) {
-    }
+    private class Slot extends JButton implements Serializable {
 
-    private class Slot extends JButton {
+        private static final long serialVersionUID = 1L;
+
         public Item item = null;
         public int capacity = 10;
         public int amount = 0;
+
+        private class SlotListener extends MouseAdapter implements Serializable {
+            private static final long serialVersionUID = 1L;
+
+        }
 
         public Slot() {
             setPreferredSize(new Dimension(100, 200));
@@ -127,10 +154,11 @@ public class Bag extends Card {
             setMinimumSize(new Dimension(100, 200));
             setSize(new Dimension(100, 200));
             addMouseListener(
-                    new MouseAdapter() {
+                    new SerializeableMouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             super.mouseClicked(e);
+                            System.out.println(item);
                             if (item == null) return;
 
                             if (e.getButton() == MouseEvent.BUTTON1) {
@@ -157,7 +185,7 @@ public class Bag extends Card {
             if (this.item != null && this.item != item) return false;
             if (this.amount == capacity) return false;
             this.item = item;
-            this.amount+= amount;
+            this.amount += amount;
             if (this.amount > capacity) this.amount = capacity;
             setToolTipText(item.getDesc());
             return true;
@@ -188,5 +216,11 @@ public class Bag extends Card {
             g.drawString(item.getName(), 50, 100);
             g.drawString(String.valueOf(amount), 70, 150);
         }
+
+        public String toString() {
+            if (item != null) return item.getName();
+            return "";
+        }
     }
+
 }

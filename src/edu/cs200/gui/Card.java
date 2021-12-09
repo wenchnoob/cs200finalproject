@@ -6,8 +6,13 @@ import static edu.cs200.util.Globals.*;
 import static edu.cs200.util.Helpers.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Window;
+import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 public class Card extends JPanel {
+
+    private static final Long serialVersionUID = 1L;
 
     protected String name;
     protected JLabel label;
@@ -31,21 +36,35 @@ public class Card extends JPanel {
 
 
         JButton mapButton = new JButton(MAP);
-        mapButton.addActionListener(action -> goTo(MAP));
+        mapButton.addActionListener((ActionListener & Serializable) action -> goTo(MAP));
         mapButton.setFont(quatera());
 
         JButton bagButton = new JButton(BAG);
-        bagButton.addActionListener(action -> goTo(BAG));
+        bagButton.addActionListener((ActionListener & Serializable)  action -> goTo(BAG));
         bagButton.setFont(quatera());
 
         JButton save = new JButton("Save");
-        save.addActionListener(action -> Helpers.save());
+        save.addActionListener((ActionListener & Serializable) action -> {
+            boolean saved = Helpers.save();
+            if (!saved) {
+                JOptionPane.showConfirmDialog(edu.cs200.gui.Window.getInstance().getFrame(), "Saving has failed!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showConfirmDialog(edu.cs200.gui.Window.getInstance().getFrame(), "Saved!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
 
         JButton load = new JButton("Load");
-        load.addActionListener(action -> Helpers.load());
+        load.addActionListener((ActionListener & Serializable) action -> {
+            boolean loaded = Helpers.load();
+            if (!loaded) {
+                JOptionPane.showConfirmDialog(edu.cs200.gui.Window.getInstance().getFrame(), "Loading has failed!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showConfirmDialog(edu.cs200.gui.Window.getInstance().getFrame(), "Loaded!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
 
         JButton reset = new JButton("Reset");
-        reset.addActionListener(action -> {});
+        reset.addActionListener((ActionListener & Serializable) action -> {});
         
         
 

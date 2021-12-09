@@ -1,6 +1,8 @@
 package edu.cs200;
 
-public abstract class GameObject {
+import java.io.Serializable;
+
+public abstract class GameObject implements Serializable {
 
     private static String name = "Game Object";
 
@@ -26,4 +28,5 @@ public abstract class GameObject {
         GameObject gobj = (GameObject) obj;
         return this.getName().equals(gobj.getName());
     }
+
 }

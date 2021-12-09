@@ -1,14 +1,21 @@
 package edu.cs200.gui;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.HashSet;
 
 import edu.cs200.Entity;
 import edu.cs200.GameObject;
+import edu.cs200.Persisted;
 
-public class Player extends Entity {
-	private Weapon equippedWeapon;
+public class Player extends Entity implements Persisted {
+
+    private static final Long serialVersionUID = 1L;
+
+    private Weapon equippedWeapon;
 
     private static int START_X = 100;
     private static int START_Y = 300;
@@ -16,7 +23,7 @@ public class Player extends Entity {
     private static int DIM_Y = 20;
     private static int max_health = 100;
 
-    private static Player self;
+    private transient static Player self;
 
     public static Player getInstance() {
         if (self == null) self = new Player();
@@ -183,22 +190,20 @@ public class Player extends Entity {
     	//potential method for realism do not make a priority rn
     }
 
-    public void save(PrintWriter out) {
-        out.write(String.format("Player,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s;", xPos, yPos, xPos2, yPos2, width, height, getHealth(), max_health, getAttackDmg(), getDefence()));
-    }
-
-    public void load(String in) {
-        String[] props = in.split(",");
-        xPos = Integer.valueOf(props[1]);
-        yPos = Integer.valueOf(props[2]);
-        xPos2 = Integer.valueOf(props[3]);
-        yPos2 = Integer.valueOf(props[4]);
-        width = Integer.valueOf(props[5]);
-        height = Integer.valueOf(props[6]);
-        setHealth(Integer.valueOf(props[7]));
-        max_health = Integer.valueOf(props[8]);
-        setAttackDmg(Integer.valueOf(props[9]));
-        setDefence(Integer.valueOf(props[10]));
+    @Override
+    public boolean load(ObjectInputStream in) {
+        try {
+            System.out.println(self);
+            self = (Player) in.readObject();
+            System.out.println(self);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

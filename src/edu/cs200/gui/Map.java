@@ -2,7 +2,10 @@ package edu.cs200.gui;
 
 import edu.cs200.GameObject;
 import edu.cs200.LocationDescription;
+import edu.cs200.Persisted;
 import edu.cs200.util.EntityObserver;
+import edu.cs200.util.SerializeableKeyAdapter;
+import edu.cs200.util.SerializeableMouseAdapter;
 
 import javax.swing.*;
 
@@ -11,20 +14,23 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 
 import static edu.cs200.util.Globals.*;
 
-public class Map extends Card {
+public class Map extends Card implements Persisted {
+
+    private static final Long serialVersionUID = 1L;
 
     public static final int CANVAS_WIDTH = 1000, CANVAS_HEIGHT = 600;
     private static Map self;
     private String currentRoom = "room1";
     private JPanel canvasPanel;
     private JPanel stats;
-    private Hashtable<String, HashSet<String>> connections;
     private Hashtable<String, LocationDescription> rooms;
 
     public static Map getInstance() {
@@ -97,10 +103,25 @@ public class Map extends Card {
         return rooms.get(currentRoom);
     }
 
+    @Override
+    public boolean load(ObjectInputStream in) {
+        try {
+            self = (Map)in.readObject();
+            redraw();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private class VisualMap extends JPanel {
 
         {
-            addMouseListener(new MouseAdapter() {
+            addMouseListener(new SerializeableMouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
@@ -114,7 +135,7 @@ public class Map extends Card {
                 }
             });
 
-            addKeyListener(new KeyAdapter() {
+            addKeyListener(new SerializeableKeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
                     super.keyPressed(e);
@@ -131,7 +152,6 @@ public class Map extends Card {
                         case KeyEvent.VK_RIGHT:
                             Player.getInstance().moveRight();
                     }
-
                     Map.getInstance().redraw();
                 }
             });

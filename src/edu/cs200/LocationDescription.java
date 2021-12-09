@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import static edu.cs200.util.Helpers.*;
 
-public class LocationDescription extends GameObject implements Serializable {
+public class LocationDescription extends GameObject {
 
 	private HashSet<DrawableObject> objects;
 

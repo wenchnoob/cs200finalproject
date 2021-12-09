@@ -1,8 +1,8 @@
 package edu.cs200.gui;
 
 import java.awt.*;
+import java.io.PrintWriter;
 
-import edu.cs200.Game;
 import edu.cs200.GameObject;
 
 public abstract class DrawableObject extends GameObject {
@@ -43,6 +43,10 @@ public abstract class DrawableObject extends GameObject {
         boolean bottomRightInBounds = btInView && rlInView;
 
         return topLeftInBounds || bottomRightInBounds;
+    }
+
+    public void save(PrintWriter out) {
+        out.write(String.format("%s,%s,%s,%s,%s,%s;", xPos, yPos, xPos2, yPos2, width, height));
     }
 
     public String getName() {
