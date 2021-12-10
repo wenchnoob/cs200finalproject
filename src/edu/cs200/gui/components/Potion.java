@@ -1,7 +1,6 @@
 package edu.cs200.gui.components;
 
 
-import edu.cs200.GameObject;
 import edu.cs200.gui.components.entities.Player;
 
 import java.awt.*;
@@ -64,7 +63,6 @@ return this.value;
 	public void use(GameObject obj) {
 		effect.accept(obj);
 	}
-
 
 	public void useEffect(GameObject object) {
 		effect.accept(object);

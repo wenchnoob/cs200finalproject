@@ -1,6 +1,5 @@
 package edu.cs200.gui.components;
 
-import edu.cs200.GameObject;
 import edu.cs200.gui.components.entities.Player;
 
 import java.awt.Color;
