@@ -1,7 +1,7 @@
 package edu.cs200.gui.components.utils;
 
 import edu.cs200.gui.components.entities.Entity;
-import edu.cs200.GameObject;
+import edu.cs200.gui.components.GameObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,10 +66,20 @@ public class EntityObserver extends JPanel implements Observer {
         }
 
         if (type == ALL) {
-            setLayout(new GridLayout(0, 1));
-            add(health);
-            add(attack);
-            add(defence);
+            if (orientation == H) {
+                setLayout(new FlowLayout());
+                add(new JLabel("HP"));
+                add(getHPPanel());
+                add(attack);
+                add(defence);
+            }
+
+            if (orientation == V) {
+                setLayout(new GridLayout(0, 1));
+                add(health);
+                add(attack);
+                add(defence);
+            }
         }
         update();
     }

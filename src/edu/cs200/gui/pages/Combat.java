@@ -6,12 +6,16 @@ import edu.cs200.gui.components.entities.Entity;
 import edu.cs200.gui.components.entities.Enemy;
 import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.utils.EntityObserver;
+import edu.cs200.gui.utils.SerializableComponentAdapter;
+import edu.cs200.gui.utils.SerializableKeyAdapter;
 
 import static edu.cs200.utils.Globals.*;
 import static edu.cs200.utils.Helpers.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.*;
 
@@ -67,12 +71,36 @@ public class Combat extends JPanel {
         });
 
         JButton flee = new JButton("Flee");
-        flee.addActionListener((ActionListener & Serializable) action -> {
-        	if (new Random().nextInt(100) % 2 == 0) {
-        		goTo(MAP);
-			} else {
-        		Player.getInstance().trueDamage(2);
-			}
+        flee.addActionListener((ActionListener & Serializable) action -> flee());
+
+        addComponentListener(new SerializableComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                super.componentShown(e);
+                requestFocusInWindow();
+            }
+        });
+
+        addKeyListener(new SerializableKeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_A:
+                        attack(1);
+                        break;
+                    case KeyEvent.VK_S:
+                        attack(2);
+                        break;
+                    case KeyEvent.VK_D:
+                        attack(3);
+                        break;
+                    case KeyEvent.VK_F:
+                        attack(4);
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        flee();
+                }
+            }
         });
 
         bottom.add(thrustButton);
@@ -89,7 +117,15 @@ public class Combat extends JPanel {
 
     public void attack(int playerAttack) {
         Player.getInstance().attack(playerAttack,currentEnemy);
-        if (Player.getInstance().getHealth() <= 0 || currentEnemy.getHealth() <= 0) endCombat();
+        if (!(Player.getInstance().isAlive() && currentEnemy.isAlive())) endCombat();
+    }
+
+    public void flee() {
+        if (new Random().nextInt(100) % 2 == 0) {
+            goTo(MAP);
+        } else {
+            Player.getInstance().trueDamage(2);
+        }
     }
 
     public void endCombat() {

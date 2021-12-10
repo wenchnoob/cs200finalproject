@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
+import static edu.cs200.utils.Globals.MAP;
+
 public class Helpers {
 
     public static void goTo(String pageName) {
@@ -19,6 +21,7 @@ public class Helpers {
 
         CardLayout layout = (CardLayout) llayout;
         layout.show(frame.getContentPane(), pageName);
+        if (pageName.equals(MAP)) Map.getInstance().focusOnMap();
     }
 
     public static boolean save() {

@@ -1,4 +1,4 @@
-package edu.cs200;
+package edu.cs200.gui.components;
 
 import java.io.Serializable;
 import java.util.Objects;

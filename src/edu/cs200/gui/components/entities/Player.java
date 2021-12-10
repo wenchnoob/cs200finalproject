@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.components.Weapon;
 import edu.cs200.gui.components.Window;
-import edu.cs200.GameObject;
+import edu.cs200.gui.components.GameObject;
 import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.pages.Bag;
 import edu.cs200.gui.pages.Map;
