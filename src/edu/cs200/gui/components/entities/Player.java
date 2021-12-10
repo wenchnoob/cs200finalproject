@@ -33,7 +33,8 @@ public class Player extends Entity implements Persisted {
         return self;
     }
     private Player() {
-        super("Player", 0, 0, DIM_X, DIM_Y, 90, 100, 3, 5, EAST);
+        super("player", 0, 0, DIM_X, DIM_Y, 90, 100, 5, 5, EAST);
+
     }
 
     public void paint(Graphics g) {
@@ -71,11 +72,6 @@ public class Player extends Entity implements Persisted {
                 START_Y < o.getyPos() + yPos + o.getHeight() &&
                 START_Y + height > o.getyPos() + yPos) return true;
         return false;
-    }
-
-    @Override
-    public int attack() {
-        return 0;
     }
 
     public void reset() {
@@ -182,8 +178,8 @@ public class Player extends Entity implements Persisted {
      */
 
 
-    public int attack(int playerAttack, Entity enemy) {
-    	int enemyAttack = enemy.attack();//gets the type of attack the enemy will use
+    public int attack(int playerAttack, Enemy enemy) {
+    	int enemyAttack = enemy.attack(0,enemy);//gets the type of attack the enemy will use
     	int enemyDamage = enemy.getAttackDmg();
     	int enemyDefence = enemy.getDefence();
     	int enemyHealth = enemy.getHealth();
@@ -204,16 +200,32 @@ public class Player extends Entity implements Persisted {
     	}
     	
         if ((enemyAttack == 1 || enemyAttack == 2) && (playerAttack== 1 || playerAttack == 2)) {//if both are attacks both take damage
+        	if(playerDamage - enemyDefence > 0)
         	enemy.setHealth(enemyHealth -(playerDamage - enemyDefence));
-        	this.setHealth(playerHealth - (enemyDamage- playerDefence));
+        	else {
+        		enemy.setHealth(enemyHealth-1);
+        	}
+        	if(enemyDamage - playerDefence>0)
+        		this.setHealth(playerHealth-1);
+        	else {
+        	this.setHealth(playerHealth - 1);
+        	}
         	result = "you both took damage!";
         }
         else if((enemyAttack == 1 && playerAttack == 4)||(enemyAttack == 2 && playerAttack == 3)) {//Player misses defensive skill
+        	if(enemyDamage-playerDefence > 0)
         	this.setHealth(playerHealth - (enemyDamage- playerDefence));
+        	else {
+        		this.setHealth(playerHealth-1);
+        	}
         	result = "you took damage!";
         }
         else if((playerAttack == 1 && enemyAttack == 4)||(playerAttack == 2 && enemyAttack == 3)) {//enemy misses defensive skill
+        	if(playerDamage-enemyDefence>0)
         	enemy.setHealth(enemyHealth - (playerDamage - enemyDefence));
+        	else {
+        		enemy.setHealth(enemyHealth-1);
+        	}
         	result = "the enemy took damage!";
         }
         else if((enemyAttack == 1 && playerAttack == 3)|| (enemyAttack == 2 && playerAttack ==4)) {//player dodged enemy attack

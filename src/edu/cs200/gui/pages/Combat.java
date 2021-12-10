@@ -1,3 +1,4 @@
+
 package edu.cs200.gui.pages;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ import java.util.*;
 
 public class Combat extends JPanel {
 
-    private Entity currentEnemy;
+    private Enemy currentEnemy;
 
     private static Combat self;
 

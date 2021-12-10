@@ -2,8 +2,7 @@ package edu.cs200.utils;
 
 import edu.cs200.gui.components.*;
 import edu.cs200.gui.components.Window;
-import edu.cs200.gui.components.entities.Enemy;
-import edu.cs200.gui.components.entities.Player;
+import edu.cs200.gui.components.entities.*;
 import edu.cs200.gui.pages.Bag;
 import edu.cs200.gui.pages.Map;
 
@@ -67,12 +66,16 @@ public class Helpers {
                 return new Portal(props);
             case "WALL":
                 return new Wall(props);
-            case "ENEMY":
-                return new Enemy(props);
             case "POTION":
                 return new Potion(props);
             case "WEAPON":
                 return new Weapon(props);
+            case "SKELETON":
+            	return new Skeleton(props);
+            case "GOBLIN":
+            	return new Goblin(props);
+            case "OGRE":
+            	return new Ogre(props);
         }
         return null;
     }

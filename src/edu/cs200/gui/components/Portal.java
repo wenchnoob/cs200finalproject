@@ -15,8 +15,8 @@ public class Portal extends DrawableObject {
 
     public Portal(String[] props) {
         super(props);
-        this.from = props[5];
-        this.to = props[6];
+        this.to = props[7];
+        this.from = props[6];
     }
 
     public String getTo() {
