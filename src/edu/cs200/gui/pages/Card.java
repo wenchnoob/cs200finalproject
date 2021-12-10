@@ -45,21 +45,25 @@ public class Card extends JPanel {
 
         JButton save = new JButton("Save");
         save.addActionListener((ActionListener & Serializable) action -> {
-            boolean saved = Helpers.save();
-            if (!saved) {
+            int res = Helpers.save();
+            if (res == FAILED) {
                 JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Saving has failed!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-            } else {
+            } else if (res == SUCCESS) {
                 JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Saved!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            } else if (res == NO_SELECTION) {
+                JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "No Selection Made", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
             }
         });
 
         JButton load = new JButton("Load");
         load.addActionListener((ActionListener & Serializable) action -> {
-            boolean loaded = Helpers.load();
-            if (!loaded) {
+            int res = Helpers.load();
+            if (res == FAILED) {
                 JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Loading has failed!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-            } else {
+            } else if (res == SUCCESS) {
                 JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Loaded!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            } else if (res == NO_SELECTION) {
+                JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "No Selection Made", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
             }
         });
 

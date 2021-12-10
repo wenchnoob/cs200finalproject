@@ -43,6 +43,8 @@ public class Combat extends JPanel {
 
         add(new EntityObserver(Player.getInstance(), EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_START);
         add(new EntityObserver(currentEnemy, EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_END);
+        currentEnemy.damage(1);
+        currentEnemy.setHealth(currentEnemy.getHealth() + 1);
     }
 
     private Combat() {
@@ -147,11 +149,33 @@ public class Combat extends JPanel {
             setBackground(Color.GRAY);
         }
 
+        int offsetX, offsetY;
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Player.getInstance().paint(g);
-            currentEnemy.paintWithOffset(g, -800, 10);
+            currentEnemy.paintWithOffset(g, -800 + offsetX, 10+offsetY);
+        }
+
+        public void animateH(int amount, int dir) {
+            Thread t = new Thread(() -> {
+                for (int i = 0; i < 50; i++) {
+                    try {
+                        Thread.sleep(2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    offsetY += (dir == 0 ? -amount : amount);
+                    repaint();
+                }
+            });
+            t.start();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

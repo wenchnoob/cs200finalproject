@@ -15,7 +15,7 @@ public abstract class Item extends DrawableObject {
 
     public Item(String[] props) {
         super(props);
-        this.desc = props[props.length - 1];
+        this.desc = props[props.length - 2];
     }
 
     public abstract String getType();

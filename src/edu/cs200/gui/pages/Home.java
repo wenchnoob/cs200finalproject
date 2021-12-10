@@ -64,8 +64,8 @@ public class Home extends JPanel {
         JButton loadButton = new JButton("Load Saved Game") {
             {
                 addActionListener((ActionListener & Serializable) action -> {
-                    boolean loaded = Helpers.load();
-                    if (!loaded) Helpers.goTo("Home");
+                    int res = Helpers.load();
+                    if (res != Helpers.SUCCESS) Helpers.goTo("Home");
                 });
 
                 setPreferredSize(new Dimension(200, 100));

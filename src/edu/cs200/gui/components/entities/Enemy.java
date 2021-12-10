@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 import static edu.cs200.utils.Helpers.goTo;
 
-public  abstract class Enemy extends Entity {
+public abstract class Enemy extends Entity {
     private double aggressionModifier;
     private int attackTypeModifier;
 
@@ -31,7 +31,7 @@ public  abstract class Enemy extends Entity {
 
 
     public Enemy(String name, int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
-        super(name, xPos, yPos, width, height, health, maxHealth ,attackDamage, defence, orientation);
+        super(name, xPos, yPos, width, height, health, maxHealth, attackDamage, defence, orientation);
 
     }
 
@@ -41,7 +41,7 @@ public  abstract class Enemy extends Entity {
 
     public boolean checkAllCollision() {
         HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getObjects();
-        for (DrawableObject obj: others) {
+        for (DrawableObject obj : others) {
             if (!Map.getInstance().isInBounds(obj)) continue;
             if (!(obj instanceof Enemy) && collides(obj)) {
                 obj.handleCollision(this);
@@ -69,15 +69,33 @@ public  abstract class Enemy extends Entity {
         }).start();
     }
 
+
+
+    public void animateDown() {
+        Thread t = new Thread(() -> {
+
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
-      g.setColor(Color.RED);
-      int xPos = this.xPos - xOffset;
-      int yPos = this.yPos - yOffset;
-       if (orientation == NORTH) g.fillPolygon(new int[]{xPos, xPos + width/2, xPos + width}, new int[]{yPos + width, yPos, yPos + width}, 3);
-      else if (orientation == EAST) g.fillPolygon(new int[]{xPos, xPos + width, xPos}, new int[]{yPos, yPos + width/2, yPos + width}, 3);
-     else if (orientation == SOUTH) g.fillPolygon(new int[]{xPos, xPos + width/2, xPos + width}, new int[]{yPos, yPos + width, yPos}, 3);
-      else g.fillPolygon(new int[]{xPos + width, xPos, xPos + width}, new int[]{yPos, yPos + width/2, yPos + width}, 3);
+        g.setColor(Color.RED);
+        int xPos = this.xPos - xOffset;
+        int yPos = this.yPos - yOffset;
+        if (orientation == NORTH)
+            g.fillPolygon(new int[]{xPos, xPos + width / 2, xPos + width}, new int[]{yPos + width, yPos, yPos + width}, 3);
+        else if (orientation == EAST)
+            g.fillPolygon(new int[]{xPos, xPos + width, xPos}, new int[]{yPos, yPos + width / 2, yPos + width}, 3);
+        else if (orientation == SOUTH)
+            g.fillPolygon(new int[]{xPos, xPos + width / 2, xPos + width}, new int[]{yPos, yPos + width, yPos}, 3);
+        else
+            g.fillPolygon(new int[]{xPos + width, xPos, xPos + width}, new int[]{yPos, yPos + width / 2, yPos + width}, 3);
     }
 
     @Override
@@ -89,42 +107,38 @@ public  abstract class Enemy extends Entity {
         return false;
     }
 
-	public abstract double getAggressionModifier();
+    public abstract double getAggressionModifier();
 
 
-	
-	/**
-	 * defence is higher value than aggression modifier
-	 * thrust and dodge are lower than modifier
-	 * thrust is 1
-	 * slash is 2
-	 * dodge is 3
-	 * parry is 4
-	 */
-	public int attack(int a, Enemy enemy) {
-		Random randAttack = new Random();
-		int attackType = randAttack.nextInt(100);
-	    double attackOrDefend = enemy.getAggressionModifier();
-	    int thrustOrSlash = enemy.getAttackTypeModifier();
-	    if(attackOrDefend < attackType) {
-	    	if(thrustOrSlash < attackType) {
-	    		return 1;
-	    	}
-	    	else {
-	    		return 2;
-	    	}
-	    }
-	    else {
-	    	if(attackType > 50) {
-	    		return 3;
-	    	}
-	    	else {
-	    		return 4;
-	    	}
-	    }
+    /**
+     * defence is higher value than aggression modifier
+     * thrust and dodge are lower than modifier
+     * thrust is 1
+     * slash is 2
+     * dodge is 3
+     * parry is 4
+     */
+    public int attack(int a, Enemy enemy) {
+        Random randAttack = new Random();
+        int attackType = randAttack.nextInt(100);
+        double attackOrDefend = enemy.getAggressionModifier();
+        int thrustOrSlash = enemy.getAttackTypeModifier();
+        if (attackOrDefend < attackType) {
+            if (thrustOrSlash < attackType) {
+                return 1;
+            } else {
+                return 2;
+            }
+        } else {
+            if (attackType > 50) {
+                return 3;
+            } else {
+                return 4;
+            }
+        }
 
-	}
+    }
 
-	public abstract int getAttackTypeModifier();
+    public abstract int getAttackTypeModifier();
 
 }

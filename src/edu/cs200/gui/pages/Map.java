@@ -20,9 +20,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Set;
+import java.util.*;
 
 import static edu.cs200.utils.Globals.*;
 
@@ -57,34 +55,71 @@ public class Map extends Card implements Persisted {
         super.mainContent.add(this.canvasPanel, BorderLayout.CENTER);
     }
 
-    public LocationDescription find(GameObject object) {
-        return find(object, currentRoom, new HashSet<>());
+    public DrawableObject find(String name) {
+        return find(name, currentRoom, new HashSet<>());
     }
 
-    private LocationDescription find(GameObject object, String currentRoom, Set<String> visited) {
+    public Set<String> itemNames() {
+        Set<String> names = new HashSet<>();
+        itemNames(currentRoom, names, new HashSet<>());
+        return names;
+    }
+
+    private void itemNames(String currentRoom, Set<String> names, Set<String> visited) {
+        if (visited.contains(currentRoom)) return;
+        visited.add(currentRoom);
+        loadRoom(currentRoom);
+        LocationDescription locationDescription = rooms.get(currentRoom);
+        for (DrawableObject object: locationDescription.getObjects()) names.add(object.getName());
+        for (String conn: locationDescription.getConnections()) itemNames(conn, names, visited);
+    }
+
+    private DrawableObject find(String name, String currentRoom, Set<String> visited) {
         if (visited.contains(currentRoom)) return null;
         visited.add(currentRoom);
+        loadRoom(currentRoom);
         LocationDescription cur = rooms.get(currentRoom);
         if (cur == null) return null;
-        if (cur.contains(object)) return cur;
+        DrawableObject obj = cur.getObjects().stream().parallel().filter(object -> object.getName().equals(name)).findFirst().orElse(null);
+        if (Objects.nonNull(obj)) return obj;
         Set<String> conns = cur.getConnections();
         for (String conn: conns) {
-            LocationDescription res = find(object, conn, visited);
-            if (res != null) return res;
+            DrawableObject res = find(name, conn, visited);
+            if (Objects.nonNull(res)) return res;
         }
         return null;
     }
 
-    public void goToRoom(String roomName) {
-        if (!rooms.contains(roomName)) {
-            LocationDescription room = LocationDescription.loadDescription(String.format("assets/%s.csv", roomName));
-            if (room == null) return;
-            rooms.put(roomName, room);
-        }
+    public Iterator<String> locations() {
+        return rooms.keySet().iterator();
+    }
 
+    public Iterator<String> connections(String location) {
+        loadRoom(location);
+        LocationDescription loc = rooms.get(location);
+        if (loc == null) return new LinkedList<String>().iterator();
+        return loc.getConnections().iterator();
+    }
+
+    public LocationDescription getRoom(String room) {
+        return rooms.get(room);
+    }
+
+    public void goToRoom(String roomName) {
+        rooms.get(currentRoom).removeObject(Player.getInstance());
+        loadRoom(roomName);
         this.currentRoom = roomName;
         Player.getInstance().reset();
+        rooms.get(currentRoom).addObject(Player.getInstance());
         redraw();
+    }
+
+    public void loadRoom(String roomName) {
+        rooms.get(currentRoom).addObject(Player.getInstance());
+        if (rooms.containsKey(roomName)) return;
+        LocationDescription room = LocationDescription.loadDescription(String.format("assets/%s.csv", roomName));
+        if (room == null) return;
+        rooms.put(roomName, room);
     }
 
     public boolean isInBounds(DrawableObject obj) {

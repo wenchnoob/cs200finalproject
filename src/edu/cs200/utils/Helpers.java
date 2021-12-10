@@ -14,6 +14,8 @@ import static edu.cs200.utils.Globals.MAP;
 
 public class Helpers {
 
+    public static int NO_SELECTION = 0, FAILED = 1, SUCCESS = 2;
+
     public static void goTo(String pageName) {
         JFrame frame = Window.getInstance().getFrame();
         LayoutManager llayout = Window.getInstance().getLayoutManager();
@@ -23,40 +25,45 @@ public class Helpers {
         if (pageName.equals(MAP)) Map.getInstance().focusOnMap();
     }
 
-    public static boolean save() {
+    public static int save() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showSaveDialog(Window.getInstance().getFrame());
+
         File f = fileChooser.getSelectedFile();
-        if (f == null) return false;
+
+        if (f == null) return NO_SELECTION;
+
         boolean saved;
         try( ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f)) ) {
             saved = Player.getInstance().save(out) && Bag.getInstance().save(out) && Map.getInstance().save(out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return false;
+            return FAILED;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return FAILED;
         }
-        return saved;
+        if (saved) return SUCCESS;
+        return FAILED;
     }
 
-    public static boolean load() {
+    public static int load() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showOpenDialog(Window.getInstance().getFrame());
         File f = fileChooser.getSelectedFile();
-        if (f == null) return false;
+        if (f == null) return NO_SELECTION;
         boolean loaded;
         try( ObjectInputStream in = new ObjectInputStream(new FileInputStream(f)) ) {
             loaded = Player.getInstance().load(in) && Bag.getInstance().load(in) && Map.getInstance().load(in);
             Window.getInstance().reset();
         } catch (FileNotFoundException e) {
-            return false;
+            return FAILED;
         } catch (IOException e) {
-            return false;
+            return FAILED;
         }
         Window.getInstance().getFrame().repaint();
-        return loaded;
+        if (loaded) return SUCCESS;
+        return FAILED;
     }
 
     public static Object parseObj(String objDef) {

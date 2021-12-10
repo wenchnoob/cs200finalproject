@@ -6,6 +6,7 @@ import java.util.Objects;
 public abstract class DrawableObject extends GameObject {
 
     protected int xPos, yPos, xPos2, yPos2, width, height;
+    protected String room;
 
     public DrawableObject(String name, int xPos, int yPos, int width, int height) {
         super(name);
@@ -15,6 +16,7 @@ public abstract class DrawableObject extends GameObject {
         this.height = height;
         this.xPos2 = xPos + width;
         this.yPos2 = yPos + height;
+        this.room = "Prog Gen";
     }
 
     public DrawableObject(String[] props) {
@@ -25,6 +27,7 @@ public abstract class DrawableObject extends GameObject {
         this.height = parse(props[5]);
         this.xPos2 = this.xPos + width;
         this.yPos2 = this.yPos + height;
+        this.room = props[props.length - 1];
     }
 
     protected static int parse(String val) {
@@ -95,6 +98,10 @@ public abstract class DrawableObject extends GameObject {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public String getRoom() {
+        return room;
     }
 
     @Override
