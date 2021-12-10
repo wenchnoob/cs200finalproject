@@ -104,11 +104,8 @@ public  abstract class Enemy extends Entity {
 	public int attack(int a, Enemy enemy) {
 		Random randAttack = new Random();
 		int attackType = randAttack.nextInt(100);
-		System.out.println(attackType);
 	    double attackOrDefend = enemy.getAggressionModifier();
-	    System.out.println(attackOrDefend + " aggression mod");
 	    int thrustOrSlash = enemy.getAttackTypeModifier();
-	    System.out.println(thrustOrSlash + " attack type mod");
 	    if(attackOrDefend < attackType) {
 	    	if(thrustOrSlash < attackType) {
 	    		return 1;
