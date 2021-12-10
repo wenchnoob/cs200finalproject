@@ -4,6 +4,7 @@ package edu.cs200.gui.pages;
 import javax.swing.*;
 
 import edu.cs200.gui.components.entities.Entity;
+import edu.cs200.gui.components.Window;
 import edu.cs200.gui.components.entities.Enemy;
 import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.utils.EntityObserver;
@@ -91,19 +92,21 @@ public class Combat extends JPanel {
     public void attack(int playerAttack) {
 
         Player.getInstance().attack(playerAttack,(Enemy)currentEnemy);
+        System.out.println(Player.getInstance().getHealth());
         if (Player.getInstance().getHealth() <= 0 || currentEnemy.getHealth() <= 0) endCombat();
 
     }
 
     public void endCombat() {
+    	
         if (!currentEnemy.isAlive()) {
             currentEnemy.die();
         }
-
         if (!Player.getInstance().isAlive()){
-            Player.getInstance().die();
-            // end the game
-        }
+         	JOptionPane.showMessageDialog(Window.getInstance().getFrame() , "You Died");
+             Player.getInstance().die();
+             // end the game
+         }
         goTo(MAP);
         currentEnemy = null;
     }

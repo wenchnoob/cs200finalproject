@@ -184,6 +184,7 @@ public class Player extends Entity implements Persisted {
     	int enemyDefence = enemy.getDefence();
     	int enemyHealth = enemy.getHealth();
     	String enemyAttackType = enemy.getAttackType(enemyAttack);
+    	System.out.println(enemyDamage);
     	int playerDamage = this.getAttackDmg();
     	int playerDefence = this.getDefence();
     	int playerHealth = this.getHealth();
@@ -200,15 +201,15 @@ public class Player extends Entity implements Persisted {
     	}
     	
         if ((enemyAttack == 1 || enemyAttack == 2) && (playerAttack== 1 || playerAttack == 2)) {//if both are attacks both take damage
-        	if(playerDamage - enemyDefence > 0)
+        	if(playerDamage - enemyDefence <= 0)
         	enemy.setHealth(enemyHealth -(playerDamage - enemyDefence));
         	else {
         		enemy.setHealth(enemyHealth-1);
         	}
-        	if(enemyDamage - playerDefence>0)
+        	if(enemyDamage - playerDefence<=0)
         		this.setHealth(playerHealth-1);
         	else {
-        	this.setHealth(playerHealth - 1);
+        	this.setHealth(playerHealth - (enemyDamage - playerDefence));
         	}
         	result = "you both took damage!";
         }

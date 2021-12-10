@@ -7,11 +7,11 @@ import edu.cs200.GameObject;
 
 public class Ogre extends Enemy{
 
-	private int aggressionModifer = 75;
-	private int attackTypeModifer = 25;
+	private int aggressionModifer = 25;
+	private int attackTypeModifer = 75;
 	
 	public Ogre(int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
-		super("Ogre", xPos, yPos, width, height, 125, 125, 10, 4, orientation);
+		super("Ogre", xPos, yPos, width, height, 125, 125, 15, 4, orientation);
 		// TODO Auto-generated constructor stub
 	}
 
