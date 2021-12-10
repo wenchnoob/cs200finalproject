@@ -74,11 +74,6 @@ public class Player extends Entity implements Persisted {
         return false;
     }
 
-    @Override
-    public int attack() {
-        return 0;
-    }
-
     public void reset() {
         this.xPos = 0;
         this.yPos = 0;

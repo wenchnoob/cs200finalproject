@@ -7,14 +7,18 @@ import edu.cs200.GameObject;
 
 public class Ogre extends Enemy{
 
+	private int aggressionModifer = 75;
+	private int attackTypeModifer = 25;
+	
 	public Ogre(int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
 		super("Ogre", xPos, yPos, width, height, 125, 125, 10, 4, orientation);
-		this.setAggressionModifier(75);
-		this.setAttackTypeModifier(25);
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
+    public Ogre(String[] props) {
+        super(props);
+    }
+	
 	public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
 		        g.setColor(Color.YELLOW);
 		        int xPos = this.xPos - xOffset;
@@ -26,10 +30,16 @@ public class Ogre extends Enemy{
 
 	}
 
+	 public double getAggressionModifier() {
+		 return this.aggressionModifer;
+	 }
+
+
 	@Override
-	public boolean handleCollision(GameObject targ) {
+	public int getAttackTypeModifier() {
 		// TODO Auto-generated method stub
-		return false;
+		return this.attackTypeModifer;
 	}
+
 
 }
