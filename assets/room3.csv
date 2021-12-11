@@ -1,2 +1,2 @@
-PORTAL,Portal,300,500,50,50,room3,room2
-PORTAL,Portal,600,100,50,50,room3,deadend
+PORTAL,Portal_D,300,500,50,50,room3,room2,room3
+PORTAL,Portal_E,600,100,50,50,room3,deadend,room3

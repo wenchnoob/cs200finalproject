@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 PORTAL,Portal,600,300,50,50,room1,room2,,,
 WALL,Wall,200,50,100,5,SOUTH,,,,
 WALL,Wall,300,150,100,5,SOUTH,,,,
@@ -9,3 +10,16 @@ WEAPON,Weapon,500,200,15,15,6,,,,
 POTION,Health Pot,300,300,10,10,10,HEAL,This item will heal you by %s.,,
 POTION,Attack Pot,400,300,10,10,2,ATTACK_UP,This item will raise your attack by %s.,,
 POTION,Defence Pot,300,350,10,10,2,DEFENCE_UP,This item will raise your defence by %s.,,
+=======
+PORTAL,Portal_A,600,300,50,50,room1,room2,room1
+WALL,Wall,200,50,100,5,SOUTH,room1
+WALL,Wall,300,150,100,5,SOUTH,room1
+WALL,Wall,400,150,100,5,EAST,room1
+WALL,Wall,200,300,100,5,WEST,room1
+GOBLIN,Goblin,110,350,20,20,NORTH,20,20,4,5,room1
+SKELETON,Skeleton,550,300,20,20,SOUTH,30,30,3,2,room1
+WEAPON,Weapon,500,200,15,15,6,room1
+POTION,Health Pot,300,300,10,10,10,HEAL,This item will heal you by %s.,room1
+POTION,Attack Pot,400,300,10,10,2,ATTACK_UP,This item will raise your attack by %s.,room1
+POTION,Defence Pot,300,350,10,10,2,DEFENCE_UP,This item will raise your defence by %s.,room1
+>>>>>>> c2dce43da277d289c833f33942998b4151909e81

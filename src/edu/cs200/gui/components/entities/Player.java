@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashSet;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.components.Weapon;
@@ -25,12 +25,18 @@ public class Player extends Entity implements Persisted {
     private static int DIM_X = 20;
     private static int DIM_Y = 20;
 
+    private int velocityX;
+    private int velocityY;
+
+    private Timer timer;
+
     private transient static Player self;
 
     public static Player getInstance() {
         if (self == null) self = new Player();
         return self;
     }
+
     private Player() {
         super("player", 0, 0, DIM_X, DIM_Y, 90, 100, 5, 5, EAST);
 
@@ -51,11 +57,6 @@ public class Player extends Entity implements Persisted {
         setHealth(getHealth() - amount);
     }
 
-    public void damage(int amount) {
-        int dmg = amount - getDefence();
-        if (dmg < 0) return;
-        setHealth(getHealth() - dmg);
-    }
 
     public void attackUp(int amount) {
         setAttackDmg(getAttackDmg() + amount);
@@ -80,7 +81,7 @@ public class Player extends Entity implements Persisted {
 
     public boolean checkAllCollision() {
         HashSet<DrawableObject> others = Map.getInstance().getCurrentRoom().getObjects();
-        for (DrawableObject obj: others) {
+        for (DrawableObject obj : others) {
             if (!Map.getInstance().isInBounds(obj)) continue;
             if (collides(obj)) {
                 obj.handleCollision(this);
@@ -110,7 +111,7 @@ public class Player extends Entity implements Persisted {
         }
         this.xPos -= 5;
         if (checkAllCollision()) this.xPos += 5;
-        return  true;
+        return true;
     }
 
     public boolean moveDown() {
@@ -121,14 +122,14 @@ public class Player extends Entity implements Persisted {
         }
         this.yPos -= 5;
         if (checkAllCollision()) this.yPos += 5;
-        return  true;
+        return true;
     }
 
     public boolean moveLeft() {
         if (checkAllCollision()) return false;
         if (orientation != WEST) {
-           this.orientation = WEST;
-           return true;
+            this.orientation = WEST;
+            return true;
         }
         this.xPos += 5;
         if (checkAllCollision()) this.xPos -= 5;
@@ -138,14 +139,18 @@ public class Player extends Entity implements Persisted {
     @Override
     public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
         g.setColor(Color.WHITE);
-        if (orientation == NORTH) g.fillPolygon(new int[]{START_X, START_X + DIM_X/2, START_X + DIM_X}, new int[]{START_Y + DIM_Y, START_Y, START_Y + DIM_Y}, 3);
-        else if (orientation == EAST) g.fillPolygon(new int[]{START_X, START_X + DIM_X, START_X}, new int[]{START_Y, START_Y + DIM_Y/2, START_Y + DIM_Y}, 3);
-        else if (orientation == SOUTH) g.fillPolygon(new int[]{START_X, START_X + DIM_X/2, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y, START_Y}, 3);
-        else g.fillPolygon(new int[]{START_X + DIM_X, START_X, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y/2, START_Y + DIM_Y}, 3);
+        if (orientation == NORTH)
+            g.fillPolygon(new int[]{START_X, START_X + DIM_X / 2, START_X + DIM_X}, new int[]{START_Y + DIM_Y, START_Y, START_Y + DIM_Y}, 3);
+        else if (orientation == EAST)
+            g.fillPolygon(new int[]{START_X, START_X + DIM_X, START_X}, new int[]{START_Y, START_Y + DIM_Y / 2, START_Y + DIM_Y}, 3);
+        else if (orientation == SOUTH)
+            g.fillPolygon(new int[]{START_X, START_X + DIM_X / 2, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y, START_Y}, 3);
+        else
+            g.fillPolygon(new int[]{START_X + DIM_X, START_X, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y / 2, START_Y + DIM_Y}, 3);
     }
 
     @Override
-    public boolean handleCollision(GameObject targ) {
+    public boolean handleCollision(DrawableObject targ) {
         return false;
     }
 
@@ -157,33 +162,35 @@ public class Player extends Entity implements Persisted {
         return -yPos;
     }
 
-    public void equip(Weapon equipWeapon){
-    	if(this.equippedWeapon != null) {
-            this.setAttackDmg(this.getAttackDmg()- this.equippedWeapon.getValue());
+    public void equip(Weapon equipWeapon) {
+        if (this.equippedWeapon != null) {
+            this.setAttackDmg(this.getAttackDmg() - this.equippedWeapon.getValue());
             Bag.getInstance().addItem(equippedWeapon);
         }
 
-    	this.equippedWeapon = equipWeapon;
-    	this.setAttackDmg(this.getAttackDmg()+ this.equippedWeapon.getValue());
+        this.equippedWeapon = equipWeapon;
+        this.setAttackDmg(this.getAttackDmg() + this.equippedWeapon.getValue());
     }
+
     /**
      * This method is the player Version of the attack method in the Entity class
      * thrust 1
      * slash 2
      * dodge 3
      * parry 4
+     *
      * @param playerAttack gets the type of attack the player chose
-     * @param enemy the enemy that is being attacked
+     * @param enemy        the enemy that is being attacked
      */
 
 
     public int attack(int playerAttack, Enemy enemy) {
+
     	int enemyAttack = enemy.attack(0,enemy);//gets the type of attack the enemy will use
     	int enemyDamage = enemy.getAttackDmg();
     	int enemyDefence = enemy.getDefence();
     	int enemyHealth = enemy.getHealth();
     	String enemyAttackType = enemy.getAttackType(enemyAttack);
-    	System.out.println(enemyDamage);
     	int playerDamage = this.getAttackDmg();
     	int playerDefence = this.getDefence();
     	int playerHealth = this.getHealth();
@@ -211,41 +218,56 @@ public class Player extends Entity implements Persisted {
         	this.setHealth(playerHealth - (enemyDamage - playerDefence));
         	}
         	result = "you both took damage!";
+
         }
-        else if((enemyAttack == 1 && playerAttack == 4)||(enemyAttack == 2 && playerAttack == 3)) {//Player misses defensive skill
-        	if(enemyDamage-playerDefence > 0)
-        	this.setHealth(playerHealth - (enemyDamage- playerDefence));
-        	else {
-        		this.setHealth(playerHealth-1);
-        	}
-        	result = "you took damage!";
+        if (this.isDidDodge()) {
+            playerDamage = playerDamage * 2;
+            this.setDidDodge(false);
         }
-        else if((playerAttack == 1 && enemyAttack == 4)||(playerAttack == 2 && enemyAttack == 3)) {//enemy misses defensive skill
-        	if(playerDamage-enemyDefence>0)
-        	enemy.setHealth(enemyHealth - (playerDamage - enemyDefence));
-        	else {
-        		enemy.setHealth(enemyHealth-1);
-        	}
-        	result = "the enemy took damage!";
+
+        if ((enemyAttack == 1 || enemyAttack == 2) && (playerAttack == 1 || playerAttack == 2)) {//if both are attacks both take damage
+            if (playerDamage - enemyDefence > 0)
+                enemy.damage(playerDamage - enemyDefence);
+            else {
+                enemy.setHealth(enemyHealth - 1);
+            }
+            if (enemyDamage - playerDefence > 0)
+                this.damage(enemyDamage - playerDefence);
+            else {
+                this.damage(1);
+            }
+            result = "you both took damage!";
+        } else if ((enemyAttack == 1 && playerAttack == 4) || (enemyAttack == 2 && playerAttack == 3)) {//Player misses defensive skill
+            if (enemyDamage - playerDefence > 0)
+                this.setHealth(playerHealth - (enemyDamage - playerDefence));
+            else {
+                this.damage(1);
+            }
+            result = "you took damage!";
+        } else if ((playerAttack == 1 && enemyAttack == 4) || (playerAttack == 2 && enemyAttack == 3)) {//enemy misses defensive skill
+            if (playerDamage - enemyDefence > 0)
+                this.damage(enemyDamage - playerDefence);
+            else {
+                this.damage(1);
+            }
+            result = "the enemy took damage!";
+        } else if ((enemyAttack == 1 && playerAttack == 3) || (enemyAttack == 2 && playerAttack == 4)) {//player dodged enemy attack
+            this.setDidDodge(true);
+            result = "Counter!  next attack -- dmg X2!!";
+        } else if ((playerAttack == 1 && enemyAttack == 3) || (playerAttack == 2 && enemyAttack == 4)) {//enemy dodged player attack
+            enemy.setDidDodge(true);
+            result = "Enemy Counter! their next attack -- dmg X2!!";
+        } else {
+            result = "Counter x Counter -- Nothing happens";
         }
-        else if((enemyAttack == 1 && playerAttack == 3)|| (enemyAttack == 2 && playerAttack ==4)) {//player dodged enemy attack
-        	this.setDidDodge(true);
-        	result = "you countered the enemy attack! Your next attack will do double damage!!";
-        }
-        else if((playerAttack == 1 && enemyAttack == 3)||(playerAttack == 2 && enemyAttack == 4)) {//enemy dodged player attack
-        	enemy.setDidDodge(true);
-        	result = "the enemy countered your attack! Their next attack will do double damage!!";
-        }
-        else {
-        	result = "Both you and your enemy countered.  Nothing happens";
-        }
-        message = "You used a " + playerAttackType + " and your enemy used a "+ enemyAttackType + " meaning " + result;
-        JOptionPane.showMessageDialog(Window.getInstance().getFrame() , message);
+        message = "You: " + playerAttackType + "    " +
+                "Enemy:" + enemyAttackType + " --- " + result;
+        JOptionPane.showMessageDialog(Window.getInstance().getFrame(), message);
         return 0;
     }
 
     public void levelup(int xp) {
-    	//potential method for realism do not make a priority rn
+        //potential method for realism do not make a priority rn
     }
 
 

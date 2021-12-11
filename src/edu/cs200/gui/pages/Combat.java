@@ -10,6 +10,7 @@ import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.utils.EntityObserver;
 import edu.cs200.gui.utils.SerializableComponentAdapter;
 import edu.cs200.gui.utils.SerializableKeyAdapter;
+import edu.cs200.gui.utils.SerializableMouseAdapter;
 
 import static edu.cs200.utils.Globals.*;
 import static edu.cs200.utils.Helpers.*;
@@ -18,10 +19,15 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.*;
 
 public class Combat extends JPanel {
+
+    int offsetX, offsetY;
+    int X_AXIS = 0, Y_AXIS = 1;
+    int INCREASING = 0, DEACREASING = 1;
 
     private Enemy currentEnemy;
 
@@ -44,6 +50,8 @@ public class Combat extends JPanel {
 
         add(new EntityObserver(Player.getInstance(), EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_START);
         add(new EntityObserver(currentEnemy, EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_END);
+        currentEnemy.damage(1);
+        currentEnemy.setHealth(currentEnemy.getHealth() + 1);
     }
 
     private Combat() {
@@ -83,6 +91,19 @@ public class Combat extends JPanel {
             }
         });
 
+        addMouseListener(new SerializableMouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                requestFocus();
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                requestFocus();
+            }
+        });
+
         addKeyListener(new SerializableKeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -105,6 +126,8 @@ public class Combat extends JPanel {
             }
         });
 
+        size(thrustButton, slashButton, dodgeButton, parryButton, flee);
+
         bottom.add(thrustButton);
         bottom.add(slashButton);
         bottom.add(dodgeButton);
@@ -113,19 +136,28 @@ public class Combat extends JPanel {
         add(bottom, BorderLayout.PAGE_END);
     }
 
+    private void size(JButton...buttons) {
+        for (JButton button: buttons) {
+            button.setPreferredSize(new Dimension(100, 50));
+            button.setMaximumSize(new Dimension(100, 50));
+            button.setMinimumSize(new Dimension(100, 50));
+        }
+    }
+
     public Entity getCurrentEnemy() {
     	return currentEnemy;
     }
 
     public void attack(int playerAttack) {
         Player.getInstance().attack(playerAttack,currentEnemy);
+        animateH(500, X_AXIS, INCREASING);
         if (!(Player.getInstance().isAlive() && currentEnemy.isAlive())) endCombat();
     }
 
 
     public void flee() {
         if (new Random().nextInt(100) % 2 == 0) {
-            goTo(MAP);
+            edu.cs200.gui.components.Window.getInstance().goTo(MAP);
         } else {
             Player.getInstance().trueDamage(2);
         }
@@ -137,12 +169,30 @@ public class Combat extends JPanel {
             currentEnemy.die();
         }
         if (!Player.getInstance().isAlive()){
+
          	JOptionPane.showMessageDialog(Window.getInstance().getFrame() , "You Died");
              Player.getInstance().die();
              // end the game
          }
-        goTo(MAP);
+        edu.cs200.gui.components.Window.getInstance().goTo(MAP);
         currentEnemy = null;
+    }
+
+    public void animateH(int amount, int axis, int dir) {
+        Thread t = new Thread(() -> {
+            for (int i = 0; i < amount * 2; i++) {
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                int delta = dir == 0 ? amount - i > 0 ? -1 : 1 : amount - i > 0 ? 1 : -1;
+                if (axis == X_AXIS) offsetX += delta;
+                else offsetY += delta;
+                repaint();
+            }
+        });
+        t.start();
     }
 
     private class CombatWindow extends JPanel {
@@ -150,11 +200,30 @@ public class Combat extends JPanel {
             setBackground(Color.GRAY);
         }
 
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            Player.getInstance().paint(g);
-            currentEnemy.paintWithOffset(g, -800, 10);
+            paintPlayer(g);
+            paintEnemy(g);
+        }
+
+        private void paintPlayer(Graphics g) {
+            g.setColor(Color.WHITE);
+            int START_X = 100;
+            int START_Y = 250;
+            int DIM_X = 100;
+            int DIM_Y = 100;
+            g.fillPolygon(new int[]{START_X, START_X + DIM_X, START_X}, new int[]{START_Y, START_Y + DIM_Y / 2, START_Y + DIM_Y}, 3);
+        }
+
+        private void paintEnemy(Graphics g) {
+            g.setColor(Color.RED);
+            int START_X = 900 + offsetX;
+            int START_Y = 250 + offsetY;
+            int DIM_X = 100;
+            int DIM_Y = 100;
+            g.fillPolygon(new int[]{START_X + DIM_X, START_X, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y / 2, START_Y + DIM_Y}, 3);
         }
     }
 

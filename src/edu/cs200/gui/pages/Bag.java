@@ -1,5 +1,6 @@
 package edu.cs200.gui.pages;
 
+import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.components.Item;
 import edu.cs200.gui.components.entities.Player;
@@ -8,12 +9,14 @@ import edu.cs200.gui.utils.SerializableMouseAdapter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import static edu.cs200.utils.Globals.BAG;
 import static edu.cs200.utils.Globals.WINDOW_WIDTH;
@@ -40,6 +43,22 @@ public class Bag extends Card implements Persisted {
         slots = new LinkedList<>();
         mainContent.setLayout(new BorderLayout());
 
+        JButton findItem = new JButton("Find an Item") {
+            {
+                addActionListener((ActionListener & Serializable) action -> {
+                    Map map = Map.getInstance();
+                    String in = (String) JOptionPane.showInputDialog(Window.getInstance().getFrame(), "Input an item to search for: ", "Find Item", JOptionPane.QUESTION_MESSAGE, null, Map.getInstance().itemNames().toArray(new String[]{}), "-");
+                    if (Objects.isNull(in)) {
+                        //JOptionPane.showMessageDialog(Window.getInstance().getFrame(),"No Item was Selected", "!!!", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    DrawableObject obj = map.find(in);
+                    if (Objects.nonNull(obj)) JOptionPane.showMessageDialog(Window.getInstance().getFrame(), in + " has been found in " + obj.getRoom() + " at X: " + obj.getxPos() + "; Y: " + obj.getxPos(), "Results", JOptionPane.INFORMATION_MESSAGE);
+                    else JOptionPane.showMessageDialog(Window.getInstance().getFrame(), in + " was not been found!", "Results", JOptionPane.INFORMATION_MESSAGE);
+                });
+            }
+        };
+
 
         JPanel headingPanel = new JPanel();
         heading = new JLabel(String.format("Your bag size %s/%s", getItemCount(), capacity));
@@ -47,6 +66,7 @@ public class Bag extends Card implements Persisted {
         heading.setHorizontalTextPosition(SwingConstants.CENTER);
         heading.setLocation(WINDOW_WIDTH/2, 60);
         headingPanel.add(heading);
+        headingPanel.add(findItem);
         mainContent.add(headingPanel, BorderLayout.PAGE_START);
 
         visualBag = new JPanel();

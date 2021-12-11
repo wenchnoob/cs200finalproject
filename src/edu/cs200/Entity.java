@@ -152,9 +152,4 @@ public boolean isAlive() {
 		if (observers != null)
 			for (Observer obs: observers) obs.getUpdate(this);
 	}
-
-	public void save(PrintWriter out) {
-		super.save(out);
-		out.write(String.format("%s,%s,%s,%s,", getHealth(), max_health, getAttackDmg(), getDefence()));
-	}
 }

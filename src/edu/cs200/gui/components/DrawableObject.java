@@ -3,28 +3,31 @@ package edu.cs200.gui.components;
 import java.awt.*;
 import java.util.Objects;
 
-public abstract class DrawableObject extends GameObject {
+public abstract class DrawableObject{
 
     protected int xPos, yPos, xPos2, yPos2, width, height;
+    protected String room;
 
     public DrawableObject(String name, int xPos, int yPos, int width, int height) {
-        super(name);
+        
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
         this.xPos2 = xPos + width;
         this.yPos2 = yPos + height;
+        this.room = "Prog Gen";
     }
 
     public DrawableObject(String[] props) {
-        super(props);
+        
         this.xPos = parse(props[2]);
         this.yPos = parse(props[3]);
         this.width = parse(props[4]);
         this.height = parse(props[5]);
         this.xPos2 = this.xPos + width;
         this.yPos2 = this.yPos + height;
+        this.room = props[props.length - 1];
     }
 
     protected static int parse(String val) {
@@ -33,7 +36,7 @@ public abstract class DrawableObject extends GameObject {
 
     public abstract void paintWithOffset(Graphics g, int xOffset, int yOffset);
 
-    public abstract boolean handleCollision(GameObject targ);
+    public abstract boolean handleCollision(DrawableObject targ);
 
     public boolean isInBounds(int x1, int y1, int x2, int y2) {
         // Checks if top left vertex of the boundary box is within the bounds specified.
@@ -97,16 +100,20 @@ public abstract class DrawableObject extends GameObject {
         this.height = height;
     }
 
+    public String getRoom() {
+        return room;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(name, xPos, yPos, xPos2, yPos2, width, height);
+        return Objects.hash(xPos, yPos, xPos2, yPos2, width, height);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof DrawableObject)) return false;
         DrawableObject dobj = (DrawableObject) obj;
-        return this.getName().equals(dobj.getName()) &&
+        return this.
                 getxPos() == dobj.getxPos() &&
                 getyPos() == dobj.getyPos() &&
                 getxPos2() == dobj.getxPos2() &&

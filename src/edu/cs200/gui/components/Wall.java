@@ -20,7 +20,7 @@ public class Wall extends OrientedObject {
     }
 
     @Override
-    public boolean handleCollision(GameObject object) {
+    public boolean handleCollision(DrawableObject object) {
         return false;
     }
 

@@ -56,7 +56,11 @@ public abstract class Entity extends OrientedObject implements Observable {
         return false;
     }
 
-
+    public void damage(int amount) {
+        int dmg = amount - getDefence();
+        if (dmg < 0) return;
+        setHealth(getHealth() - dmg);
+    }
 
     public abstract int attack(int i, Enemy e);
 

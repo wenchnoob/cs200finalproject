@@ -11,7 +11,7 @@ public class Potion extends Item {
 
 	private String type;
 	private int value;
-	private Consumer<GameObject> effect;
+	private Consumer<Player> effect;
 
 	public Potion(String name, int xPos, int yPos, int width, int height, int value, String desc) {
 		super(name, xPos, yPos, width, height, desc);
@@ -31,28 +31,28 @@ public class Potion extends Item {
 		this.effect = parseEffect(props[7]);
 	}
 
-	private Consumer<GameObject> parseEffect(String effect) {
+	private Consumer<Player> parseEffect(String effect) {
 		switch (effect) {
 			case "HEAL":
-				return (Consumer<GameObject> & Serializable)  obj -> {
+				return (Consumer<Player> & Serializable)  obj -> {
 					if (obj instanceof Player) {
 						Player.getInstance().heal(value);
 					}
 				};
 			case "ATTACK_UP":
-				return (Consumer<GameObject> & Serializable) obj -> {
+				return (Consumer<Player> & Serializable) obj -> {
 					if (obj instanceof Player) {
 						Player.getInstance().attackUp(value);
 					}
 				};
 			case "DEFENCE_UP":
-				return (Consumer<GameObject> & Serializable) obj -> {
+				return (Consumer<Player> & Serializable) obj -> {
 					if (obj instanceof Player) {
 						Player.getInstance().defenceUp(value);
 					}
 				};
 		}
-		return (Consumer<GameObject> & Serializable) obj -> {};
+		return (Consumer<Player> & Serializable) obj -> {};
 	}
 
 	public int getValue() {
@@ -60,11 +60,11 @@ return this.value;
 }
 
 	@Override
-	public void use(GameObject obj) {
+	public void use(Player obj) {
 		effect.accept(obj);
 	}
 
-	public void useEffect(GameObject object) {
+	public void useEffect(Player object) {
 		effect.accept(object);
 	}
 
@@ -105,4 +105,12 @@ return this.value;
 		Potion pot = (Potion) o;
 		return pot.getType().equals(type) && pot.getValue() == value;
 	}
+
+	@Override
+	public boolean handleCollision(DrawableObject targ) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 }
