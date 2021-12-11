@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashSet;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.components.Weapon;
@@ -25,6 +25,11 @@ public class Player extends Entity implements Persisted {
     private static int START_Y = 300;
     private static int DIM_X = 20;
     private static int DIM_Y = 20;
+
+    private int velocityX;
+    private int velocityY;
+
+    private Timer timer;
 
     private transient static Player self;
 

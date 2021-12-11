@@ -16,6 +16,7 @@ public class Window {
     private static Window self;
     private final JFrame frame;
     private final LayoutManager layoutManager;
+    private String currentPage;
 
     public static Window getInstance() {
         if (self == null) self = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_NAME);
@@ -39,6 +40,7 @@ public class Window {
         frame.setLocationRelativeTo(null);
         frame.setFocusable(true);
         frame.setVisible(true);
+        currentPage = "Home";
     }
 
     private void init() {
@@ -56,7 +58,23 @@ public class Window {
         frame.remove(Combat.getInstance());
         frame.remove(Home.getInstance());
         init();
-        Helpers.goTo("Home");
+        Window.getInstance().goTo("Home");
+    }
+
+    public String getCurrentPage() {
+        return currentPage;
+    }
+
+    public void goTo(String pageName) {
+        this.currentPage = pageName;
+        ((CardLayout)layoutManager).show(frame.getContentPane(), currentPage);
+        if (pageName.equals(MAP)) {
+            Map map = Map.getInstance();
+            map.focusOnMap();
+            map.timer.start();
+        } else {
+            Map.getInstance().timer.stop();
+        }
     }
 
     public JFrame getFrame() {

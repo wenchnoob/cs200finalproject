@@ -34,13 +34,12 @@ public class Card extends JPanel {
         JPanel leftPane = new JPanel(new GridLayout(5, 0));
         leftPane.setPreferredSize(new Dimension(WINDOW_WIDTH/5, WINDOW_HEIGHT - 20));
 
-
         JButton mapButton = new JButton(MAP);
-        mapButton.addActionListener((ActionListener & Serializable) action -> goTo(MAP));
+        mapButton.addActionListener((ActionListener & Serializable) action -> Window.getInstance().goTo(MAP));
         mapButton.setFont(quatera());
 
         JButton bagButton = new JButton(BAG);
-        bagButton.addActionListener((ActionListener & Serializable)  action -> goTo(BAG));
+        bagButton.addActionListener((ActionListener & Serializable)  action -> Window.getInstance().goTo(BAG));
         bagButton.setFont(quatera());
 
         JButton save = new JButton("Save");
@@ -51,7 +50,7 @@ public class Card extends JPanel {
             } else if (res == SUCCESS) {
                 JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Saved!", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
             } else if (res == NO_SELECTION) {
-                JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "No Selection Made", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "No Selection Made", "Notification", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -68,7 +67,7 @@ public class Card extends JPanel {
         });
 
         JButton home = new JButton("Home");
-        home.addActionListener((ActionListener & Serializable) action -> goTo("Home"));
+        home.addActionListener((ActionListener & Serializable) action -> Window.getInstance().goTo("Home"));
         
         
 

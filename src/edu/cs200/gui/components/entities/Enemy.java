@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.function.Consumer;
 
-import static edu.cs200.utils.Helpers.goTo;
 
 public abstract class Enemy extends Entity {
     private double aggressionModifier;
@@ -32,11 +31,12 @@ public abstract class Enemy extends Entity {
 
     public Enemy(String name, int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
         super(name, xPos, yPos, width, height, health, maxHealth, attackDamage, defence, orientation);
-
+        animate(4);
     }
 
     public Enemy(String[] props) {
         super(props);
+        animate(4);
     }
 
     public boolean checkAllCollision() {
@@ -55,7 +55,7 @@ public abstract class Enemy extends Entity {
         new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(5 - speed);
+                    Thread.sleep(1000/60 - speed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -64,23 +64,8 @@ public abstract class Enemy extends Entity {
                 if (axis == 0) {
                     changeX.accept(rand.nextInt(11) - 5);
                 } else changeY.accept(rand.nextInt(11) - 5);
-                Map.getInstance().redraw(xPos, yPos, width, height);
             }
         }).start();
-    }
-
-
-
-    public void animateDown() {
-        Thread t = new Thread(() -> {
-
-        });
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -102,7 +87,7 @@ public abstract class Enemy extends Entity {
     public boolean handleCollision(GameObject targ) {
         if (targ instanceof Player) {
             Combat.getInstance().setCurrentEnemy(this);
-            goTo("Combat");
+            edu.cs200.gui.components.Window.getInstance().goTo("Combat");
         }
         return false;
     }

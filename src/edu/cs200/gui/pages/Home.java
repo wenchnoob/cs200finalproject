@@ -38,7 +38,7 @@ public class Home extends JPanel {
                     Bag.getInstance().resetBag();
                     Map.getInstance().resetMap();
                     Window.getInstance().reset();
-                    Helpers.goTo(MAP);
+                    Window.getInstance().goTo(MAP);
                     Game.startGame();
                 });
 
@@ -51,7 +51,7 @@ public class Home extends JPanel {
         JButton resumeButton = new JButton("Resume Game") {
             {
                 addActionListener((ActionListener & Serializable) action -> {
-                    if (Game.isStarted()) Helpers.goTo(MAP);
+                    if (Game.isStarted()) Window.getInstance().goTo(MAP);
                     else JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "No game to resume :(", "Resume Failed", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
                 });
 
@@ -65,7 +65,7 @@ public class Home extends JPanel {
             {
                 addActionListener((ActionListener & Serializable) action -> {
                     int res = Helpers.load();
-                    if (res != Helpers.SUCCESS) Helpers.goTo("Home");
+                    if (res != Helpers.SUCCESS) Window.getInstance().goTo("Home");
                 });
 
                 setPreferredSize(new Dimension(200, 100));

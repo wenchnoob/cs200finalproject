@@ -16,15 +16,6 @@ public class Helpers {
 
     public static int NO_SELECTION = 0, FAILED = 1, SUCCESS = 2;
 
-    public static void goTo(String pageName) {
-        JFrame frame = Window.getInstance().getFrame();
-        LayoutManager llayout = Window.getInstance().getLayoutManager();
-
-        CardLayout layout = (CardLayout) llayout;
-        layout.show(frame.getContentPane(), pageName);
-        if (pageName.equals(MAP)) Map.getInstance().focusOnMap();
-    }
-
     public static int save() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showSaveDialog(Window.getInstance().getFrame());

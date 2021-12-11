@@ -11,12 +11,10 @@ import edu.cs200.gui.utils.SerializableKeyAdapter;
 import edu.cs200.gui.utils.SerializableMouseAdapter;
 
 import javax.swing.*;
+import javax.swing.Timer;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -32,8 +30,16 @@ public class Map extends Card implements Persisted {
     private static Map self;
     private String currentRoom = "room1";
     private JPanel canvasPanel;
-    private JPanel stats;
     private Hashtable<String, LocationDescription> rooms;
+
+    public  Timer timer = new Timer(1000/60, (ActionListener & Serializable) action -> {
+        if (!edu.cs200.gui.components.Window.getInstance().getCurrentPage().equals(MAP)) stop();
+        this.canvasPanel.repaint();
+    });
+
+    private void stop() {
+        timer.stop();
+    }
 
     public static Map getInstance() {
         if (self == null) self = new Map();
@@ -53,6 +59,7 @@ public class Map extends Card implements Persisted {
         this.canvasPanel.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
         this.canvasPanel.setBackground(Color.BLACK);
         super.mainContent.add(this.canvasPanel, BorderLayout.CENTER);
+        timer.start();
     }
 
     public DrawableObject find(String name) {
@@ -111,7 +118,7 @@ public class Map extends Card implements Persisted {
         this.currentRoom = roomName;
         Player.getInstance().reset();
         rooms.get(currentRoom).addObject(Player.getInstance());
-        redraw();
+        this.label.setText("Map: " + currentRoom);
     }
 
     public void loadRoom(String roomName) {
@@ -128,16 +135,6 @@ public class Map extends Card implements Persisted {
         return obj.isInBounds(0 + xOff, 0 + yOff, CANVAS_WIDTH + xOff, CANVAS_HEIGHT + yOff);
     }
 
-    public void redraw() {
-        this.label.setText("Map: " + currentRoom);
-        this.repaint();
-    }
-
-    public void redraw(int x, int y, int width, int height) {
-        this.label.setText("Map: " + currentRoom);
-        this.canvasPanel.repaint(x, y, width, height);
-    }
-
     public LocationDescription getCurrentRoom() {
         return rooms.get(currentRoom);
     }
@@ -146,7 +143,7 @@ public class Map extends Card implements Persisted {
     public boolean load(ObjectInputStream in) {
         try {
             self = (Map)in.readObject();
-            redraw();
+            this.label.setText("Map: " + currentRoom);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -202,7 +199,6 @@ public class Map extends Card implements Persisted {
                         case KeyEvent.VK_RIGHT:
                             Player.getInstance().moveRight();
                     }
-                    Map.getInstance().redraw();
                 }
             });
         }
