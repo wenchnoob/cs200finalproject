@@ -1,5 +1,4 @@
 package edu.cs200.gui.components;
-import edu.cs200.GameObject;
 import edu.cs200.gui.pages.Map;
 
 import java.awt.*;

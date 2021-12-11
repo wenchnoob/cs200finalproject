@@ -1,7 +1,5 @@
 package edu.cs200.gui.components;
 
-import edu.cs200.GameObject;
-
 import java.awt.*;
 
 public class Wall extends OrientedObject {

@@ -1,7 +1,7 @@
 package edu.cs200.gui.components.entities;
 
 import edu.cs200.gui.components.DrawableObject;
-import edu.cs200.GameObject;
+import edu.cs200.gui.components.GameObject;
 import edu.cs200.gui.pages.Combat;
 import edu.cs200.gui.pages.Map;
 

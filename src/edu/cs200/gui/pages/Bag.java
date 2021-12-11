@@ -4,7 +4,7 @@ import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.components.Item;
 import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.Window;
-import edu.cs200.gui.utils.SerializeableMouseAdapter;
+import edu.cs200.gui.utils.SerializableMouseAdapter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -155,23 +155,22 @@ public class Bag extends Card implements Persisted {
             setMinimumSize(new Dimension(100, 200));
             setSize(new Dimension(100, 200));
             addMouseListener(
-                    new SerializeableMouseAdapter() {
+                    new SerializableMouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             super.mouseClicked(e);
-                            System.out.println(item);
                             if (item == null) return;
 
-                            if (e.getButton() == MouseEvent.BUTTON1) {
+                             if (e.getButton() == MouseEvent.BUTTON3 || e.isControlDown()) {
+                                int res = JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Discard " + item.getType(), "Discard", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                if (res == 0)
+                                    removeItem(1);
+                            } else if (e.getButton() == MouseEvent.BUTTON1) {
                                 int res = JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Use " + item.getType(), "Use", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                 if (res == 0) {
                                     item.use(Player.getInstance());
                                     removeItem(1);
                                 }
-                            } else if (e.getButton() == MouseEvent.BUTTON3) {
-                                int res = JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Discard " + item.getType(), "Discard", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                                if (res == 0)
-                                    removeItem(1);
                             }
                         }
                     }

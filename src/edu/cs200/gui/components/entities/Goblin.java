@@ -3,7 +3,7 @@ package edu.cs200.gui.components.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import edu.cs200.GameObject;
+import edu.cs200.gui.components.GameObject;
 
 public class Goblin extends Enemy {
 private int aggressionModifier = 50;
