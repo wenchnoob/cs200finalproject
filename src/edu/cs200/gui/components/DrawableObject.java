@@ -6,7 +6,7 @@ import java.util.Objects;
 public abstract class DrawableObject{
 
     protected int xPos, yPos, xPos2, yPos2, width, height;
-    protected String room;
+    protected String room, name;
 
     public DrawableObject(String name, int xPos, int yPos, int width, int height) {
         
@@ -102,6 +102,9 @@ public abstract class DrawableObject{
 
     public String getRoom() {
         return room;
+    }
+    public String getName() {
+    	return name;
     }
 
     @Override
