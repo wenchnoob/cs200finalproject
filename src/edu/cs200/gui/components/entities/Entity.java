@@ -20,6 +20,8 @@ public abstract class Entity extends OrientedObject implements Observable {
     private int maxHealth;
     private boolean didDodge = false;
 
+    public static final int THRUST = 1, SLASH = 2, DODGE = 3, PARRY = 4;
+
 
     public Entity(String name, int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDmg, int defence, int orientation) {
         super(name, xPos, yPos, width, height, orientation);
@@ -58,7 +60,7 @@ public abstract class Entity extends OrientedObject implements Observable {
 
     public void damage(int amount) {
         int dmg = amount - getDefence();
-        if (dmg < 0) return;
+        if (dmg < 0) dmg = 1;
         setHealth(getHealth() - dmg);
     }
 
@@ -114,11 +116,11 @@ public abstract class Entity extends OrientedObject implements Observable {
     }
 
     public String getAttackType(int attack) {
-        if (attack == 1) {
+        if (attack == THRUST) {
             return "Thrust";
-        } else if (attack == 2) {
+        } else if (attack == SLASH) {
             return "Slash";
-        } else if (attack == 3) {
+        } else if (attack == DODGE) {
             return "Dodge";
         } else {
             return "Parry";
@@ -145,8 +147,13 @@ public abstract class Entity extends OrientedObject implements Observable {
     @Override
     public void addObserver(Observer observer) {
         if (observers == null) observers = new LinkedList<>();
-        System.out.println("adding observer to " + this.getName());
         observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        if (observer == null) return;
+        observers.remove(observer);
     }
 
     @Override

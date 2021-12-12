@@ -3,8 +3,10 @@ package edu.cs200.gui.pages;
 
 import javax.swing.*;
 
-import edu.cs200.gui.components.entities.Entity;
+import edu.cs200.gui.components.Window;
+
 import edu.cs200.gui.components.entities.Enemy;
+import edu.cs200.gui.components.entities.Entity;
 import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.utils.EntityObserver;
 import edu.cs200.gui.utils.SerializableComponentAdapter;
@@ -12,7 +14,6 @@ import edu.cs200.gui.utils.SerializableKeyAdapter;
 import edu.cs200.gui.utils.SerializableMouseAdapter;
 
 import static edu.cs200.utils.Globals.*;
-import static edu.cs200.utils.Helpers.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -24,7 +25,8 @@ import java.util.*;
 
 public class Combat extends JPanel {
 
-    int offsetX, offsetY;
+    int pOffsetX, pOffsetY, eOffsetX, eOffsetY;
+    int PLAYER = 0, ENEMY = 1;
     int X_AXIS = 0, Y_AXIS = 1;
     int INCREASING = 0, DECREASING = 1;
 
@@ -52,6 +54,11 @@ public class Combat extends JPanel {
             top.remove(playerHealthObserver);
             remove(enemyStatsObserver);
             remove(playerStatsObserver);
+
+            Player.getInstance().removeObserver(playerHealthObserver);
+            Player.getInstance().removeObserver(playerStatsObserver);
+            currentEnemy.removeObserver(enemyHealthObserver);
+            currentEnemy.removeObserver(enemyStatsObserver);
         } catch (NullPointerException ex) {}
 
         playerHealthObserver = new EntityObserver(Player.getInstance());
@@ -68,11 +75,6 @@ public class Combat extends JPanel {
         enemyStatsObserver = new EntityObserver(currentEnemy, EntityObserver.ALL, EntityObserver.V);
         add(enemyStatsObserver, BorderLayout.LINE_END);
         this.currentEnemy = currentEnemy;
-
-//        System.out.println(currentEnemy.getName());
-//        enemyHealthObserver.changeEntity(currentEnemy);
-//        enemyStatsObserver.changeEntity(currentEnemy);
-//        top.repaint();
     }
 
     private Combat() {
@@ -83,22 +85,22 @@ public class Combat extends JPanel {
 
         JButton thrustButton = new JButton("Thrust");
         thrustButton.addActionListener((ActionListener & Serializable) action ->{
-        	attack(1);
+        	attack(Entity.THRUST);
         });
 
         JButton slashButton = new JButton("Slash");
         slashButton.addActionListener((ActionListener & Serializable) action ->{
-        	attack(2);
+        	attack(Entity.SLASH);
         });
 
         JButton dodgeButton = new JButton("Dodge");
         dodgeButton.addActionListener((ActionListener & Serializable) action ->{
-        	attack(3);
+        	attack(Entity.DODGE);
         });
         
         JButton parryButton = new JButton("Parry");
         parryButton.addActionListener((ActionListener & Serializable) action ->{
-        	attack(4);
+        	attack(Entity.PARRY);
         });
 
         JButton flee = new JButton("Flee");
@@ -130,16 +132,16 @@ public class Combat extends JPanel {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_A:
-                        attack(1);
+                        attack(Entity.THRUST);
                         break;
                     case KeyEvent.VK_S:
-                        attack(2);
+                        attack(Entity.SLASH);
                         break;
                     case KeyEvent.VK_D:
-                        attack(3);
+                        attack(Entity.DODGE);
                         break;
                     case KeyEvent.VK_F:
-                        attack(4);
+                        attack(Entity.PARRY);
                         break;
                     case KeyEvent.VK_SPACE:
                         flee();
@@ -167,9 +169,39 @@ public class Combat extends JPanel {
 
 
     public void attack(int playerAttack) {
-        Player.getInstance().attack(playerAttack,currentEnemy);
-        animateH(500, X_AXIS, INCREASING);
+        int enemyAttack = currentEnemy.attack(0, null);
+        String msg = Player.getInstance().attackR(playerAttack, enemyAttack, currentEnemy);
+        animatePlayer(playerAttack);
+        animateEnemy(enemyAttack);
+        JOptionPane.showMessageDialog(Window.getInstance().getFrame(), msg);
         if (!(Player.getInstance().isAlive() && currentEnemy.isAlive())) endCombat();
+    }
+
+    private void animatePlayer(int attack) {
+        animateBasedOnAttack(attack, PLAYER, INCREASING, DECREASING);
+    }
+
+    private void animateEnemy(int attack) {
+        animateBasedOnAttack(attack, ENEMY, DECREASING, INCREASING);
+    }
+
+    private void animateBasedOnAttack(int attack, int enemy, int decreasing, int increasing) {
+        switch (attack) {
+            case Entity.THRUST:
+                animate(enemy, 200, X_AXIS, decreasing);
+                break;
+            case Entity.SLASH:
+                animate(enemy, 200, X_AXIS, decreasing);
+                animate(enemy, 200, Y_AXIS, increasing);
+                break;
+            case Entity.DODGE:
+                animate(enemy, 200, X_AXIS, increasing);
+                break;
+            case Entity.PARRY:
+                animate(enemy, 200, X_AXIS, increasing);
+                animate(enemy, 200, Y_AXIS, decreasing);
+
+        }
     }
 
     public void flee() {
@@ -194,7 +226,7 @@ public class Combat extends JPanel {
         currentEnemy = null;
     }
 
-    public void animateH(int amount, int axis, int dir) {
+    public void animate(int entity, int amount, int axis, int dir) {
         Thread t = new Thread(() -> {
             for (int i = 0; i < amount * 2; i++) {
                 try {
@@ -202,9 +234,14 @@ public class Combat extends JPanel {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                int delta = dir == 0 ? amount - i > 0 ? -1 : 1 : amount - i > 0 ? 1 : -1;
-                if (axis == X_AXIS) offsetX += delta;
-                else offsetY += delta;
+                int delta = dir == 0 ? amount - i > 0 ? 1 : -1 : amount - i > 0 ? -1 : 1;
+                if (entity == PLAYER) {
+                    if (axis == X_AXIS) pOffsetX += delta;
+                    else pOffsetY += delta;
+                } else if (entity == ENEMY) {
+                    if (axis == X_AXIS) eOffsetX += delta;
+                    else eOffsetY += delta;
+                }
                 repaint();
             }
         });
@@ -226,8 +263,8 @@ public class Combat extends JPanel {
 
         private void paintPlayer(Graphics g) {
             g.setColor(Color.WHITE);
-            int START_X = 100;
-            int START_Y = 250;
+            int START_X = 100 + pOffsetX;
+            int START_Y = 250 + pOffsetY;
             int DIM_X = 100;
             int DIM_Y = 100;
             g.fillPolygon(new int[]{START_X, START_X + DIM_X, START_X}, new int[]{START_Y, START_Y + DIM_Y / 2, START_Y + DIM_Y}, 3);
@@ -235,8 +272,8 @@ public class Combat extends JPanel {
 
         private void paintEnemy(Graphics g) {
             g.setColor(Color.RED);
-            int START_X = 900 + offsetX;
-            int START_Y = 250 + offsetY;
+            int START_X = 900 + eOffsetX;
+            int START_Y = 250 + eOffsetY;
             int DIM_X = 100;
             int DIM_Y = 100;
             g.fillPolygon(new int[]{START_X + DIM_X, START_X, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y / 2, START_Y + DIM_Y}, 3);

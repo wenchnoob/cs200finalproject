@@ -39,7 +39,7 @@ public class Player extends Entity implements Persisted {
     }
 
     private Player() {
-        super("player", 0, 0, DIM_X, DIM_Y, 90, 100, 5, 5, EAST);
+        super("Player", 0, 0, DIM_X, DIM_Y, 90, 100, 7, 3, EAST);
 
     }
 
@@ -183,69 +183,64 @@ public class Player extends Entity implements Persisted {
      * @param playerAttack gets the type of attack the player chose
      * @param enemy        the enemy that is being attacked
      */
-
-
-    public int attack(int playerAttack, Enemy enemy) {
-        int enemyAttack = enemy.attack(0, enemy);//gets the type of attack the enemy will use
+    public String attackR(int playerAttack, int enemyAttack, Enemy enemy) {
         int enemyDamage = enemy.getAttackDmg();
-        int enemyDefence = enemy.getDefence();
-        int enemyHealth = enemy.getHealth();
         String enemyAttackType = enemy.getAttackType(enemyAttack);
         int playerDamage = this.getAttackDmg();
-        int playerDefence = this.getDefence();
-        int playerHealth = this.getHealth();
         String playerAttackType = this.getAttackType(playerAttack);
-        String result = "";
-        String message = "";
+        String result;
+        String message;
+
         if (enemy.isDidDodge()) {
             enemyDamage = enemyDamage * 2;
             enemy.setDidDodge(false);
         }
+
         if (this.isDidDodge()) {
             playerDamage = playerDamage * 2;
             this.setDidDodge(false);
         }
 
-        if ((enemyAttack == 1 || enemyAttack == 2) && (playerAttack == 1 || playerAttack == 2)) {//if both are attacks both take damage
-            if (playerDamage - enemyDefence > 0)
-                enemy.damage(playerDamage - enemyDefence);
-            else {
-                enemy.setHealth(enemyHealth - 1);
-            }
-            if (enemyDamage - playerDefence > 0)
-                this.damage(enemyDamage - playerDefence);
-            else {
-                this.damage(1);
-            }
-            result = "you both took damage!";
-        } else if ((enemyAttack == 1 && playerAttack == 4) || (enemyAttack == 2 && playerAttack == 3)) {//Player misses defensive skill
-            if (enemyDamage - playerDefence > 0)
-                this.setHealth(playerHealth - (enemyDamage - playerDefence));
-            else {
-                this.damage(1);
-            }
-            result = "you took damage!";
-        } else if ((playerAttack == 1 && enemyAttack == 4) || (playerAttack == 2 && enemyAttack == 3)) {//enemy misses defensive skill
-            if (playerDamage - enemyDefence > 0)
-                this.damage(enemyDamage - playerDefence);
-            else {
-                this.damage(1);
-            }
-            result = "the enemy took damage!";
-        } else if ((enemyAttack == 1 && playerAttack == 3) || (enemyAttack == 2 && playerAttack == 4)) {//player dodged enemy attack
+        if (isOffense(enemyAttack) && isOffense(playerAttack)) {//if both are attacks both take damage
+            enemy.damage(playerDamage );
+            this.damage(enemyDamage);
+            result = "You both took damage!";
+        } else if (countered(enemyAttack, playerAttack)) {//Player misses defensive skill
             this.setDidDodge(true);
-            result = "Counter!  next attack -- dmg X2!!";
-        } else if ((playerAttack == 1 && enemyAttack == 3) || (playerAttack == 2 && enemyAttack == 4)) {//enemy dodged player attack
+            enemy.damage(playerDamage);
+            result = "You countered, The enemy took damage!";
+        } else if (countered(playerAttack, enemyAttack)) {//enemy misses defensive skill
             enemy.setDidDodge(true);
-            result = "Enemy Counter! their next attack -- dmg X2!!";
+            this.damage(enemyDamage);
+            result = "Enemy Counter, You took damage! ";
+        } else if (unrelated(enemyAttack, playerAttack)) {
+            result = "Lol, you both missed!";
         } else {
             result = "Counter x Counter -- Nothing happens";
         }
         message = "You: " + playerAttackType + "    " +
-                "Enemy:" + enemyAttackType + " --- " + result;
-        JOptionPane.showMessageDialog(Window.getInstance().getFrame(), message);
-        return 0;
+                "Enemy: " + enemyAttackType + "    --- " + result;
+        return message;
     }
+
+    private boolean isOffense(int attack) {
+        return attack == Entity.THRUST || attack == Entity.SLASH;
+    }
+
+    private boolean unrelated(int a1, int a2) {
+        return (a1 == Entity.THRUST && a2 == Entity.DODGE) || (a1 == Entity.SLASH && a2 == Entity.PARRY)
+                || (a2 == Entity.THRUST && a1 == Entity.DODGE) || (a2 == Entity.SLASH && a1 == Entity.PARRY);
+    }
+
+    private boolean countered(int a1, int a2) {
+        return (a1 == Entity.THRUST && a2 == Entity.PARRY) || (a1 == Entity.SLASH && a2 == Entity.DODGE);
+    }
+
+    private boolean isDefense(int attack) {
+        return attack == Entity.DODGE || attack == Entity.PARRY;
+    }
+
+    public int attack(int a, Enemy e) { return 0; }
 
     public void levelup(int xp) {
         //potential method for realism do not make a priority rn

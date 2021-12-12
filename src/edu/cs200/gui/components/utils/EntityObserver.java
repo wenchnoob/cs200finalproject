@@ -12,7 +12,7 @@ public class EntityObserver extends JPanel implements Observer {
     public static final int H = 0, V = 1;
     private Entity entity;
     private int type, orientation;
-    private JLabel health = new JLabel(), attack = new JLabel(), defence = new JLabel();
+    private JLabel name = new JLabel(), health = new JLabel(), attack = new JLabel(), defence = new JLabel();
 
     private JPanel HPPanel = new JPanel() {
         {
@@ -55,12 +55,6 @@ public class EntityObserver extends JPanel implements Observer {
         draw();
     }
 
-    public void changeEntity(Entity newEntity) {
-        this.entity = newEntity;
-        entity.addObserver(this);
-        update();
-    }
-
     protected void draw() {
         if (type == HEALTH) {
             setLayout(new FlowLayout());
@@ -72,6 +66,7 @@ public class EntityObserver extends JPanel implements Observer {
         if (type == ALL) {
             if (orientation == H) {
                 setLayout(new FlowLayout());
+                add(name);
                 add(new JLabel("HP"));
                 add(HPPanel);
                 add(attack);
@@ -80,6 +75,7 @@ public class EntityObserver extends JPanel implements Observer {
 
             if (orientation == V) {
                 setLayout(new GridLayout(0, 1));
+                add(name);
                 add(health);
                 add(attack);
                 add(defence);
@@ -89,11 +85,11 @@ public class EntityObserver extends JPanel implements Observer {
     }
 
     private void update() {
-        System.out.println("updating");
         if (type == HEALTH) {
             HPPanel.repaint();
             return;
         }
+        name.setText("Name: " + entity.getName());
         health.setText("Health: " + entity.getHealth() + " /" + entity.getMaxHealth());
         attack.setText("Attack: " + entity.getAttackDmg());
         defence.setText("Defence: " + entity.getDefence());

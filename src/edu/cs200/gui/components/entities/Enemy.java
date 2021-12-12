@@ -14,12 +14,8 @@ import java.util.function.Consumer;
 
 
 public abstract class Enemy extends Entity {
-    private double aggressionModifier;
-    private int attackTypeModifier;
 
     private Consumer<Integer> changeX = (Consumer<Integer> & Serializable) (amount -> {
-
-
         xPos += amount;
         if (this.checkAllCollision()) xPos -= amount;
     });
@@ -108,19 +104,19 @@ public abstract class Enemy extends Entity {
     public int attack(int a, Enemy enemy) {
         Random randAttack = new Random();
         int attackType = randAttack.nextInt(100);
-        double attackOrDefend = enemy.getAggressionModifier();
-        int thrustOrSlash = enemy.getAttackTypeModifier();
+        double attackOrDefend = getAggressionModifier();
+        int thrustOrSlash = getAttackTypeModifier();
         if (attackOrDefend < attackType) {
             if (thrustOrSlash < attackType) {
-                return 1;
+                return Entity.THRUST;
             } else {
-                return 2;
+                return Entity.SLASH;
             }
         } else {
             if (attackType > 50) {
-                return 3;
+                return Entity.DODGE;
             } else {
-                return 4;
+                return Entity.PARRY;
             }
         }
 
