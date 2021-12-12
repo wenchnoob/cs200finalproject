@@ -31,8 +31,8 @@ public class Weapon extends Item {
 return this.damage;
 }
 
-	@Override
-	public void use(GameObject obj) {
+	
+	public void use(Player obj) {
 		if (!(obj instanceof Player)) return;
 		Player.getInstance().equip(this);
 	}
@@ -45,6 +45,14 @@ return this.damage;
 	public void paintWithOffset(Graphics g, int xOffset, int yOffset) {
 		g.setColor(Color.GRAY);
 		g.fillOval(xPos - xOffset, yPos - yOffset, 15, 15);
+	}
+
+
+
+	@Override
+	public boolean handleCollision(DrawableObject targ) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

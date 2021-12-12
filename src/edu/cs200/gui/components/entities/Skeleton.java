@@ -1,9 +1,8 @@
 package edu.cs200.gui.components.entities;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
-import edu.cs200.gui.components.GameObject;
+import java.awt.Graphics;
 
 public class Skeleton extends Enemy {
 

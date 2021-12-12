@@ -1,2 +1,3 @@
-PORTAL,Portal_B,600,100,50,50,room2,deadend,room2
-PORTAL,Portal_C,500,200,50,50,room2,room3,room2
+PORTAL,Portal,600,100,50,50,room2,deadend,,,
+PORTAL,Portal,500,200,50,50,room2,room3,,,
+OGRE,Ogre,500,400,50,50,WEST,125,125,20,4

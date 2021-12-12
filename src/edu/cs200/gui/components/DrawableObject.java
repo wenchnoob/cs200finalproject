@@ -6,10 +6,10 @@ import java.util.Objects;
 public abstract class DrawableObject extends GameObject {
 
     protected int xPos, yPos, xPos2, yPos2, width, height;
-    protected String room;
+    protected String room, name;
 
     public DrawableObject(String name, int xPos, int yPos, int width, int height) {
-        super(name);
+        
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
@@ -20,7 +20,7 @@ public abstract class DrawableObject extends GameObject {
     }
 
     public DrawableObject(String[] props) {
-        super(props);
+        
         this.xPos = parse(props[2]);
         this.yPos = parse(props[3]);
         this.width = parse(props[4]);
@@ -36,7 +36,7 @@ public abstract class DrawableObject extends GameObject {
 
     public abstract void paintWithOffset(Graphics g, int xOffset, int yOffset);
 
-    public abstract boolean handleCollision(GameObject targ);
+    public abstract boolean handleCollision(DrawableObject targ);
 
     public boolean isInBounds(int x1, int y1, int x2, int y2) {
         // Checks if top left vertex of the boundary box is within the bounds specified.
@@ -103,17 +103,20 @@ public abstract class DrawableObject extends GameObject {
     public String getRoom() {
         return room;
     }
+    public String getName() {
+    	return name;
+    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, xPos, yPos, xPos2, yPos2, width, height);
+        return Objects.hash(xPos, yPos, xPos2, yPos2, width, height);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof DrawableObject)) return false;
         DrawableObject dobj = (DrawableObject) obj;
-        return this.getName().equals(dobj.getName()) &&
+        return this.
                 getxPos() == dobj.getxPos() &&
                 getyPos() == dobj.getyPos() &&
                 getxPos2() == dobj.getxPos2() &&

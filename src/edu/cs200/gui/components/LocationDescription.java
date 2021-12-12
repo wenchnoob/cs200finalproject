@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static edu.cs200.utils.Helpers.*;
 
-public class LocationDescription extends GameObject {
+public class LocationDescription extends DrawableObject {
 
 	private HashSet<DrawableObject> objects;
 
@@ -18,7 +18,7 @@ public class LocationDescription extends GameObject {
 	}
 
 	public LocationDescription(String name) {
-		super(name);
+		super(name, 1, 1, 1,1 );
 		this.objects = new HashSet<>();
 		objects.add(new Wall(950, 50, 500, OrientedObject.SOUTH));
 		objects.add(new Wall(50, 50, 900, OrientedObject.EAST));
@@ -51,7 +51,7 @@ public class LocationDescription extends GameObject {
 		this.objects.remove(obj);
 	}
 
-	public boolean contains(GameObject obj) {
+	public boolean contains(DrawableObject obj) {
 		return objects.contains(obj);
 	}
 
@@ -74,5 +74,11 @@ public class LocationDescription extends GameObject {
 			return null;
 		}
 		return desc;
+	}
+
+	@Override
+	public boolean handleCollision(DrawableObject targ) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

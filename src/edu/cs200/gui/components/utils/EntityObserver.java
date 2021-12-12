@@ -1,7 +1,8 @@
 package edu.cs200.gui.components.utils;
 
 import edu.cs200.gui.components.entities.Entity;
-import edu.cs200.gui.components.GameObject;
+
+import edu.cs200.gui.components.DrawableObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,7 +97,7 @@ public class EntityObserver extends JPanel implements Observer {
     }
 
     @Override
-    public void getUpdate(GameObject updater) {
+    public void getUpdate(DrawableObject updater) {
         if (updater.equals(entity)) update();
     }
 }

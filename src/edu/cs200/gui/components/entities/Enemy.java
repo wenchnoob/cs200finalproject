@@ -81,7 +81,7 @@ public abstract class Enemy extends Entity {
     }
 
     @Override
-    public boolean handleCollision(GameObject targ) {
+    public boolean handleCollision(DrawableObject targ) {
         if (targ instanceof Player) {
             Combat.getInstance().setCurrentEnemy(this);
             notifyObservers();
@@ -133,6 +133,7 @@ public abstract class Enemy extends Entity {
     public boolean equals(Object obj) {
         if (!(obj instanceof Enemy)) return false;
         Enemy dobj = (Enemy) obj;
+        if (this.getName() == null) return dobj.getName() == null;
         return this.getName().equals(dobj.getName());//&& this.getClass().equals(obj.getClass());
     }
 }

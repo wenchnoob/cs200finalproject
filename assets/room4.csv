@@ -1,0 +1,4 @@
+PORTAL,Portal,800,400,50,50,room4,room2,,,
+PORTAL,Portal,500,300,50,50,room4,room5,,,
+SKELETON,Skeleton,300,500,50,50,WEST,125,125,100,4
+GOBLIN, Goblin, 600, 700, 30, 30, SOUTH, 30, 30, 10, 2

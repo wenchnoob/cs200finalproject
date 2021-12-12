@@ -41,7 +41,7 @@ public class Portal extends DrawableObject {
     }
 
     @Override
-    public boolean handleCollision(GameObject targ) {
+    public boolean handleCollision(DrawableObject targ) {
         if (targ instanceof Player) Map.getInstance().goToRoom(to);
         return true;
     }
