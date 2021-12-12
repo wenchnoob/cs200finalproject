@@ -1,12 +1,10 @@
 package edu.cs200.gui.pages;
 
-import edu.cs200.gui.components.GameObject;
 import edu.cs200.gui.components.LocationDescription;
 import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.utils.EntityObserver;
-import edu.cs200.gui.utils.SerializableComponentAdapter;
 import edu.cs200.gui.utils.SerializableKeyAdapter;
 import edu.cs200.gui.utils.SerializableMouseAdapter;
 

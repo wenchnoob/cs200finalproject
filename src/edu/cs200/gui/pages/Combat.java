@@ -26,7 +26,7 @@ public class Combat extends JPanel {
 
     int offsetX, offsetY;
     int X_AXIS = 0, Y_AXIS = 1;
-    int INCREASING = 0, DEACREASING = 1;
+    int INCREASING = 0, DECREASING = 1;
 
     private Enemy currentEnemy;
 
@@ -34,23 +34,45 @@ public class Combat extends JPanel {
 
     CombatWindow center = new CombatWindow();
 
+    JPanel top = new JPanel();
+
+    EntityObserver playerHealthObserver;
+    EntityObserver playerStatsObserver;
+    EntityObserver enemyHealthObserver;
+    EntityObserver enemyStatsObserver;
+
     public static Combat getInstance() {
         if (self == null) self = new Combat();
         return self;
     }
 
     public void setCurrentEnemy(Enemy currentEnemy) {
-        this.currentEnemy = currentEnemy;
+        try {
+            top.remove(enemyHealthObserver);
+            top.remove(playerHealthObserver);
+            remove(enemyStatsObserver);
+            remove(playerStatsObserver);
+        } catch (NullPointerException ex) {}
 
-        JPanel top = new JPanel();
-        top.add(new EntityObserver(Player.getInstance()));
-        top.add(new EntityObserver(currentEnemy, EntityObserver.HEALTH, EntityObserver.V));
+        playerHealthObserver = new EntityObserver(Player.getInstance());
+
+        top.add(playerHealthObserver);
         add(top, BorderLayout.PAGE_START);
 
-        add(new EntityObserver(Player.getInstance(), EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_START);
-        add(new EntityObserver(currentEnemy, EntityObserver.ALL, EntityObserver.V), BorderLayout.LINE_END);
-        currentEnemy.damage(1);
-        currentEnemy.setHealth(currentEnemy.getHealth() + 1);
+        playerStatsObserver = new EntityObserver(Player.getInstance(), EntityObserver.ALL, EntityObserver.V);
+        add(playerStatsObserver, BorderLayout.LINE_START);
+
+
+        enemyHealthObserver = new EntityObserver(currentEnemy, EntityObserver.HEALTH, EntityObserver.V);
+        top.add(enemyHealthObserver);
+        enemyStatsObserver = new EntityObserver(currentEnemy, EntityObserver.ALL, EntityObserver.V);
+        add(enemyStatsObserver, BorderLayout.LINE_END);
+        this.currentEnemy = currentEnemy;
+
+//        System.out.println(currentEnemy.getName());
+//        enemyHealthObserver.changeEntity(currentEnemy);
+//        enemyStatsObserver.changeEntity(currentEnemy);
+//        top.repaint();
     }
 
     private Combat() {
@@ -143,9 +165,6 @@ public class Combat extends JPanel {
         }
     }
 
-    public Entity getCurrentEnemy() {
-    	return currentEnemy;
-    }
 
     public void attack(int playerAttack) {
         Player.getInstance().attack(playerAttack,currentEnemy);
@@ -170,6 +189,7 @@ public class Combat extends JPanel {
             Player.getInstance().die();
             // end the game
         }
+
         edu.cs200.gui.components.Window.getInstance().goTo(MAP);
         currentEnemy = null;
     }

@@ -8,6 +8,7 @@ import edu.cs200.gui.pages.Map;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -87,6 +88,7 @@ public abstract class Enemy extends Entity {
     public boolean handleCollision(GameObject targ) {
         if (targ instanceof Player) {
             Combat.getInstance().setCurrentEnemy(this);
+            notifyObservers();
             edu.cs200.gui.components.Window.getInstance().goTo("Combat");
         }
         return false;
@@ -126,4 +128,15 @@ public abstract class Enemy extends Entity {
 
     public abstract int getAttackTypeModifier();
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Enemy)) return false;
+        Enemy dobj = (Enemy) obj;
+        return this.getName().equals(dobj.getName());//&& this.getClass().equals(obj.getClass());
+    }
 }

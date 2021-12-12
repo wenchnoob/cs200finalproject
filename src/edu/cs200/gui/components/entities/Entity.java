@@ -145,6 +145,7 @@ public abstract class Entity extends OrientedObject implements Observable {
     @Override
     public void addObserver(Observer observer) {
         if (observers == null) observers = new LinkedList<>();
+        System.out.println("adding observer to " + this.getName());
         observers.add(observer);
     }
 
