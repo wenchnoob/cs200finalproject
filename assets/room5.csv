@@ -1,0 +1,9 @@
+
+PORTAL,Portal,700,100,50,50,room5,room6,,,
+PORTAL,Portal,300,300,50,50,room5,room8,,,
+PORTAL,Portal, 100, 100,50,50,room5,room9,,,
+OGRE,Ogre,900,200,50,50,WEST,125,125,20,4
+POTION,Attack Pot,445,350,10,10,2,ATTACK_UP,This item will raise your attack by %s.,room5
+POTION,Defence Pot,390,300,10,10,2,DEFENCE_UP,This item will raise your defence by %s.,room5��
+
+
