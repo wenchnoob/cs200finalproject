@@ -11,11 +11,11 @@ public class EntityObserver extends JPanel implements Observer {
 
     public static final int HEALTH = 0, ALL = 1;
     public static final int H = 0, V = 1;
-    public Entity entity;
-    public int type, orientation;
-    JLabel health = new JLabel(), attack = new JLabel(), defence = new JLabel();
+    private Entity entity;
+    private int type, orientation;
+    private JLabel health = new JLabel(), attack = new JLabel(), defence = new JLabel();
 
-    JPanel HPPanel = new JPanel() {
+    private JPanel HPPanel = new JPanel() {
         {
             setPreferredSize(new Dimension(500, 20));
             setMinimumSize(new Dimension(500, 20));
@@ -24,7 +24,7 @@ public class EntityObserver extends JPanel implements Observer {
 
         @Override
         protected void paintComponent(Graphics g) {
-
+            super.paintComponent(g);
             int maxHealth = entity.getMaxHealth();
             maxHealth = maxHealth == 0 ? 1 : maxHealth;
 
@@ -56,6 +56,12 @@ public class EntityObserver extends JPanel implements Observer {
         draw();
     }
 
+    public void changeEntity(Entity newEntity) {
+        this.entity = newEntity;
+        entity.addObserver(this);
+        update();
+    }
+
     protected void draw() {
         if (type == HEALTH) {
             setLayout(new FlowLayout());
@@ -84,8 +90,9 @@ public class EntityObserver extends JPanel implements Observer {
     }
 
     private void update() {
+        System.out.println("updating");
         if (type == HEALTH) {
-            repaint();
+            HPPanel.repaint();
             return;
         }
         health.setText("Health: " + entity.getHealth() + " /" + entity.getMaxHealth());

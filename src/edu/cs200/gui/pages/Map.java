@@ -1,24 +1,12 @@
 package edu.cs200.gui.pages;
 
-import static edu.cs200.utils.Globals.MAP;
-
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Set;
 import edu.cs200.gui.components.LocationDescription;
 import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.components.utils.EntityObserver;
+import edu.cs200.gui.utils.SerializableKeyAdapter;
+import edu.cs200.gui.utils.SerializableMouseAdapter;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -30,14 +18,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.*;
 
-
-import javax.swing.JPanel;
-
-import edu.cs200.gui.components.DrawableObject;
-import edu.cs200.gui.components.LocationDescription;
-import edu.cs200.gui.components.entities.Player;
-import edu.cs200.gui.components.utils.EntityObserver;
-import edu.cs200.gui.utils.Persisted;
+import static edu.cs200.utils.Globals.*;
 
 public class Map extends Card implements Persisted {
 
