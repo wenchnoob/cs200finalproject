@@ -1,4 +1,4 @@
-PORTAL,Portal_A,600,300,50,50,room8,room6,room8
+PORTAL,Portal_8_6,600,300,50,50,room8,room6,room8
 WALL,Wall,400,50,100,5,SOUTH,room8
 WALL,Wall,300,150,100,5,SOUTH,room8
 WALL,Wall,450,150,100,5,NORTH,room8

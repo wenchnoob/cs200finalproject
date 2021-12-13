@@ -1,6 +1,6 @@
-PORTAL,Portal,700,100,50,50,room6,room5,,,
-PORTAL,Portal,500,300,50,50,room5,room8,,,
-OGRE,Ogre,100,600,50,50,WEST,125,125,20,4
+PORTAL,Portal_6_5,700,100,50,50,room6,room5,room6
+PORTAL,Portal_6_8,500,300,50,50,room6,room8,room6
+OGRE,Ogre,100,600,50,50,WEST,125,125,20,4,room6
 POTION,Attack Pot,445,350,10,10,2,ATTACK_UP,This item will raise your attack by %s.,room6
 POTION,Health Pot,300,300,10,10,10,HEAL,This item will heal you by %s.,room6
 POTION,Health Pot,400,200,10,10,10,HEAL,This item will heal you by %s.,room6

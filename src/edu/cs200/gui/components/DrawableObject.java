@@ -6,7 +6,7 @@ import java.util.Objects;
 public abstract class DrawableObject extends GameObject {
 
     protected int xPos, yPos, xPos2, yPos2, width, height;
-    protected String room, name;
+    protected String room;
 
     public DrawableObject(String name, int xPos, int yPos, int width, int height) {
         super(name);
@@ -102,9 +102,6 @@ public abstract class DrawableObject extends GameObject {
 
     public String getRoom() {
         return room;
-    }
-    public String getName() {
-    	return name;
     }
 
     @Override
