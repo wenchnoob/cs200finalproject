@@ -28,7 +28,7 @@ public abstract class Item extends DrawableObject {
         return desc;
     }
 
-    public boolean handleCollision(Player targ) {
+    public boolean handleCollision(DrawableObject targ) {
         if (targ instanceof Player) {
             if (Bag.getInstance().addItem(this)) Map.getInstance().getCurrentRoom().removeObject(this);
         }

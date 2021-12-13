@@ -47,14 +47,6 @@ return this.damage;
 		g.fillOval(xPos - xOffset, yPos - yOffset, 15, 15);
 	}
 
-
-
-	@Override
-	public boolean handleCollision(DrawableObject targ) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
 
 

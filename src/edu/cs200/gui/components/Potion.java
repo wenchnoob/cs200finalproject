@@ -106,11 +106,4 @@ return this.value;
 		return pot.getType().equals(type) && pot.getValue() == value;
 	}
 
-	@Override
-	public boolean handleCollision(DrawableObject targ) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
 }

@@ -9,7 +9,7 @@ public abstract class DrawableObject extends GameObject {
     protected String room, name;
 
     public DrawableObject(String name, int xPos, int yPos, int width, int height) {
-        
+        super(name);
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
@@ -20,7 +20,7 @@ public abstract class DrawableObject extends GameObject {
     }
 
     public DrawableObject(String[] props) {
-        
+        super(props);
         this.xPos = parse(props[2]);
         this.yPos = parse(props[3]);
         this.width = parse(props[4]);
@@ -116,8 +116,7 @@ public abstract class DrawableObject extends GameObject {
     public boolean equals(Object obj) {
         if (!(obj instanceof DrawableObject)) return false;
         DrawableObject dobj = (DrawableObject) obj;
-        return this.
-                getxPos() == dobj.getxPos() &&
+        return getxPos() == dobj.getxPos() &&
                 getyPos() == dobj.getyPos() &&
                 getxPos2() == dobj.getxPos2() &&
                 getyPos2() == dobj.getyPos2() &&
