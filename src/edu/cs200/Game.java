@@ -14,7 +14,7 @@ public class Game {
        // MusicPlayer.getInstance().playPradaU();
         //Thread.sleep(10000);
         MusicPlayer.getInstance().playSMB();
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         //MusicPlayer.getInstance().resumeLastSong();
         SwingUtilities.invokeLater(() -> {
             Setup.setup();
@@ -29,5 +29,9 @@ public class Game {
 
     public static boolean isStarted() {
         return started;
+    }
+
+    public static void stop() {
+        started = false;
     }
 }

@@ -95,6 +95,7 @@ public abstract class Entity extends OrientedObject implements Observable {
      */
     public void setHealth(int health) {
         this.health = health;
+        if (this.health <= 0) die();
         notifyObservers();
     }
 

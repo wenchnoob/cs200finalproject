@@ -1,7 +1,7 @@
-
-
-OGRE,Ogre,700,400,50,50,WEST,125,125,20,4
-OGRE,Ogre,400,400,50,50,WEST,125,125,20,4
-OGRE,Ogre,100,400,50,50,WEST,125,125,20,4
-OGRE,Ogre,500,200,50,50,WEST,125,125,20,4
-OGRE,Ogre,500,700,50,50,WEST,125,125,20,4
+OGRE,Ogre,700,400,50,50,WEST,125,125,20,4,finalroom
+OGRE,Ogre,400,400,50,50,WEST,125,125,20,4,finalroom
+OGRE,Ogre,100,400,50,50,WEST,125,125,20,4,finalroom
+OGRE,Ogre,500,200,50,50,WEST,125,125,20,4,finalroom
+OGRE,Ogre,500,700,50,50,WEST,125,125,20,4,finalroom
+ChampionToken,Champion's Token,700,500,10,10,,This item means you cleared the game.,finalroom
+POTION,Health Pot,300,300,10,10,10,HEAL,This item will heal you by %s.,room1

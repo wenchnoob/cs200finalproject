@@ -3,9 +3,12 @@ package edu.cs200.gui.components.utils;
 import edu.cs200.gui.components.entities.Entity;
 
 import edu.cs200.gui.components.DrawableObject;
+import edu.cs200.gui.components.entities.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 public class EntityObserver extends JPanel implements Observer {
 
@@ -62,6 +65,11 @@ public class EntityObserver extends JPanel implements Observer {
             if (orientation == H) add(new JLabel("HP"));
             add(HPPanel);
             if (orientation == V) add(new JLabel("HP"));
+            if (entity instanceof Player) add(new JButton("Self-Destruct") {
+                {
+                    addActionListener((ActionListener & Serializable) action -> { entity.setHealth(0);});
+                }
+            });
         }
 
         if (type == ALL) {
@@ -72,6 +80,11 @@ public class EntityObserver extends JPanel implements Observer {
                 add(HPPanel);
                 add(attack);
                 add(defence);
+                if (entity instanceof Player) add(new JButton("Self-Destruct") {
+                    {
+                        addActionListener((ActionListener & Serializable) action -> { entity.setHealth(0);});
+                    }
+                });
             }
 
             if (orientation == V) {

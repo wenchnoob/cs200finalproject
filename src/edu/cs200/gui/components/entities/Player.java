@@ -1,15 +1,19 @@
 package edu.cs200.gui.components.entities;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.HashSet;
 
 import javax.swing.*;
 
+import edu.cs200.Game;
 import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.components.GameObject;
 import edu.cs200.gui.components.Weapon;
+import edu.cs200.gui.components.Window;
 import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.pages.Bag;
 import edu.cs200.gui.pages.Map;
@@ -147,6 +151,19 @@ public class Player extends Entity implements Persisted {
             g.fillPolygon(new int[]{START_X, START_X + DIM_X / 2, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y, START_Y}, 3);
         else
             g.fillPolygon(new int[]{START_X + DIM_X, START_X, START_X + DIM_X}, new int[]{START_Y, START_Y + DIM_Y / 2, START_Y + DIM_Y}, 3);
+    }
+
+    @Override
+    public void die() {
+        super.die();
+        Game.stop();
+        JOptionPane.showMessageDialog(Window.getInstance().getFrame(), "You have died! RIP", "DEAD", JOptionPane.INFORMATION_MESSAGE);
+        Player.getInstance().resetPlayer();
+        Bag.getInstance().resetBag();
+        Map.getInstance().resetMap();
+        Window.getInstance().reset();
+        Game.startGame();
+        Window.getInstance().goTo("Home");
     }
 
     @Override

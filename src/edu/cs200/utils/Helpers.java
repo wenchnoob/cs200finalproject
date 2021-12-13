@@ -74,6 +74,8 @@ public class Helpers {
             	return new Goblin(props);
             case "OGRE":
             	return new Ogre(props);
+            case "ChampionToken":
+                return new ChampionToken(props);
         }
         return null;
     }
