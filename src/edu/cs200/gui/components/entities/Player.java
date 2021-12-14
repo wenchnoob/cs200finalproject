@@ -40,7 +40,7 @@ public class Player extends Entity implements Persisted {
     }
 
     private Player() {
-        super("Player", 0, 0, DIM_X, DIM_Y, 90, 100, 7, 3, EAST);
+        super("Player", 0, 0, DIM_X, DIM_Y, 125, 125, 10, 5, EAST);
 
     }
 
