@@ -1,3 +1,8 @@
+POTION,Health Pot,400,300,10,10,10,HEAL,This item will heal you by %s.,room3
+WALL,Wall,300,300,100,5,NORTH,room3
 PORTAL,Portal_3_2,300,500,50,50,room3,room2,room3
 PORTAL,Portal_3_dead,600,100,50,50,room3,deadend,room3
 PORTAL,Portal_3_4,700,200,50,50,room3,room4,room3
+GOBLIN,Goblin1,550,350,20,20,NORTH,20,20,4,5,room3
+SKELETON,Skeleton,320,300,20,20,SOUTH,30,30,3,2,room3
+GOBLIN,Goblin2,650,350,20,20,NORTH,20,20,4,5,room3
