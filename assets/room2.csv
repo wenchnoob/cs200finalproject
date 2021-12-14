@@ -1,3 +1,6 @@
 PORTAL,Portal_2_dead,600,100,50,50,room2,deadend,room2
 PORTAL,Portal_2_3,500,200,50,50,room2,room3,room2
 OGRE,Ogre,500,400,50,50,WEST,125,125,20,4,room2
+WALL,Wall,600,300,100,5,WEST,room2
+POTION,Health Pot,400,300,10,10,10,HEAL,This item will heal you by %s.,room2
+POTION,Health Pot,300,300,10,10,10,HEAL,This item will heal you by %s.,room2
