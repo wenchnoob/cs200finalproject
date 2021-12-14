@@ -1,6 +1,7 @@
 package edu.cs200.gui.components;
 
 import edu.cs200.gui.components.entities.Player;
+import edu.cs200.utils.MusicPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,6 +43,7 @@ public class ChampionToken extends Item {
     @Override
     public boolean handleCollision(DrawableObject targ) {
         super.handleCollision(targ);
+        MusicPlayer.getInstance().playSuccess();
         JOptionPane.showMessageDialog(Window.getInstance().getFrame(), "Your a winner buddy, congrats!", "Complete", JOptionPane.INFORMATION_MESSAGE);
         return true;
     }

@@ -1,9 +1,9 @@
 package edu.cs200.gui.components.entities;
 
 import edu.cs200.gui.components.DrawableObject;
-import edu.cs200.gui.components.GameObject;
 import edu.cs200.gui.pages.Combat;
 import edu.cs200.gui.pages.Map;
+import edu.cs200.utils.MusicPlayer;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -85,6 +85,7 @@ public abstract class Enemy extends Entity {
         if (targ instanceof Player) {
             Combat.getInstance().setCurrentEnemy(this);
             notifyObservers();
+            MusicPlayer.getInstance().playBump();
             edu.cs200.gui.components.Window.getInstance().goTo("Combat");
         }
         return false;
@@ -92,6 +93,11 @@ public abstract class Enemy extends Entity {
 
     public abstract double getAggressionModifier();
 
+    @Override
+    public void die() {
+        super.die();
+        MusicPlayer.getInstance().playClear();
+    }
 
     /**
      * defence is higher value than aggression modifier

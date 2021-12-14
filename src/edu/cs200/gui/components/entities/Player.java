@@ -17,6 +17,7 @@ import edu.cs200.gui.components.Window;
 import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.pages.Bag;
 import edu.cs200.gui.pages.Map;
+import edu.cs200.utils.MusicPlayer;
 
 public class Player extends Entity implements Persisted {
 
@@ -157,6 +158,7 @@ public class Player extends Entity implements Persisted {
     public void die() {
         super.die();
         Game.stop();
+        MusicPlayer.getInstance().playGameOver();
         JOptionPane.showMessageDialog(Window.getInstance().getFrame(), "You have died! RIP", "DEAD", JOptionPane.INFORMATION_MESSAGE);
         Player.getInstance().resetPlayer();
         Bag.getInstance().resetBag();

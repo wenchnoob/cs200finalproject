@@ -182,11 +182,11 @@ public class Bag extends Card implements Persisted {
                             if (item == null) return;
 
                              if (e.getButton() == MouseEvent.BUTTON3 || e.isControlDown()) {
-                                int res = JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Discard " + item.getType(), "Discard", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                int res = JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Discard " + item.getName(), "Discard", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                 if (res == 0)
                                     removeItem(1);
                             } else if (e.getButton() == MouseEvent.BUTTON1) {
-                                int res = JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Use " + item.getType(), "Use", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                int res = JOptionPane.showConfirmDialog(Window.getInstance().getFrame(), "Use " + item.getName(), "Use", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                 if (res == 0) {
                                     item.use(Player.getInstance());
                                     removeItem(1);

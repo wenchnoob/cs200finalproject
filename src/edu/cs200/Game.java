@@ -11,11 +11,7 @@ public class Game {
     private static boolean started;
 
     public static void main(String[] args) throws InterruptedException {
-       // MusicPlayer.getInstance().playPradaU();
-        //Thread.sleep(10000);
         MusicPlayer.getInstance().playSMB();
-        //Thread.sleep(1000);
-        //MusicPlayer.getInstance().resumeLastSong();
         SwingUtilities.invokeLater(() -> {
             Setup.setup();
             Window win = Window.getInstance();

@@ -26,8 +26,44 @@ public class MusicPlayer {
         }
     }
 
-    public void playPradaU() {
-        playSong("pradau.wav");
+    public void playBump() {
+        playSong("bump.wav");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resumeLastSong();
+    }
+
+    public void playClear() {
+        playSong("clear.wav");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resumeLastSong();
+    }
+
+    public void playSuccess() {
+        playSong("success.wav");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resumeLastSong();
+    }
+
+    public void playGameOver() {
+        playSong("gameover.wav");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resumeLastSong();
     }
 
     public void playSMB() {
@@ -51,6 +87,7 @@ public class MusicPlayer {
         lastSong = currentSong;
         stopFrameOfLastSong = stopFrameOfCurrentSong;
         currentSong = song;
+        stopFrameOfCurrentSong = 0;
         playCurrentSong();
     }
 

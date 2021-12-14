@@ -3,6 +3,7 @@ package edu.cs200.gui.components;
 import edu.cs200.gui.components.entities.Player;
 import edu.cs200.gui.pages.Bag;
 import edu.cs200.gui.pages.Map;
+import edu.cs200.utils.MusicPlayer;
 
 public abstract class Item extends DrawableObject {
 
@@ -30,7 +31,10 @@ public abstract class Item extends DrawableObject {
 
     public boolean handleCollision(DrawableObject targ) {
         if (targ instanceof Player) {
-            if (Bag.getInstance().addItem(this)) Map.getInstance().getCurrentRoom().removeObject(this);
+            if (Bag.getInstance().addItem(this)) {
+                Map.getInstance().getCurrentRoom().removeObject(this);
+                MusicPlayer.getInstance().playSuccess();
+            } else MusicPlayer.getInstance().playBump();
         }
         return false;
     }
