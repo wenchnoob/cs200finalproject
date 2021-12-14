@@ -73,6 +73,7 @@ public class Map extends Card implements Persisted {
     private void itemNames(String currentRoom, Set<String> names, Set<String> visited) {
         if (visited.contains(currentRoom)) return;
         visited.add(currentRoom);
+        names.add(currentRoom);
         loadRoom(currentRoom);
         LocationDescription locationDescription = rooms.get(currentRoom);
         for (DrawableObject object: locationDescription.getObjects()) names.add(object.getName());

@@ -1,5 +1,7 @@
 package edu.cs200.gui.pages;
 
+import edu.cs200.gui.components.DrawableObject;
+import edu.cs200.gui.components.Portal;
 import edu.cs200.gui.components.Window;
 import edu.cs200.utils.Helpers;
 
@@ -9,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
+import java.util.stream.Collectors;
 
 public class Card extends JPanel {
 
@@ -31,7 +34,7 @@ public class Card extends JPanel {
         label.setLocation((WINDOW_WIDTH - label.getWidth())/2, 20);
         top.add(label);
 
-        JPanel leftPane = new JPanel(new GridLayout(5, 0));
+        JPanel leftPane = new JPanel(new GridLayout(6, 0));
         leftPane.setPreferredSize(new Dimension(WINDOW_WIDTH/5, WINDOW_HEIGHT - 20));
 
         JButton mapButton = new JButton(MAP);
@@ -41,6 +44,12 @@ public class Card extends JPanel {
         JButton bagButton = new JButton(BAG);
         bagButton.addActionListener((ActionListener & Serializable)  action -> Window.getInstance().goTo(BAG));
         bagButton.setFont(quatera());
+
+        JButton neighbors = new JButton("Neighbors");
+        neighbors.addActionListener((ActionListener & Serializable) action -> {
+            java.util.List<String> portals = Map.getInstance().getCurrentRoom().getObjects().stream().filter((DrawableObject obj) -> obj instanceof Portal).map(obj -> (Portal)obj).map(obj -> obj.getTo()).collect(Collectors.toList());
+            JOptionPane.showMessageDialog(Window.getInstance().getFrame(), portals);
+        });
 
         JButton save = new JButton("Save");
         save.addActionListener((ActionListener & Serializable) action -> {
@@ -72,6 +81,7 @@ public class Card extends JPanel {
         
 
         leftPane.add(mapButton);
+        leftPane.add(neighbors);
         leftPane.add(bagButton);
         leftPane.add(save);
         leftPane.add(load);
