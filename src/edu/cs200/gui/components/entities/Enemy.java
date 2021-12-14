@@ -114,12 +114,12 @@ public abstract class Enemy extends Entity {
         int thrustOrSlash = getAttackTypeModifier();
         if (attackOrDefend < attackType) {
             if (thrustOrSlash < attackType) {
-                return Entity.THRUST;
-            } else {
                 return Entity.SLASH;
+            } else {
+                return Entity.THRUST;
             }
         } else {
-            if (attackType > 50) {
+            if (attackType > attackOrDefend/2) {
                 return Entity.DODGE;
             } else {
                 return Entity.PARRY;
