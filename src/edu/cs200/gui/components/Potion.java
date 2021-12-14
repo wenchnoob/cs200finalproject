@@ -103,7 +103,7 @@ return this.value;
 	public boolean equals(Object o) {
 		if (!(o instanceof Potion)) return false;
 		Potion pot = (Potion) o;
-		return pot.getType().equals(type) && pot.getValue() == value;
+		return pot.getType().equals(type) && pot.getValue() == value && pot.getxPos() == getxPos() && pot.getyPos() == getyPos();
 	}
 
 }
