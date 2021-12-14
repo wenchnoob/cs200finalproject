@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 public class Goblin extends Enemy {
 private int aggressionModifier = 50;
-private int attackTypeModifier = 50;
+private int attackTypeModifier = 75;
 	public Goblin(String name, int xPos, int yPos, int width, int height, int health, int maxHealth, int attackDamage, int defence, int orientation) {
 		super(name, xPos, yPos,  width,height, 10, 10, 5, 2, orientation);
 		// TODO Auto-generated constructor stub

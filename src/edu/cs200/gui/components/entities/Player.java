@@ -1,19 +1,15 @@
 package edu.cs200.gui.components.entities;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.HashSet;
 
 import javax.swing.*;
 
-import edu.cs200.Game;
 import edu.cs200.gui.components.DrawableObject;
 import edu.cs200.gui.components.GameObject;
 import edu.cs200.gui.components.Weapon;
-import edu.cs200.gui.components.Window;
 import edu.cs200.gui.utils.Persisted;
 import edu.cs200.gui.pages.Bag;
 import edu.cs200.gui.pages.Map;
@@ -154,19 +150,6 @@ public class Player extends Entity implements Persisted {
     }
 
     @Override
-    public void die() {
-        super.die();
-        Game.stop();
-        JOptionPane.showMessageDialog(Window.getInstance().getFrame(), "You have died! RIP", "DEAD", JOptionPane.INFORMATION_MESSAGE);
-        Player.getInstance().resetPlayer();
-        Bag.getInstance().resetBag();
-        Map.getInstance().resetMap();
-        Window.getInstance().reset();
-        Game.startGame();
-        Window.getInstance().goTo("Home");
-    }
-
-    @Override
     public boolean handleCollision(DrawableObject targ) {
         return false;
     }
@@ -220,22 +203,23 @@ public class Player extends Entity implements Persisted {
         if (isOffense(enemyAttack) && isOffense(playerAttack)) {//if both are attacks both take damage
             enemy.damage(playerDamage );
             this.damage(enemyDamage);
-            result = "You both took damage!";
+            result = "The Enemy used a " + enemyAttackType + " and you used a "+ playerAttackType + ", You both took damage!";
         } else if (countered(enemyAttack, playerAttack)) {//Player misses defensive skill
             this.setDidDodge(true);
-            enemy.damage(playerDamage);
-            result = "You countered, The enemy took damage!";
+            result = "You countered the enemy's " + enemyAttackType + " with a " + playerAttackType + " , Your next attack does double damage!";
         } else if (countered(playerAttack, enemyAttack)) {//enemy misses defensive skill
             enemy.setDidDodge(true);
+            result = "Enemy Countered Your " + playerAttackType + "With a " + enemyAttackType + ", The Enemy's next attack does double damage! ";
+        } else if (hits(enemyAttack, playerAttack)) {
+            result = "Your enemy hit you with a "+ enemyAttackType;
             this.damage(enemyDamage);
-            result = "Enemy Counter, You took damage! ";
-        } else if (unrelated(enemyAttack, playerAttack)) {
-            result = "Lol, you both missed!";
-        } else {
+        } else if (hits(playerAttack,enemyAttack)) {
+          result = "You hit your enemy with a "+ playerAttackType;
+          enemy.damage(playerDamage);
+        }else {
             result = "Counter x Counter -- Nothing happens";
         }
-        message = "You: " + playerAttackType + "    " +
-                "Enemy: " + enemyAttackType + "    --- " + result;
+        message =  result;
         return message;
     }
 
@@ -243,13 +227,13 @@ public class Player extends Entity implements Persisted {
         return attack == Entity.THRUST || attack == Entity.SLASH;
     }
 
-    private boolean unrelated(int a1, int a2) {
-        return (a1 == Entity.THRUST && a2 == Entity.DODGE) || (a1 == Entity.SLASH && a2 == Entity.PARRY)
-                || (a2 == Entity.THRUST && a1 == Entity.DODGE) || (a2 == Entity.SLASH && a1 == Entity.PARRY);
+    private boolean hits(int a1, int a2) {
+        return (a1 == Entity.THRUST && a2 == Entity.PARRY) || (a1 == Entity.SLASH && a2 == Entity.DODGE);
+                
     }
 
     private boolean countered(int a1, int a2) {
-        return (a1 == Entity.THRUST && a2 == Entity.PARRY) || (a1 == Entity.SLASH && a2 == Entity.DODGE);
+        return (a1 == Entity.THRUST && a2 == Entity.DODGE) || (a1 == Entity.SLASH && a2 == Entity.PARRY);
     }
 
     private boolean isDefense(int attack) {
